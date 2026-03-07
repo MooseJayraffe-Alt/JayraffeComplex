@@ -1,0 +1,35 @@
+<div id="game-page" class="relative min-h-screen text-white font-sans overflow-x-hidden">
+  
+  <div id="bg-image" class="fixed inset-0 -z-10 bg-cover bg-center scale-110 blur-xl opacity-50"></div>
+  <div class="fixed inset-0 -z-10 bg-black/60"></div>
+
+  <main class="container mx-auto px-4 py-8 max-w-5xl">
+    
+    <div class="relative bg-black rounded-xl shadow-2xl border border-white/10 overflow-hidden aspect-video w-full mb-8">
+      <div id="game-container" class="w-full h-full flex items-center justify-center">
+        <button id="start-btn" class="px-8 py-3 bg-red-600 hover:bg-red-700 rounded-full font-bold transition">
+          LOAD GAME
+        </button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      
+      <div class="md:col-span-2 space-y-4">
+        <h1 id="game-title" class="text-4xl font-black tracking-tight uppercase">Game Title</h1>
+        <p id="game-creator" class="text-red-400 font-mono text-sm uppercase tracking-widest">Created by: Name</p>
+        <div id="game-desc" class="text-gray-300 leading-relaxed text-lg">
+          This is where the game description goes...
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-xs font-bold uppercase text-gray-500">Gallery</h3>
+        <div class="rounded-lg overflow-hidden border border-white/5 shadow-lg">
+          <img id="random-screenshot" src="" alt="Random Screenshot" class="w-full h-auto object-cover">
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>

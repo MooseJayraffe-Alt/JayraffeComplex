@@ -195,7 +195,7 @@
 
     // UI INJECTION
     const params = new URLSearchParams(window.location.search);
-    const gameId = params.get('game') || 'hl1'; 
+    const gameId = params.get('id') || 'hl1'; 
     const data = gameLibrary[gameId];
 
     if (data) {

@@ -162,14 +162,25 @@
         }
 
         // ENGINE LOADER
-        document.getElementById('start-btn').addEventListener('click', function() {
-            const container = document.getElementById('game-container');
-            container.classList.remove('scanlines'); // Clear retro effect for actual game
-            container.innerHTML = `<div class='text-cyan-400 font-mono animate-pulse'>CONNECTING TO ${data.engine.toUpperCase()}...</div>`;
-            
-            // This is where we'd trigger the Ruffle/Xash3D scripts!
-            console.log("Loading engine:", data.engine, "from", data.config.url);
-        });
+       document.getElementById('start-btn').addEventListener('click', function() {
+    // 1. Visual Feedback
+    this.innerText = `Launching.. ${data.title}`;
+    this.classList.add('opacity-50');
+
+    // 2. The Link Strategy
+    // For testing, we point to the official WebXash demo link
+    // You can pass the Internet Archive ZIP as a parameter if the engine supports it
+    const webXashUrl = `https://x8bitrain.github.io/webXash/?archive=${encodeURIComponent(data.config.url)}`;
+
+    // 3. Open in a new tab for a better experience
+    window.open(webXashUrl, '_blank');
+
+    // Optional: Reset button after a delay
+    setTimeout(() => {
+        this.innerText = "Initialize Engine";
+        this.classList.remove('opacity-50');
+    }, 3000);
+});
     </script>
 </body>
 </html>

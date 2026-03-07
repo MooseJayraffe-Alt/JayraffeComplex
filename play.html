@@ -162,24 +162,23 @@
         }
 
         // ENGINE LOADER
-       document.getElementById('start-btn').addEventListener('click', function() {
-    // 1. Visual Feedback
-    this.innerText = `Launching.. ${data.title}`;
-    this.classList.add('opacity-50');
-
-    // 2. The Link Strategy
-    // For testing, we point to the official WebXash demo link
-    // You can pass the Internet Archive ZIP as a parameter if the engine supports it
+document.getElementById('start-btn').addEventListener('click', function() {
+    const container = document.getElementById('game-container');
+    
+    // 1. Construct the URL with the Internet Archive ZIP
     const webXashUrl = `https://x8bitrain.github.io/webXash/?archive=${encodeURIComponent(data.config.url)}`;
 
-    // 3. Open in a new tab for a better experience
-    window.open(webXashUrl, '_parent');
-
-    // Optional: Reset button after a delay
-    setTimeout(() => {
-        this.innerText = "Initialize Engine";
-        this.classList.remove('opacity-50');
-    }, 3000);
+    // 2. Create the Iframe element
+    const gameFrame = document.createElement('iframe');
+    
+    // 3. Set Attributes for the best experience
+    gameFrame.src = webXashUrl;
+    gameFrame.className = "w-full h-full border-0"; // Fills the black frame
+    gameFrame.allow = "autoplay; fullscreen; keyboard; gamepad"; // Critical for games
+    
+    // 4. Inject it!
+    container.innerHTML = ''; // Removes the button and loading UI
+    container.appendChild(gameFrame);
 });
     </script>
 </body>

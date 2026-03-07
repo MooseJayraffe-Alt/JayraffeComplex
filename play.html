@@ -1,35 +1,175 @@
-<div id="game-page" class="relative min-h-screen text-white font-sans overflow-x-hidden">
-  
-  <div id="bg-image" class="fixed inset-0 -z-10 bg-cover bg-center scale-110 blur-xl opacity-50"></div>
-  <div class="fixed inset-0 -z-10 bg-black/60"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jayraffe Complex | Loading...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Fira+Code&display=swap" rel="stylesheet">
 
-  <main class="container mx-auto px-4 py-8 max-w-5xl">
-    
-    <div class="relative bg-black rounded-xl shadow-2xl border border-white/10 overflow-hidden aspect-video w-full mb-8">
-      <div id="game-container" class="w-full h-full flex items-center justify-center">
-        <button id="start-btn" class="px-8 py-3 bg-red-600 hover:bg-red-700 rounded-full font-bold transition">
-          LOAD GAME
-        </button>
-      </div>
-    </div>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --accent-cyan: #22d3ee;
+            --accent-purple: #a855f7;
+            --gradient: linear-gradient(135deg, #22d3ee 0%, #a855f7 100%);
+        }
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      
-      <div class="md:col-span-2 space-y-4">
-        <h1 id="game-title" class="text-4xl font-black tracking-tight uppercase">Game Title</h1>
-        <p id="game-creator" class="text-red-400 font-mono text-sm uppercase tracking-widest">Created by: Name</p>
-        <div id="game-desc" class="text-gray-300 leading-relaxed text-lg">
-          This is where the game description goes...
+        body { background-color: var(--bg-dark); font-family: 'Inter', sans-serif; }
+
+        .neon-border {
+            box-shadow: 0 0 20px rgba(34, 211, 238, 0.2), inset 0 0 10px rgba(34, 211, 238, 0.1);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Scanline effect for the game monitor */
+        .scanlines::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 10;
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="text-slate-200 overflow-x-hidden">
+
+    <div id="bg-image" class="fixed inset-0 -z-20 bg-cover bg-center scale-110 blur-3xl opacity-40 transition-all duration-1000"></div>
+    <div class="fixed inset-0 -z-10 bg-slate-950/80"></div>
+
+    <nav class="w-full px-6 py-4 flex justify-between items-center glass-panel sticky top-0 z-50">
+        <a href="index.html" class="text-xl font-black tracking-tighter hover:opacity-80 transition">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-500">JAYRAFFE COMPLEX</span>
+        </a>
+        <div id="user-status" class="flex items-center gap-4 bg-slate-900/50 px-4 py-2 rounded-full border border-white/10">
+            <div class="text-right hidden sm:block">
+                <p class="text-xs text-slate-400 uppercase font-bold">Guest Mode</p>
+                <p class="text-sm font-semibold">Sign in to Save Progress</p>
+            </div>
+            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-slate-700 to-slate-500 border-2 border-cyan-400/50 flex items-center justify-center">
+                👤
+            </div>
         </div>
-      </div>
+    </nav>
 
-      <div class="space-y-4">
-        <h3 class="text-xs font-bold uppercase text-gray-500">Gallery</h3>
-        <div class="rounded-lg overflow-hidden border border-white/5 shadow-lg">
-          <img id="random-screenshot" src="" alt="Random Screenshot" class="w-full h-auto object-cover">
+    <main class="container mx-auto px-4 py-8 max-w-6xl">
+        
+        <div class="relative group mb-12">
+            <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+            <div class="relative bg-black rounded-xl overflow-hidden aspect-video w-full neon-border">
+                <div id="game-container" class="w-full h-full flex flex-col items-center justify-center scanlines">
+                    <div id="loading-ui" class="text-center z-20">
+                        <div class="mb-6 w-24 h-24 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin mx-auto"></div>
+                        <button id="start-btn" class="px-12 py-4 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:scale-105 active:scale-95 text-white rounded-full font-black text-xl shadow-lg shadow-cyan-900/40 transition-all uppercase tracking-widest">
+                            Initialize Engine
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
 
-    </div>
-  </main>
-</div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            
+            <div class="lg:col-span-2 space-y-6">
+                <div>
+                    <span id="game-tags" class="px-3 py-1 rounded bg-cyan-500/10 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/20">Loading...</span>
+                    <h1 id="game-title" class="text-6xl font-black tracking-tighter mt-4 uppercase italic">GAME TITLE</h1>
+                    <p id="game-creator" class="font-mono text-purple-400 text-sm mt-2">AUTHOR: UNKNOWN</p>
+                </div>
+
+                <div class="h-px w-full bg-gradient-to-r from-white/10 to-transparent"></div>
+
+                <p id="game-desc" class="text-slate-400 leading-relaxed text-lg max-w-2xl">
+                    Fetching game data from the Jayraffe Complex archives...
+                </p>
+
+                <div id="server-preview" class="hidden glass-panel p-6 rounded-xl border-l-4 border-cyan-500">
+                    <h3 class="font-bold text-cyan-400 mb-2 uppercase tracking-tighter">Live Multiplayer Uplink</h3>
+                    <p class="text-sm text-slate-400">Join 12 players currently in Crossfire</p>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="glass-panel p-6 rounded-2xl">
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-4 tracking-widest">Visual Recon</h3>
+                    <div class="rounded-lg overflow-hidden border border-white/5 shadow-2xl rotate-2 hover:rotate-0 transition duration-500">
+                        <img id="random-screenshot" src="" alt="Gallery" class="w-full h-48 object-cover">
+                    </div>
+                </div>
+                
+                <div class="flex gap-4">
+                    <button class="flex-1 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 font-bold text-sm border border-white/5 transition">FAVORITE</button>
+                    <button class="flex-1 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 font-bold text-sm border border-white/5 transition">SHARE</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // THE DATABASE (Connects to Internet Archive)
+        const gameLibrary = {
+            "hl1": {
+                title: "Half-Life",
+                creator: "Valve Software",
+                tags: "FPS / GoldSrc",
+                desc: "The game that redefined the industry. Play the original 1998 masterpiece directly in your browser with full multiplayer support.",
+                banner: "assets/images/HL1Thumbnail.jpg",
+                engine: "xash3d",
+                screenshots: ["assets/images/HL1Thumbnail.jpg"],
+                config: { url: "https://archive.org/download/hl-direct/valve.zip" }
+            },
+            "flash_game": {
+                title: "Flash Classic",
+                creator: "Internet Archive",
+                tags: "Flash / Retro",
+                desc: "Relive the golden era of web gaming. Powered by the Ruffle emulator.",
+                banner: "https://archive.org/download/flash_art/cover.jpg",
+                engine: "ruffle",
+                screenshots: ["https://archive.org/download/flash_art/ss1.jpg"],
+                config: { url: "https://archive.org/download/your-id/game.swf" }
+            }
+        };
+
+        // UI INJECTION
+        const params = new URLSearchParams(window.location.search);
+        const gameId = params.get('game') || 'hl1'; // Default to HL1
+        const data = gameLibrary[gameId];
+
+        if (data) {
+            document.title = `Jayraffe Complex | ${data.title}`;
+            document.getElementById('game-title').innerText = data.title;
+            document.getElementById('game-creator').innerText = `SYSTEM SOURCE: ${data.creator}`;
+            document.getElementById('game-desc').innerText = data.desc;
+            document.getElementById('game-tags').innerText = data.tags;
+            document.getElementById('bg-image').style.backgroundImage = `url(${data.banner})`;
+            document.getElementById('random-screenshot').src = data.screenshots[0];
+
+            if(data.engine === 'xash3d') {
+                document.getElementById('server-preview').classList.remove('hidden');
+            }
+        }
+
+        // ENGINE LOADER
+        document.getElementById('start-btn').addEventListener('click', function() {
+            const container = document.getElementById('game-container');
+            container.classList.remove('scanlines'); // Clear retro effect for actual game
+            container.innerHTML = `<div class='text-cyan-400 font-mono animate-pulse'>CONNECTING TO ${data.engine.toUpperCase()}...</div>`;
+            
+            // This is where we'd trigger the Ruffle/Xash3D scripts!
+            console.log("Loading engine:", data.engine, "from", data.config.url);
+        });
+    </script>
+</body>
+</html>

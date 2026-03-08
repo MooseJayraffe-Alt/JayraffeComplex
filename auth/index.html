@@ -17,7 +17,7 @@
 <body class="flex items-center justify-center min-h-screen">
 
     <div class="glass-card p-10 rounded-3xl w-full max-w-md text-center">
-        <h1 class="text-2xl font-black mb-6">IDENTITY VERIFICATION</h1>
+        <h1 class="text-2xl font-black mb-6">SIGN-UP / LOG-IN</h1>
         
         <div class="space-y-4">
             <input type="text" id="username-input" placeholder="USERNAME" class="hidden w-full p-3 rounded-xl bg-slate-900 border border-white/10 outline-none focus:border-cyan-500">
@@ -56,7 +56,7 @@
 
                             async function handleAuth() {
     // Look for the global supabase client
-    const client = window.supabase;
+    const client = window.supabaseClient;
 
     if (!client) {
         alert("System Error: Supabase connection not found. Check global.js");

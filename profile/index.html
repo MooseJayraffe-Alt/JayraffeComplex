@@ -99,7 +99,7 @@ async function loadProfile() {
 
     // 3. Update Profile UI (Name and Email)
     // Add this to your loadProfile function
-    document.getElementById('display-bio').innerText = profileData?.bio || "No bio set.";
+    document.getElementById('display-bio').innerText = user.user_metadata?.bio || "No bio set.";
     document.getElementById('profile-name').innerText = user.user_metadata.display_name || "New Citizen";
     document.getElementById('profile-email').innerText = user.email;
 

@@ -27,7 +27,7 @@
                 👤
             </div>
 
-            <h1 id="profile-name" class="text-4xl font-black uppercase italic tracking-tighter mb-2">Loading Identity...</h1>
+            <h1 id="profile-name" class="text-4xl font-black uppercase italic tracking-tighter mb-2">Loading Username...</h1>
             <p id="profile-email" class="text-slate-500 font-mono text-sm mb-8 tracking-widest uppercase">Unauthorized Access</p>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mb-12">
@@ -40,8 +40,8 @@
                     <p class="text-xl font-black">ACTIVE</p>
                 </div>
                 <div class="p-4 bg-slate-900/50 rounded-2xl border border-white/5">
-                    <p class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Uptime</p>
-                    <p class="text-xl font-black">99.9%</p>
+                    <p class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">how peak ace attorney is and how unpeak chara is</p>
+                    <p class="text-xl font-black">999.9%</p>
                 </div>
             </div>
 
@@ -62,7 +62,7 @@
                 return;
             }
 
-            document.getElementById('profile-name').innerText = user.user_metadata.full_name || "Citizen";
+            document.getElementById('profile-name').innerText = user.user_metadata.username || "just monika or smth";
             document.getElementById('profile-email').innerText = user.email;
 
             if (user.user_metadata.avatar_url) {

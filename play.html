@@ -209,7 +209,7 @@
             banner: "https://archive.org/download/flash_art/cover.jpg",
             engine: "Flash",
             screenshots: ["https://archive.org/download/flash_art/ss1.jpg"],
-            config: { url: "https://archive.org/download/your-id/activity.swf" }
+            config: { filename: "fleeingthecomplexng" }
         }
     };
 
@@ -245,7 +245,7 @@ document.getElementById('start-btn').addEventListener('click', function () {
         container.appendChild(player);
         
         // Load the SWF (Assuming your naming convention matches your library title)
-        player.load(`assets/swfs/${data.title}.swf`);
+        player.load(`assets/swfs/${data.config.filename}.swf`);
 
     } else {
         // Default Loader for HTML5 / Xash3D (Iframe based)

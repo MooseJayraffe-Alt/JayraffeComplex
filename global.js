@@ -96,7 +96,7 @@ window.activityLibrary = {
 
 // This is the ONLY place 'supabase' is declared
 // Change this line in global.js
-window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 async function checkAuthStatus() {
     const { data: { user } } = await supabase.auth.getUser();

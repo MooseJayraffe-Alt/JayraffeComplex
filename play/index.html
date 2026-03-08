@@ -201,7 +201,7 @@ document.getElementById('start-btn').addEventListener('click', function () {
 });
 
 async function toggleFavorite() {
-    const client = window.supabaseClient;
+    const client = window.supabase;
     const { data: { user } } = await client.auth.getUser();
 
     if (!user) {
@@ -237,7 +237,7 @@ async function toggleFavorite() {
 
 // Check if already favorited on page load
 async function syncFavoriteStatus() {
-    const client = window.supabaseClient;
+    const client = window.supabase;
     const { data: { user } } = await client.auth.getUser();
     if (!user) return;
 

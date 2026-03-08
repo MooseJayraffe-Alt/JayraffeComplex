@@ -78,7 +78,7 @@
     } else {
         const { error } = await client.auth.signInWithPassword({ email, password });
         if (error) alert(error.message);
-        else window.location.href = "./";
+        else window.location.href = "../";
     }
 }
     </script>

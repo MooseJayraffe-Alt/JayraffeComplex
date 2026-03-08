@@ -6,7 +6,7 @@ window.activityLibrary = {
             title: "Half-Life",
             creator: "Valve Software",
             tags: "FPS / GoldSrc",
-            desc: "Run, think, shoot.. live. Play the original 1998 masterpiece directly in your browser. Since I can't host the data, find it on Internet Archive!",
+            desc: "Run, think, shoot.. live. Experience the original 1998 masterpiece directly in your browser. Since I can't host the data, find it on Internet Archive!",
             banner: "assets/images/HL1Thumbnail.jpg",
             engine: "xash3d",
             screenshots: ["assets/images/HL1Thumbnail.jpg"],
@@ -46,7 +46,7 @@ window.activityLibrary = {
             title: "Doom",
             creator: "ID Software",
             tags: "Horror / Action / Shooter",
-            desc: "In a port of the original 1993 classic, enjoy hacking and slashing your way through levels and become what the demons will call 'DOOM'. ",
+            desc: "Can Jayraffe Complex run Doom? Try and find out. ",
             banner: "assets/images/DoomThumbnail.webp",
             engine: "JS-DOS",
             screenshots: ["assets/images/DoomThumbnail.webp"],
@@ -118,7 +118,7 @@ async function checkAuthStatus() {
         const avatarEl = document.getElementById('user-avatar');
 
         // Smart Pathing: Check if we are in a subfolder
-        const isSub = window.location.pathname.includes('/play/') || window.location.pathname.includes('/profile/');
+        const isSub = window.location.pathname.includes('/experience/') || window.location.pathname.includes('/profile/');
         if (statusBtn) statusBtn.href = isSub ? "../profile/" : "profile/";
 
         if (nameEl) {

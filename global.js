@@ -16,7 +16,7 @@ async function checkAuthStatus() {
         const avatarEl = document.getElementById('user-avatar');
 
         // Update Nav
-        if (statusBtn) statusBtn.href = "profile.html";
+        if (statusBtn) statusBtn.href = "profile/";
         if (nameEl) {
             nameEl.innerText = user.user_metadata.full_name || 
                                user.user_metadata.display_name || 
@@ -37,7 +37,7 @@ async function checkAuthStatus() {
 
 async function handleSignOut() {
     await supabase.auth.signOut();
-    window.location.href = "index.html";
+    window.location.href = "./";
 }
 
 // Check status whenever a page finishes loading

@@ -8,6 +8,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="global.js"></script>
+    <!-- js-dos style sheet -->
+    <link rel="stylesheet" href="https://v8.js-dos.com/latest/js-dos.css">
+    <!-- js-dos -->
+    <script src="https://v8.js-dos.com/latest/js-dos.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Fira+Code&display=swap" rel="stylesheet">
 
     <style>
@@ -52,10 +56,10 @@
     <div class="fixed inset-0 -z-10 bg-slate-950/80"></div>
 
     <nav class="w-full px-6 py-4 flex justify-between items-center glass-panel sticky top-0 z-50">
-        <a href="index.html" class="text-xl font-black tracking-tighter hover:opacity-80 transition">
+        <a href="./" class="text-xl font-black tracking-tighter hover:opacity-80 transition">
             <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-500">JAYRAFFE COMPLEX</span>
         </a>
-        <a href="auth.html" id="user-status" class="flex items-center gap-4 bg-slate-900/50 px-4 py-2 rounded-full border border-white/10 hover:border-cyan-500/50 transition">
+        <a href="auth/" id="user-status" class="flex items-center gap-4 bg-slate-900/50 px-4 py-2 rounded-full border border-white/10 hover:border-cyan-500/50 transition">
     <div class="text-right hidden sm:block">
         <p id="user-rank" class="text-xs text-slate-400 uppercase font-bold italic">Unverified</p>
         <p id="user-name" class="text-sm font-semibold">Sign In / Register</p>
@@ -175,9 +179,9 @@
             tags: "Horror / Action / Shooter",
             desc: "In a port of the original 1993 classic, enjoy hacking and slashing your way through levels and become what the demons will call 'DOOM'. ",
             banner: "assets/images/HL1Thumbnail.jpg",
-            engine: "HTML5",
+            engine: "JS-DOS",
             screenshots: ["assets/images/HL1Thumbnail.jpg"],
-            config: { url: "https://selenite.cc/resources/semag/bendy/index.html" }
+            config: { url: "https://v8.js-dos.com/bundles/doom.jsdos" }
         },
         "danganronpa": {
             title: "Danganronpa: Trigger Happy Havoc",
@@ -255,6 +259,13 @@ document.getElementById('start-btn').addEventListener('click', function () {
         // Load the SWF (Assuming your naming convention matches your library title)
         player.load(`assets/swfs/${data.config.filename}.swf`);
 
+    } else if (data.engine === "JS-DOS") {
+    
+    Dos(document.getElementById("dos"), {
+        url: data.config.url,
+    });    
+        
+        
     } else {
         // Default Loader for HTML5 / Xash3D (Iframe based)
         const activityFrame = document.createElement('iframe');

@@ -1,59 +1,76 @@
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="global.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jayraffe Complex | Auth</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script src="global.js"></script>
 
-<script>
-    let mode = 'login';
+    <style>
+        body { background-color: #0f172a; color: white; font-family: sans-serif; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
 
-    function setAuthMode(newMode) {
-        mode = newMode;
-        const userField = document.getElementById('username-input');
-        const submitBtn = document.getElementById('auth-submit');
-        const loginTab = document.getElementById('login-tab');
-        const signupTab = document.getElementById('signup-tab');
+    <div class="glass-card p-10 rounded-3xl w-full max-w-md text-center">
+        <h1 class="text-2xl font-black mb-6">IDENTITY VERIFICATION</h1>
+        
+        <div class="space-y-4">
+            <input type="text" id="username-input" placeholder="USERNAME" class="hidden w-full p-3 rounded-xl bg-slate-900 border border-white/10 outline-none focus:border-cyan-500">
+            
+            <input type="email" id="email-input" placeholder="EMAIL" class="w-full p-3 rounded-xl bg-slate-900 border border-white/10 outline-none focus:border-cyan-500">
+            
+            <input type="password" id="password-input" placeholder="PASSWORD" class="w-full p-3 rounded-xl bg-slate-900 border border-white/10 outline-none focus:border-cyan-500">
+            
+            <button id="auth-submit" onclick="handleAuth()" class="w-full py-3 bg-cyan-600 rounded-xl font-bold uppercase tracking-widest hover:bg-cyan-500">Login</button>
+            
+            <div class="flex justify-center gap-4 mt-4">
+                <button onclick="setAuthMode('login')" class="text-xs text-cyan-400">LOGIN</button>
+                <button onclick="setAuthMode('signup')" class="text-xs text-slate-500">SIGNUP</button>
+            </div>
+        </div>
+    </div>
 
-        if (mode === 'signup') {
-            userField.classList.remove('hidden');
-            submitBtn.innerText = "Create Account";
-            signupTab.className = "text-xs font-bold text-cyan-400 border-b-2 border-cyan-400 pb-1";
-            loginTab.className = "text-xs font-bold text-slate-500 pb-1";
-        } else {
-            userField.classList.add('hidden');
-            submitBtn.innerText = "Login";
-            loginTab.className = "text-xs font-bold text-cyan-400 border-b-2 border-cyan-400 pb-1";
-            signupTab.className = "text-xs font-bold text-slate-500 pb-1";
+    <script>
+        console.log("Auth script initialized.");
+
+        let mode = 'login';
+
+        function setAuthMode(newMode) {
+            mode = newMode;
+            const uInput = document.getElementById('username-input');
+            const submitBtn = document.getElementById('auth-submit');
+            
+            if (mode === 'signup') {
+                uInput.classList.remove('hidden');
+                submitBtn.innerText = "Create Account";
+            } else {
+                uInput.classList.add('hidden');
+                submitBtn.innerText = "Login";
+            }
         }
-    }
 
-    async function handleAuth() {
-        const email = document.getElementById('email-input').value;
-        const password = document.getElementById('password-input').value;
-        const username = document.getElementById('username-input').value;
+        async function handleAuth() {
+            const email = document.getElementById('email-input').value;
+            const password = document.getElementById('password-input').value;
+            const username = document.getElementById('username-input').value;
 
-        if (!email || !password) {
-            alert("Credentials required.");
-            return;
+            if (mode === 'signup') {
+                const { error } = await supabase.auth.signUp({
+                    email, password, options: { data: { display_name: username } }
+                });
+                if (error) alert(error.message);
+                else alert("Account Created!");
+            } else {
+                const { error } = await supabase.auth.signInWithPassword({ email, password });
+                if (error) alert(error.message);
+                else window.location.href = "index.html";
+            }
         }
-
-        if (mode === 'signup') {
-            const { error } = await supabase.auth.signUp({
-                email,
-                password,
-                options: { data: { display_name: username } }
-            });
-            if (error) alert(error.message);
-            else alert("Account created! Log in to continue.");
-        } else {
-            const { error } = await supabase.auth.signInWithPassword({ email, password });
-            if (error) alert(error.message);
-            else window.location.href = "index.html";
-        }
-    }
-
-    async function loginWithDiscord() {
-        const { error } = await supabase.auth.signInWithOAuth({
-            provider: 'discord',
-            options: { redirectTo: window.location.origin + '/index.html' }
-        });
-        if (error) alert(error.message);
-    }
-</script>
+    </script>
+</body>
+</html>

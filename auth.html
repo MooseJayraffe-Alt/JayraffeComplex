@@ -1,7 +1,7 @@
-<script>
-    // IMPORTANT: Do NOT redeclare 'const supabase' here. 
-    // It is already declared in global.js.
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="global.js"></script>
 
+<script>
     let mode = 'login';
 
     function setAuthMode(newMode) {
@@ -35,21 +35,15 @@
         }
 
         if (mode === 'signup') {
-            const { data, error } = await supabase.auth.signUp({
+            const { error } = await supabase.auth.signUp({
                 email,
                 password,
-                options: { 
-                    data: { display_name: username },
-                    emailRedirectTo: window.location.origin + '/index.html'
-                }
+                options: { data: { display_name: username } }
             });
             if (error) alert(error.message);
-            else alert("Registration successful! Check your email if confirmation is required.");
+            else alert("Account created! Log in to continue.");
         } else {
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email,
-                password
-            });
+            const { error } = await supabase.auth.signInWithPassword({ email, password });
             if (error) alert(error.message);
             else window.location.href = "index.html";
         }

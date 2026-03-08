@@ -3,7 +3,7 @@ const SUPABASE_URL = 'https://your-project-url.supabase.co';
 const SUPABASE_KEY = 'your-anon-public-key';
 
 // This is the ONLY place 'supabase' is declared
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 async function checkAuthStatus() {
     const { data: { user } } = await supabase.auth.getUser();

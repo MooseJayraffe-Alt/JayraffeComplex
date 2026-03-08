@@ -54,23 +54,33 @@
             }
         }
 
-        async function handleAuth() {
-            const email = document.getElementById('email-input').value;
-            const password = document.getElementById('password-input').value;
-            const username = document.getElementById('username-input').value;
+                            async function handleAuth() {
+    // Look for the global supabase client
+    const client = window.supabase;
 
-            if (mode === 'signup') {
-                const { error } = await supabase.auth.signUp({
-                    email, password, options: { data: { display_name: username } }
-                });
-                if (error) alert(error.message);
-                else alert("Account Created!");
-            } else {
-                const { error } = await supabase.auth.signInWithPassword({ email, password });
-                if (error) alert(error.message);
-                else window.location.href = "index.html";
-            }
-        }
+    if (!client) {
+        alert("System Error: Supabase connection not found. Check global.js");
+        return;
+    }
+
+    const email = document.getElementById('email-input').value;
+    const password = document.getElementById('password-input').value;
+    const username = document.getElementById('username-input').value;
+
+    if (mode === 'signup') {
+        const { error } = await client.auth.signUp({
+            email, 
+            password, 
+            options: { data: { display_name: username } }
+        });
+        if (error) alert(error.message);
+        else alert("Account Created! You can now login.");
+    } else {
+        const { error } = await client.auth.signInWithPassword({ email, password });
+        if (error) alert(error.message);
+        else window.location.href = "index.html";
+    }
+}
     </script>
 </body>
 </html>

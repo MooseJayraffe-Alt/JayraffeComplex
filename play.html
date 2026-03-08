@@ -29,7 +29,7 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Scanline effect for the game monitor */
+        /* Scanline effect for the activity monitor */
         .scanlines::before {
             content: " ";
             display: block;
@@ -68,11 +68,11 @@
         <div class="relative group mb-12">
             <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
             <div class="relative bg-black rounded-xl overflow-hidden aspect-video w-full neon-border">
-                <div id="game-container" class="w-full h-full flex flex-col items-center justify-center scanlines">
+                <div id="activity-container" class="w-full h-full flex flex-col items-center justify-center scanlines">
                     <div id="loading-ui" class="text-center z-20">
                         <div class="mb-6 w-24 h-24 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin mx-auto"></div>
                         <button id="start-btn" class="px-12 py-4 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:scale-105 active:scale-95 text-white rounded-full font-black text-xl shadow-lg shadow-cyan-900/40 transition-all uppercase tracking-widest">
-                            Start Game
+                            Start Activity
                         </button>
                     </div>
                 </div>
@@ -83,15 +83,15 @@
             
             <div class="lg:col-span-2 space-y-6">
                 <div>
-                    <span id="game-tags" class="px-3 py-1 rounded bg-cyan-500/10 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/20">Loading...</span>
-                    <h1 id="game-title" class="text-6xl font-black tracking-tighter mt-4 uppercase italic">GAME TITLE</h1>
-                    <p id="game-creator" class="font-mono text-purple-400 text-sm mt-2">AUTHOR: UNKNOWN</p>
+                    <span id="activity-tags" class="px-3 py-1 rounded bg-cyan-500/10 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/20">Loading...</span>
+                    <h1 id="activity-title" class="text-6xl font-black tracking-tighter mt-4 uppercase italic">activity TITLE</h1>
+                    <p id="activity-creator" class="font-mono text-purple-400 text-sm mt-2">AUTHOR: UNKNOWN</p>
                 </div>
 
                 <div class="h-px w-full bg-gradient-to-r from-white/10 to-transparent"></div>
 
-                <p id="game-desc" class="text-slate-400 leading-relaxed text-lg max-w-2xl">
-                    Fetching game data from the Jayraffe Complex archives...
+                <p id="activity-desc" class="text-slate-400 leading-relaxed text-lg max-w-2xl">
+                    Fetching activity data from the Jayraffe Complex archives...
                 </p>
 
                 <div id="server-preview" class="hidden glass-panel p-6 rounded-xl border-l-4 border-cyan-500">
@@ -119,7 +119,7 @@
 
     <script>
         // THE DATABASE (Connects to Internet Archive)
-    const gameLibrary = {
+    const activityLibrary = {
         "hl1": {
             title: "Half-Life",
             creator: "Valve Software",
@@ -134,11 +134,11 @@
             title: "Deltarune",
             creator: "Toby Fox",
             tags: "Adventure/2D/Indie",
-            desc: "yes i somehow got the ENTIRE game of deltarune on here 💔",
+            desc: "yes i somehow got the ENTIRE activity of deltarune on here 💔",
             banner: "assets/images/HL1Thumbnail.jpg",
             engine: "HTML5",
             screenshots: ["assets/images/HL1Thumbnail.jpg"],
-            config: { url: "https://jimmyqrg.github.io/loader/?content=https%3A%2F%2Fjimmyqrg.github.io%2Fjqrg-games%2Fgames%2Fdeltarune%2F" }
+            config: { url: "https://jimmyqrg.github.io/loader/?content=https%3A%2F%2Fjimmyqrg.github.io%2Fjqrg-activitys%2Factivitys%2Fdeltarune%2F" }
         },
         "AceAttorney": {
             title: "Phoenix Wright: Ace Attorney",
@@ -160,21 +160,31 @@
             screenshots: ["assets/images/HL1Thumbnail.jpg"],
             config: { url: "https://selenite.cc/resources/semag/bendy/index.html" }
         },
-        "Danganronpa": {
+        "doom": {
+            title: "Doom",
+            creator: "ID Software",
+            tags: "Horror / Action / Shooter",
+            desc: "In a port of the original 1993 classic, enjoy hacking and slashing your way through levels and become what the demons will call 'DOOM'. ",
+            banner: "assets/images/HL1Thumbnail.jpg",
+            engine: "HTML5",
+            screenshots: ["assets/images/HL1Thumbnail.jpg"],
+            config: { url: "https://selenite.cc/resources/semag/bendy/index.html" }
+        },
+        "danganronpa": {
             title: "Danganronpa: Trigger Happy Havoc",
             creator: "Spike Chunsoft",
             tags: "Horror / Mystery",
             desc: "junko is so peak and btw i could fix her trust me guys 💔",
-            banner: "assets/images/HL1Thumbnail.jpg",
+            banner: "assets/images/DanganronpaThumbnail.webp",
             engine: "HTML5",
-            screenshots: ["assets/images/HL1Thumbnail.jpg"],
+            screenshots: ["assets/images/DanganronpaThumbnail.webp"],
             config: { url: "https://selenite.cc/resources/semag/danganronpa/g.html" }
         },
         "ultrakill": {
             title: "Ultrakill",
             creator: "New Blood Interactive",
             tags: "Combat / Action",
-            desc: "judgement (that's the only thing ik about this game except v1)",
+            desc: "judgement (that's the only thing ik about this activity except v1)",
             banner: "assets/images/HL1Thumbnail.jpg",
             engine: "HTML5",
             screenshots: ["assets/images/HL1Thumbnail.jpg"],
@@ -184,58 +194,67 @@
             title: "Hollow Knight",
             creator: "Unknown",
             tags: "2D Side-Scroller / Action",
-            desc: "shaw (that's the only thing ik about this game 😭)",
+            desc: "shaw (that's the only thing ik about this activity 😭)",
             banner: "assets/images/HL1Thumbnail.jpg",
             engine: "HTML5",
             screenshots: ["assets/images/HL1Thumbnail.jpg"],
             config: { url: "https://moosejayraffe-alt.github.io/hollow-knight/" }
         },
-        "flash_game": {
-            title: "Flash Classic",
-            creator: "Internet Archive",
-            tags: "Flash / Retro",
-            desc: "Relive the golden era of web gaming. Powered by the Ruffle emulator.",
+        "etc": {
+            title: "Escaping the Complex",
+            creator: "Puffballs United",
+            tags: "Flash / THIS IS THE GREATEST PLANNNN",
+            desc: "Relive the absolute peak that is Henry Stickmin. Powered by the Ruffle emulator.",
             banner: "https://archive.org/download/flash_art/cover.jpg",
             engine: "Flash",
             screenshots: ["https://archive.org/download/flash_art/ss1.jpg"],
-            config: { url: "https://archive.org/download/your-id/game.swf" }
+            config: { url: "https://archive.org/download/your-id/activity.swf" }
         }
     };
 
     // UI INJECTION
-    const params = new URLSearchParams(window.location.search);
-    const gameId = params.get('id') || 'hl1'; 
-    const data = gameLibrary[gameId];
+const params = new URLSearchParams(window.location.search);
+const activityId = params.get('id') || 'hl1';
+const data = activityLibrary[activityId];
 
-    if (data) {
-        document.title = `Jayraffe Complex | ${data.title}`;
-        document.getElementById('game-title').innerText = data.title;
-        document.getElementById('game-creator').innerText = `SYSTEM SOURCE: ${data.creator}`;
-        document.getElementById('game-desc').innerText = data.desc;
-        document.getElementById('game-tags').innerText = data.tags;
-        document.getElementById('bg-image').style.backgroundImage = `url(${data.banner})`;
-        document.getElementById('random-screenshot').src = data.screenshots[0];
+if (data) {
+    document.title = `Jayraffe Complex | ${data.title}`;
+    document.getElementById('activity-title').innerText = data.title;
+    document.getElementById('activity-creator').innerText = `Creator: ${data.creator}`;
+    document.getElementById('activity-desc').innerText = data.desc;
+    document.getElementById('activity-tags').innerText = data.tags;
+    document.getElementById('bg-image').style.backgroundImage = `url(${data.banner})`;
+    document.getElementById('random-screenshot').src = data.screenshots[0];
 
-        if(data.engine === 'xash3d') {
-            document.getElementById('server-preview').classList.remove('hidden');
-        }
+    if (data.engine === 'xash3d') {
+        document.getElementById('server-preview').classList.remove('hidden');
     }
+}
 
-    // ENGINE LOADER
-    document.getElementById('start-btn').addEventListener('click', function() {
-        const container = document.getElementById('game-container');
-        
-        // Use the config.url directly from the library
-        const webXashUrl = data.config.url;
+// ENGINE LOADER
+document.getElementById('start-btn').addEventListener('click', function () {
+    const container = document.getElementById('activity-container');
+    container.innerHTML = ''; // Clear the loading UI
 
-        const gameFrame = document.createElement('iframe');
-        gameFrame.src = webXashUrl;
-        gameFrame.className = "w-full h-full border-0";
-        gameFrame.allow = "autoplay; fullscreen; keyboard; gamepad; pointer-lock";
+    if (data.engine === 'Flash') {
+        // Create Ruffle Player
+        const ruffle = window.RufflePlayer.newest();
+        const player = ruffle.createPlayer();
+        player.className = "w-full h-full";
+        container.appendChild(player);
         
-        container.innerHTML = ''; 
-        container.appendChild(gameFrame);
-    });
+        // Load the SWF (Assuming your naming convention matches your library title)
+        player.load(`assets/swfs/${data.title}.swf`);
+
+    } else {
+        // Default Loader for HTML5 / Xash3D (Iframe based)
+        const activityFrame = document.createElement('iframe');
+        activityFrame.src = data.config.url;
+        activityFrame.className = "w-full h-full border-0";
+        activityFrame.allow = "autoplay; fullscreen; keyboard; activitypad; pointer-lock";
+        container.appendChild(activityFrame);
+    }
+});
 </script>
 </body>
 </html>

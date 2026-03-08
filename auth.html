@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jayraffe Complex | Authentication</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { background-color: #0f172a; font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen text-slate-200 p-4">
+
+    <div class="mt-8 pt-8 border-t border-white/5 space-y-4">
+    <div id="auth-toggle" class="flex gap-4 mb-4 justify-center">
+        <button onclick="setAuthMode('login')" id="login-tab" class="text-xs font-bold text-cyan-400 border-b-2 border-cyan-400 pb-1">LOGIN</button>
+        <button onclick="setAuthMode('signup')" id="signup-tab" class="text-xs font-bold text-slate-500 pb-1">REGISTER</button>
+    </div>
+
+    <input type="text" id="username-input" placeholder="USERNAME" 
+           class="hidden w-full bg-slate-900/50 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-cyan-500 outline-none font-mono">
+    
+    <input type="email" id="email-input" placeholder="EMAIL" 
+           class="w-full bg-slate-900/50 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-cyan-500 outline-none font-mono">
+    
+    <input type="password" id="password-input" placeholder="PASSWORD" 
+           class="w-full bg-slate-900/50 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-cyan-500 outline-none font-mono">
+    
+    <button id="auth-submit" onclick="handleAuth()" 
+            class="w-full py-3 bg-cyan-600 hover:bg-cyan-500 rounded-xl font-bold text-xs tracking-widest uppercase transition-all">
+        Login
+    </button>
+</div>
+
+    <script>
+        const SUPABASE_URL = 'https://edmakmpjcudrwdxpgbuc.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVkbWFrbXBqY3VkcndkeHBnYnVjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5NTAzNDMsImV4cCI6MjA4ODUyNjM0M30.efTUVrvQbKYBlDBv2B-SCXaKQYCRU84gJ9jP8CMwyUs';
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let mode = 'login';
+
+function setAuthMode(newMode) {
+    mode = newMode;
+    const userField = document.getElementById('username-input');
+    const submitBtn = document.getElementById('auth-submit');
+    const loginTab = document.getElementById('login-tab');
+    const signupTab = document.getElementById('signup-tab');
+
+    if (mode === 'signup') {
+        userField.classList.remove('hidden');
+        submitBtn.innerText = "Create Account";
+        signupTab.className = "text-xs font-bold text-cyan-400 border-b-2 border-cyan-400 pb-1";
+        loginTab.className = "text-xs font-bold text-slate-500 pb-1";
+    } else {
+        userField.classList.add('hidden');
+        submitBtn.innerText = "Login";
+        loginTab.className = "text-xs font-bold text-cyan-400 border-b-2 border-cyan-400 pb-1";
+        signupTab.className = "text-xs font-bold text-slate-500 pb-1";
+    }
+}
+
+async function handleAuth() {
+    const email = document.getElementById('email-input').value;
+    const password = document.getElementById('password-input').value;
+    const username = document.getElementById('username-input').value;
+
+    if (mode === 'signup') {
+        const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: { data: { display_name: username } }
+        });
+        if (error) alert(error.message);
+        else alert("Check email for confirmation (if enabled) or try logging in!");
+    } else {
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+            password
+        });
+        if (error) alert(error.message);
+        else window.location.href = "index.html";
+    }
+}
+        
+        async function loginWithDiscord() {
+            const { data, error } = await supabase.auth.signInWithOAuth({
+                provider: 'discord',
+                options: {
+                    // This sends them back to index.html after they finish logging in
+                    redirectTo: window.location.origin + '/index.html'
+                }
+            });
+            if (error) alert(error.message);
+        }
+    </script>
+</body>
+</html>

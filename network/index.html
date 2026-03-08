@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="global.js"></script>
+<main class="container mx-auto px-4 py-12 max-w-6xl">
+    <div class="mb-12">
+        <h1 class="text-5xl font-black uppercase italic tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white via-cyan-400 to-slate-500">
+            Citizen Network
+        </h1>
+        <div class="h-1 w-24 bg-gradient-to-r from-cyan-500 to-transparent mt-2"></div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div class="lg:col-span-4 space-y-8">
+            
+            <div class="glass-panel rounded-3xl bg-gradient-to-br from-white/10 to-transparent p-[1px]">
+                <div class="bg-slate-900/90 rounded-[23px] p-6">
+                    <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400 mb-4">Locate Citizen</h3>
+                    <div class="relative">
+                        <input type="text" id="user-search" placeholder="Enter Username..." 
+                            class="w-full bg-slate-800/50 border border-white/5 rounded-xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition">
+                        <button onclick="searchUsers()" class="mt-4 w-full py-3 bg-cyan-600 hover:bg-cyan-400 text-slate-900 rounded-xl text-xs font-black uppercase tracking-widest transition-all transform hover:scale-[1.02] active:scale-95">
+                            Search Archives
+                        </button>
+                    </div>
+                    <div id="search-results" class="mt-6 space-y-3"></div>
+                </div>
+            </div>
+
+            <div class="glass-panel p-6 rounded-3xl border border-pink-500/20 bg-pink-500/5">
+                <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-pink-500 mb-4">Pending Signals</h3>
+                <div id="requests-list" class="space-y-3">
+                    <p class="text-[10px] text-slate-500 uppercase tracking-widest text-center py-4">No pending signals...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-8">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-400">Synchronized Connections</h3>
+                <span class="px-3 py-1 bg-emerald-500/10 text-emerald-500 text-[9px] font-bold rounded-full border border-emerald-500/20">LIVE</span>
+            </div>
+            
+            <div id="network-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                </div>
+        </div>
+    </div>
+</main>
+</head>
+
+</html>

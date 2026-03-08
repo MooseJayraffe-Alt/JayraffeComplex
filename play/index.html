@@ -236,8 +236,17 @@ async function toggleFavorite() {
 }
 
 // Check if already favorited on page load
+// Change this function to check for the client first
 async function syncFavoriteStatus() {
-    const client = window.supabase;
+    const client = window.supabaseClient;
+    
+    // If global.js isn't ready yet, don't crash
+    if (!client) {
+        console.warn("Supabase not ready, retrying sync...");
+        setTimeout(syncFavoriteStatus, 500); 
+        return;
+    }
+
     const { data: { user } } = await client.auth.getUser();
     if (!user) return;
 
@@ -249,8 +258,7 @@ async function syncFavoriteStatus() {
     }
 }
 
-// Run the sync check
-// THE FIX: Wait for the entire window (including global.js) to load
+// CRITICAL: Change your event listener at the bottom
 window.addEventListener('load', () => {
     initPage();
     syncFavoriteStatus();

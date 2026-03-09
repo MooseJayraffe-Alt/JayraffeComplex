@@ -192,7 +192,7 @@
             </div>
             <div class="info">
                 <h3>Half-Life 1 (Local)</h3>
-                <span class="play-btn">Play Now</span>
+                <span class="play-btn">Download Now</span>
             </div>
         </a>
 
@@ -292,8 +292,8 @@
                 <img alt = "we're doomed.." src= "assets/images/tf2.jpg">
             </div>
             <div class="info">
-                <h3>TF2</h3>
-                <span class="play-btn">Play Now</span>
+                <h3>Team Fortress 2</h3>
+                <span class="play-btn">Download Now</span>
             </div>
         </a>
 
@@ -303,7 +303,7 @@
             </div>
             <div class="info">
                 <h3>GMoD</h3>
-                <span class="play-btn">Play Now</span>
+                <span class="play-btn">Download Now</span>
             </div>
         </a>
 
@@ -432,14 +432,14 @@ async function checkUserSession() {
         if (user.user_metadata?.avatar_url) {
             userAvatar.innerHTML = `<img src="${user.user_metadata.avatar_url}" class="w-full h-full rounded-full object-cover">`;
         } else {
-            userAvatar.innerText = "🆔"; 
+            userAvatar.innerText = "🆔 Profile"; 
         }
     } else {
         // User is not logged in
         profileLink.href = "auth/";
         userName.innerText = "Sign In / Register";
         userRank.innerText = "Unverified";
-        userAvatar.innerText = "👤";
+        userAvatar.innerText = "👤 Sign-Up";
     }
 }
 

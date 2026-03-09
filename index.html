@@ -7,25 +7,7 @@
     <script src="global.js"></script>
     <title>Jayraffe Complex | Main Page</title>
 
-    <section id="trending-section" class="w-full max-w-5xl mb-12 hidden">
-    <h3 class="text-[10px] font-bold uppercase tracking-[0.4em] text-cyan-500 mb-4 flex items-center gap-2">
-        <span class="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></span>
-        High-Traffic Sectors
-    </h3>
-    <div id="trending-list" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        </div>
-</section>
 
-    <div class="glass-panel p-4 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 inline-flex items-center gap-4">
-    <div class="relative flex h-3 w-3">
-        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-        <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-    </div>
-    <div>
-        <span id="live-counter" class="text-xl font-black text-white italic tracking-tighter">00</span>
-        <span class="text-[10px] font-bold uppercase tracking-widest text-emerald-500 ml-2">Citizens Active</span>
-    </div>
-</div>
     <style>
         /* --- DESIGN SYSTEM --- */
         :root {
@@ -153,7 +135,7 @@
 </head>
 <body>
 
-    <div class="w-full max-w-5xl flex justify-between items-center mb-8">
+    <div class="w-full max-w-5xl flex justify-between items-center my-8">
         <a href="auth/" id="profile-link" class="flex items-center gap-4 bg-slate-900/50 px-4 py-2 rounded-full border border-white/10 hover:border-cyan-500/50 transition">
             <div class="text-right hidden sm:block">
                 <p id="user-rank" class="text-xs text-slate-400 uppercase font-bold italic">Unverified</p>
@@ -169,6 +151,10 @@
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </div>
+            <div class="leading-none">
+                <span id="live-counter" class="text-lg font-black text-white italic tracking-tighter">00</span>
+                <span class="text-[9px] font-bold uppercase tracking-widest text-emerald-500 ml-1">Citizens Active</span>
+            </div>
         </div>
     </div>
 
@@ -176,6 +162,15 @@
         <h1>JAYRAFFE COMPLEX</h1>
         <input type="text" id="searchBar" placeholder="Search the archives..." onkeyup="filterGames()">
     </header>
+
+    <section id="trending-section" class="w-full max-w-5xl mb-12 hidden">
+        <h3 class="text-[10px] font-bold uppercase tracking-[0.4em] text-cyan-500 mb-4 flex items-center gap-2">
+            <span class="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></span>
+            High-Traffic Sectors
+        </h3>
+        <div id="trending-list" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            </div>
+    </section>
 
     <div class="temp-grid" id="tempGrid">
 
@@ -360,7 +355,6 @@
 }
 
 // Call this along with your other load functions
-setInterval(updateTrendingGames, 30000);
 updateTrendingGames();
 
         async function updateTrendingGames() {
@@ -436,11 +430,18 @@ async function checkUserSession() {
 }
 
 // Call this function when the page loads
-window.addEventListener('load', checkUserSession);
+async function initializeHome() {
+    await checkUserSession();
+    await getActiveCount();
+    await updateTrendingGames();
+}
 
-// Refresh the counter every minute
-setInterval(getActiveCount, 60000);
-getActiveCount(); // Run once on load
+// Event Listeners
+window.addEventListener('load', initializeHome);
+
+// Timers to keep data fresh
+setInterval(getActiveCount, 60000);    // Refresh total count every minute
+setInterval(updateTrendingGames, 2000); // Refresh trending list every 30s
     </script>
 
 </body>

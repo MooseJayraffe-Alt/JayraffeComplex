@@ -190,9 +190,10 @@ document.getElementById('start-btn').addEventListener('click', function () {
 
     // Start the heartbeat when the game loads
 // And repeat it every 30 seconds
+// Replace the old setInterval inside the click listener with this:
 setInterval(() => {
-    const gameName = new URLSearchParams(window.location.search).get('game');
-    updatePresence(gameName);
+    // We already have 'activityId' defined at the top of the script
+    updatePresence(activityId); 
 }, 30000);
 
     if (data.engine === 'Flash') {
@@ -287,10 +288,45 @@ async function syncFavoriteStatus() {
     }
 }
 
+async function syncUserStatus() {
+    const client = window.supabaseClient;
+    const { data: { user } } = await client.auth.getUser();
+
+    const userNameElem = document.getElementById('user-name');
+    const userRankElem = document.getElementById('user-rank');
+    const userAvatarElem = document.getElementById('user-avatar');
+
+    if (user) {
+    // RE-WIRE THE LINK
+    document.getElementById('user-status').href = "../profile/";
+    
+    // Existing code...
+        userNameElem.innerText = user.user_metadata?.display_name || user.email.split('@')[0];
+        userRankElem.innerText = "Verified Citizen";
+        
+        if (user.user_metadata?.avatar_url) {
+            userAvatarElem.innerHTML = `<img src="${user.user_metadata.avatar_url}" class="w-full h-full rounded-full object-cover">`;
+        } else {
+            userAvatarElem.innerText = "🆔";
+        }
+        
+        // IMPORTANT: Start the "Currently Playing" heartbeat now that we know the user
+        const gameId = new URLSearchParams(window.location.search).get('id');
+        updatePresence(gameId); 
+    } else {
+        // If not logged in, maybe redirect them or show a "Guest" warning
+        userNameElem.innerText = "Guest User";
+        userRankElem.innerText = "Unauthorized";
+    }
+}
+
+// Run this when the page is ready
+
 // CRITICAL: Change your event listener at the bottom
 window.addEventListener('load', () => {
     initPage();
     syncFavoriteStatus();
+    syncUserStatus();
 });
 </script>
 </body>

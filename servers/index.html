@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../global.js"></script>
+    <title>Jayraffe Complex | Server Browser</title>
+    <style>
+        /* Reuse your global variables or link a central CSS file */
+        body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; padding: 40px; }
+        .server-row:hover { background: rgba(34, 211, 238, 0.05); cursor: pointer; }
+        .status-online { color: #10b981; }
+        .status-full { color: #f59e0b; }
+    </style>
+</head>
+<body>
+
+    <header class="max-w-6xl mx-auto mb-8 flex justify-between items-end">
+        <div>
+            <h1 class="text-4xl font-black italic tracking-tighter text-white">NETWORK NODES</h1>
+            <p class="text-cyan-500 font-mono text-xs uppercase tracking-[0.3em]">Active GoldSrc Uplinks</p>
+        </div>
+        <button onclick="refreshServers()" class="px-4 py-2 bg-slate-900 border border-white/10 rounded-lg text-xs font-bold hover:border-cyan-500 transition">REFRESH LIST</button>
+    </header>
+
+    <main class="max-w-6xl mx-auto glass-panel overflow-hidden rounded-2xl border border-white/5">
+        <table class="w-full text-left border-collapse">
+            <thead class="bg-slate-900/80 border-b border-white/10">
+                <tr>
+                    <th class="p-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Status</th>
+                    <th class="p-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Server Name</th>
+                    <th class="p-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Map</th>
+                    <th class="p-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Players</th>
+                    <th class="p-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Action</th>
+                </tr>
+            </thead>
+            <tbody id="server-list">
+                </tbody>
+        </table>
+    </main>
+
+    <script>
+        const MASTER_SERVER_URL = "https://master.xash.su/api/servers"; // Official Xash3D API
+
+async function refreshServers() {
+    const list = document.getElementById('server-list');
+    list.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-cyan-500 animate-pulse font-mono">SCANNING NETWORK NODES...</td></tr>';
+
+    try {
+        const response = await fetch(MASTER_SERVER_URL);
+        const data = await response.json();
+
+        // Xash API returns an array of server objects
+        // We sort them by player count so the "active" ones are at the top
+        const activeServers = data.servers
+            .filter(s => s.players > 0) 
+            .sort((a, b) => b.players - a.players);
+
+        renderServers(activeServers);
+    } catch (error) {
+        list.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-red-500 font-mono">UPLINK FAILED: MASTER SERVER OFFLINE</td></tr>';
+    }
+}
+
+function renderServers(serverArray) {
+    const list = document.getElementById('server-list');
+    list.innerHTML = '';
+
+    if (serverArray.length === 0) {
+        list.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-slate-500 font-mono">NO ACTIVE NODES FOUND</td></tr>';
+        return;
+    }
+
+    serverArray.forEach(server => {
+        // Clean up the name (remove color codes like ^1, ^2 often found in HL names)
+        const cleanName = server.name.replace(/\^[0-9]/g, '');
+        const isFull = server.players >= server.maxplayers;
+        
+        list.innerHTML += `
+            <tr class="server-row border-b border-white/5 hover:bg-white/[0.02] transition">
+                <td class="p-4 font-mono text-[10px] ${isFull ? 'text-amber-500' : 'text-emerald-500'}">
+                    ● ${isFull ? 'FULL' : 'ONLINE'}
+                </td>
+                <td class="p-4">
+                    <div class="font-bold text-sm text-slate-200">${cleanName}</div>
+                    <div class="text-[9px] text-slate-500 font-mono">${server.addr}</div>
+                </td>
+                <td class="p-4 font-mono text-xs text-slate-400 italic">${server.map}</td>
+                <td class="p-4">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-mono w-8">${server.players}/${server.maxplayers}</span>
+                        <div class="w-16 h-1 bg-slate-800 rounded-full overflow-hidden hidden sm:block">
+                            <div class="h-full bg-cyan-500" style="width: ${(server.players/server.maxplayers)*100}%"></div>
+                        </div>
+                    </div>
+                </td>
+                <td class="p-4">
+                    <button onclick="deployTo('${server.addr}')" 
+                        class="px-3 py-1 bg-cyan-500/10 border border-cyan-500/50 text-cyan-400 text-[10px] font-black rounded uppercase hover:bg-cyan-500 hover:text-white transition">
+                        Deploy
+                    </button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+function deployTo(address) {
+    // Redirect to the experience page with the connection string
+    window.location.href = `../experience/?id=hl1&connect=${address}`;
+}
+
+window.onload = refreshServers;
+    </script>
+</body>
+</html>

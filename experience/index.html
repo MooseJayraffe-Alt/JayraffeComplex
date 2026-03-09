@@ -30,6 +30,13 @@
             border: 1px solid rgba(34, 211, 238, 0.3);
         }
 
+    thead {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(10px);
+    }
+
         .glass-panel {
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(12px);
@@ -221,8 +228,28 @@ setInterval(() => {
     Dos(document.getElementById("dos"),{ url: (data.config.url), key: ("zgwvz"), kiosk: (true), autoStart: (true)});
         
         
-    } else {
+    } else if (data.engine === "xash3d") {
         // Default Loader for HTML5 / Xash3D (Iframe based)
+
+        // Add this inside your "Start Game" function
+        const params = new URLSearchParams(window.location.search);
+        const connectAddr = params.get('connect');
+
+        let iframeSrc = data.config.url; // e.g., "engines/xash3d/index.html"
+
+        if (connectAddr) {
+            // We pass the server address to Xash3D via the URL hash or query
+            // Most web ports accept "args" in the URL
+            iframeSrc += `?args=-connect ${connectAddr}`;
+        }
+
+        const activityFrame = document.createElement('iframe');
+        activityFrame.src = data.config.url;
+        activityFrame.className = "w-full h-full border-0";
+        activityFrame.allow = "autoplay; fullscreen; keyboard; activitypad; pointer-lock";
+        container.appendChild(activityFrame);
+
+    } else {
         const activityFrame = document.createElement('iframe');
         activityFrame.src = data.config.url;
         activityFrame.className = "w-full h-full border-0";

@@ -48,6 +48,12 @@
             margin-bottom: 10px;
         }
 
+        h2 {
+            font-size: 2.5rem;
+            margin-top: 12px;
+            margin-bottom: 12px;
+        }
+
         #searchBar {
             width: 100%;
             padding: 15px 25px;
@@ -63,6 +69,12 @@
             border-color: var(--accent-cyan);
             box-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
         }
+
+        .glass-panel {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
 
         /* --- GRID LAYOUT --- */
         .temp-grid {
@@ -142,7 +154,7 @@
                 <p id="user-name" class="text-sm font-semibold">Sign In / Register</p>
             </div>
             <div id="user-avatar" class="w-10 h-10 rounded-full bg-slate-800 border-2 border-white/10 flex items-center justify-center">
-                👤
+            👤
             </div>
         </a>
 
@@ -168,7 +180,7 @@
             <span class="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></span>
             High-Traffic Sectors
         </h3>
-        <div id="trending-list" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div id="trending-list" class="grid grid-cols-1 md:grid-cols-3 gap-2">
             </div>
     </section>
 
@@ -336,21 +348,23 @@
 
     games.forEach(([title, count], index) => {
         const rankColor = index === 0 ? 'border-cyan-500/50' : 'border-white/5';
-        const rankLabel = index === 0 ? 'TOP SECTOR' : `RANK ${index + 1}`;
+        const rankLabel = index === 0 ? 'TOP SECTOR - ' : `RANK ${index + 1}`;
         
         list.innerHTML += `
-            <div class="glass-panel p-4 rounded-xl border ${rankColor} bg-slate-900/40 relative overflow-hidden group">
-                <div class="absolute -right-2 -top-2 text-4xl font-black text-white/5 italic select-none">#${index + 1}</div>
-                <p class="text-[8px] font-black text-cyan-400 uppercase tracking-widest mb-1">${rankLabel}</p>
-                <h4 class="text-sm font-bold uppercase truncate">${title}</h4>
-                <div class="flex items-center gap-2 mt-2">
-                    <span class="text-[10px] font-mono text-slate-400">${count} CITIZENS ACTIVE</span>
-                    <div class="h-1 flex-grow bg-slate-800 rounded-full overflow-hidden">
-                        <div class="h-full bg-cyan-500" style="width: ${Math.min(count * 10, 100)}%"></div>
-                    </div>
-                </div>
+    <div style="background: #1e293b; margin-bottom: 25px; padding: 25px; border-radius: 10px; border: 1px solid #334155;">
+        <div class="flex justify-between items-start">
+            <span class="text-[10px] font-black text-cyan-400 uppercase tracking-widest">${rankLabel}</span>
+            <span class="text-xl font-black text-white/10 italic">#${index + 1}</span>
+        </div>
+        <h2 class="font-bold text-white uppercase truncate">${title}</h4>
+        <div class="flex items-center gap-2 mt-1">
+            <span class="text-[9px] font-mono text-cyan-500/80">${count} ACTIVE</span>
+            <div class="h-1 flex-grow bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full bg-cyan-500 shadow-[0_0_8px_#22d3ee]" style="width: ${Math.min(count * 10, 100)}%"></div>
             </div>
-        `;
+        </div>
+    </div>
+`;
     });
 }
 

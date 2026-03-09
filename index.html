@@ -144,19 +144,28 @@
 </head>
 <body>
 
-    <a href="auth/" id="user-status" class="flex items-center gap-4 bg-slate-900/50 px-4 py-2 rounded-full border border-white/10 hover:border-cyan-500/50 transition">
-    <div class="text-right hidden sm:block">
-        <p id="user-rank" class="text-xs text-slate-400 uppercase font-bold italic">Unverified</p>
-        <p id="user-name" class="text-sm font-semibold">Sign In / Register</p>
+    <div class="w-full max-w-5xl flex justify-between items-center mb-8">
+        <a href="auth/" id="profile-link" class="flex items-center gap-4 bg-slate-900/50 px-4 py-2 rounded-full border border-white/10 hover:border-cyan-500/50 transition">
+            <div class="text-right hidden sm:block">
+                <p id="user-rank" class="text-xs text-slate-400 uppercase font-bold italic">Unverified</p>
+                <p id="user-name" class="text-sm font-semibold">Sign In / Register</p>
+            </div>
+            <div id="user-avatar" class="w-10 h-10 rounded-full bg-slate-800 border-2 border-white/10 flex items-center justify-center">
+                👤
+            </div>
+        </a>
+
+        <div class="glass-panel p-3 px-5 rounded-full border border-emerald-500/20 bg-emerald-500/5 flex items-center gap-3">
+            <div class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </div>
+        </div>
     </div>
-    <div id="user-avatar" class="w-10 h-10 rounded-full bg-slate-800 border-2 border-white/10 flex items-center justify-center">
-    👤 Sign Up 
-    </div>
-</a>
 
     <header>
         <h1>JAYRAFFE COMPLEX</h1>
-        <input type="text" id="searchBar" placeholder="Search for something..." onkeyup="filterGames()">
+        <input type="text" id="searchBar" placeholder="Search the archives..." onkeyup="filterGames()">
     </header>
 
     <div class="temp-grid" id="tempGrid">
@@ -338,6 +347,40 @@
         document.getElementById('live-counter').innerText = count.toString().padStart(2, '0');
     }
 }
+
+async function checkUserSession() {
+    const { data: { user } } = await window.supabaseClient.auth.getUser();
+
+    const profileLink = document.getElementById('profile-link');
+    const userName = document.getElementById('user-name');
+    const userRank = document.getElementById('user-rank');
+    const userAvatar = document.getElementById('user-avatar');
+
+    if (user) {
+        // 1. Change the destination to the Profile page
+        profileLink.href = "profile/"; 
+
+        // 2. Update the UI with their info
+        userName.innerText = user.user_metadata?.display_name || user.email.split('@')[0];
+        userRank.innerText = "Verified Citizen";
+        
+        // 3. If they have an avatar, show it, otherwise keep the emoji
+        if (user.user_metadata?.avatar_url) {
+            userAvatar.innerHTML = `<img src="${user.user_metadata.avatar_url}" class="w-full h-full rounded-full object-cover">`;
+        } else {
+            userAvatar.innerText = "🆔"; 
+        }
+    } else {
+        // User is not logged in
+        profileLink.href = "auth/";
+        userName.innerText = "Sign In / Register";
+        userRank.innerText = "Unverified";
+        userAvatar.innerText = "👤";
+    }
+}
+
+// Call this function when the page loads
+window.addEventListener('load', checkUserSession);
 
 // Refresh the counter every minute
 setInterval(getActiveCount, 60000);

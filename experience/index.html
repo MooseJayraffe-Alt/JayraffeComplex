@@ -312,7 +312,7 @@ async function syncUserStatus() {
         
         // IMPORTANT: Start the "Currently Playing" heartbeat now that we know the user
         const gameId = new URLSearchParams(window.location.search).get('id');
-        updatePresence(gameId); 
+        updatePresence(data.title); 
     } else {
         // If not logged in, maybe redirect them or show a "Guest" warning
         userNameElem.innerText = "Guest User";

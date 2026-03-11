@@ -81,6 +81,11 @@
         else window.location.href = "../";
     }
 }
+
+    document.getElementById('auth-submit').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleAuth();
+        });
     </script>
+    
 </body>
 </html>

@@ -2,53 +2,115 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Jayraffe Complex | Citizen Search</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="global.js"></script>
-<main class="container mx-auto px-4 py-12 max-w-6xl">
-    <div class="mb-12">
-        <h1 class="text-5xl font-black uppercase italic tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white via-cyan-400 to-slate-500">
-        Sorry! But this feature is currently W.I.P.
-        </h1>
-        <div class="h-1 w-24 bg-gradient-to-r from-cyan-500 to-transparent mt-2"></div>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        <div class="lg:col-span-4 space-y-8">
-            
-            <div class="glass-panel rounded-3xl bg-gradient-to-br from-white/10 to-transparent p-[1px]">
-                <div class="bg-slate-900/90 rounded-[23px] p-6">
-                    <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400 mb-4">Locate Citizen</h3>
-                    <div class="relative">
-                        <input type="text" id="user-search" placeholder="Enter Username..." 
-                            class="w-full bg-slate-800/50 border border-white/5 rounded-xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition">
-                        <button onclick="searchUsers()" class="mt-4 w-full py-3 bg-cyan-600 hover:bg-cyan-400 text-slate-900 rounded-xl text-xs font-black uppercase tracking-widest transition-all transform hover:scale-[1.02] active:scale-95">
-                            Search Archives
-                        </button>
-                    </div>
-                    <div id="search-results" class="mt-6 space-y-3"></div>
-                </div>
-            </div>
-
-            <div class="glass-panel p-6 rounded-3xl border border-pink-500/20 bg-pink-500/5">
-                <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-pink-500 mb-4">Pending Signals</h3>
-                <div id="requests-list" class="space-y-3">
-                    <p class="text-[10px] text-slate-500 uppercase tracking-widest text-center py-4">No pending signals...</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="lg:col-span-8">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-400">Synchronized Connections</h3>
-                <span class="px-3 py-1 bg-emerald-500/10 text-emerald-500 text-[9px] font-bold rounded-full border border-emerald-500/20">LIVE</span>
-            </div>
-            
-            <div id="network-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                </div>
-        </div>
-    </div>
-</main>
+    <script src="../global.js"></script>
+    <style>
+        body { 
+            background-color: #0f172a; 
+            font-family: 'Inter', sans-serif; 
+            color: white; 
+            background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 100%);
+        }
+        .glass-panel { 
+            background: rgba(30, 41, 59, 0.4); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+        }
+        .input-glow:focus-within {
+            box-shadow: 0 0 20px rgba(34, 211, 238, 0.15);
+            border-color: rgba(34, 211, 238, 0.4);
+        }
+    </style>
 </head>
+<body class="min-h-screen pb-20">
 
+    <nav class="w-full px-6 py-4 flex justify-between items-center glass-panel sticky top-0 z-50">
+        <a href="../" class="text-xl font-black tracking-tighter hover:opacity-80 transition">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 uppercase">Jayraffe Complex</span>
+        </a>
+        <div class="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Global Directory v2.1</div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto pt-16 px-6">
+        <header class="mb-12">
+            <h1 class="text-4xl font-black italic tracking-tighter text-white uppercase mb-2">Citizen Search</h1>
+            <p class="text-cyan-400 font-mono text-[10px] tracking-[0.4em] uppercase">Enter Alias to Query Mainframe</p>
+        </header>
+
+        <div class="glass-panel p-2 rounded-2xl mb-12 flex items-center gap-2 input-glow transition-all duration-300">
+            <div class="pl-4 text-slate-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </div>
+            <input type="text" id="citizen-query" 
+                   placeholder="SEARCHING FOR..." 
+                   class="bg-transparent border-none outline-none flex-grow p-4 font-mono text-sm uppercase tracking-widest text-white placeholder:text-slate-700">
+            <button onclick="searchCitizens()" class="bg-cyan-500 text-black font-black px-8 py-3 rounded-xl hover:bg-cyan-400 transition-all text-xs uppercase tracking-widest shadow-lg shadow-cyan-500/20">
+                EXECUTE
+            </button>
+        </div>
+
+        <div id="search-results" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="col-span-full border-2 border-dashed border-white/5 rounded-3xl py-20 flex flex-col items-center justify-center opacity-40">
+                <p class="font-mono text-xs uppercase tracking-[0.3em]">System Standby: Enter Query</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Use the searchCitizens logic I gave you in the previous message
+        async function searchCitizens() {
+            const query = document.getElementById('citizen-query').value.trim();
+            const resultsContainer = document.getElementById('search-results');
+
+            if (query.length < 2) {
+                resultsContainer.innerHTML = `<p class="col-span-full text-center text-amber-500 font-mono text-xs uppercase py-10 tracking-widest">Uplink Error: Input too short</p>`;
+                return;
+            }
+
+            resultsContainer.innerHTML = `<p class="col-span-full text-center text-cyan-500 font-mono text-xs animate-pulse py-10 tracking-[0.5em]">BRUTFORCING DIRECTORY...</p>`;
+
+            const { data: users, error } = await window.supabaseClient
+                .from('profiles')
+                .select('id, display_name, avatar_url, bio')
+                .ilike('display_name', `%${query}%`)
+                .limit(12);
+
+            if (error) {
+                resultsContainer.innerHTML = `<p class="col-span-full text-center text-red-500 font-mono text-xs uppercase py-10">ERROR: ${error.message}</p>`;
+                return;
+            }
+
+            if (users.length === 0) {
+                resultsContainer.innerHTML = `<p class="col-span-full text-center text-slate-500 font-mono text-xs uppercase py-10 tracking-widest italic">No citizens found matching that signature.</p>`;
+                return;
+            }
+
+            resultsContainer.innerHTML = users.map(user => `
+                <a href="../profile/?id=${user.id}" class="glass-panel p-4 rounded-2xl flex items-center gap-4 hover:bg-white/5 transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-full bg-slate-800 border-2 border-white/5 overflow-hidden flex-shrink-0 group-hover:border-cyan-500/50 transition-colors">
+                        ${user.avatar_url ? `<img src="${user.avatar_url}" class="w-full h-full object-cover">` : `<div class="flex items-center justify-center h-full text-xl opacity-20">👤</div>`}
+                    </div>
+                    <div class="min-w-0">
+                        <h4 class="font-bold text-white uppercase tracking-tight group-hover:text-cyan-400 transition-colors">${user.display_name}</h4>
+                        <p class="text-[10px] text-slate-500 italic truncate font-mono mt-1">${user.bio || 'STAYING HIDDEN...'}</p>
+                    </div>
+                    <div class="ml-auto opacity-0 group-hover:opacity-100 text-cyan-400 transform translate-x-2 group-hover:translate-x-0 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        // Search on Enter key
+        document.getElementById('citizen-query').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') searchCitizens();
+        });
+    </script>
+</body>
 </html>

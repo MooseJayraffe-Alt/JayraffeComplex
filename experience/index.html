@@ -200,7 +200,7 @@ document.getElementById('start-btn').addEventListener('click', function () {
 // Replace the old setInterval inside the click listener with this:
 setInterval(() => {
     // We already have 'activityId' defined at the top of the script
-    updatePresence(activityId); 
+    updatePresence(data.title); 
 }, 30000);
 
     if (data.engine === 'Flash') {

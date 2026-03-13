@@ -9,140 +9,154 @@
 
 
     <style>
-        /* --- DESIGN SYSTEM --- */
+        /* --- OLD STEAM DESIGN SYSTEM --- */
         :root {
-            --bg-dark: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f8fafc;
-            --accent-cyan: #22d3ee;
-            --accent-purple: #a855f7;
-            --gradient: linear-gradient(135deg, #22d3ee 0%, #a855f7 100%);
+            /* Classic Steam Olive/Slate Palette */
+            --steam-bg: #38413a;       /* Dark background */
+            --steam-panel: #4b564d;    /* Main panel color */
+            --steam-border-light: #5d6a60; /* Top/Left bevel highlight */
+            --steam-border-dark: #2a322c;  /* Bottom/Right bevel shadow */
+            --steam-input: #2a322c;    /* Sunken input fields */
+            --steam-text: #d1d1d1;
+            --steam-yellow: #c1c6ad;   /* The classic "off-white" text */
+            --steam-green: #a4ad8d;    /* Sub-headers */
         }
 
-        * { box-sizing: border-box; transition: all 0.2s ease-in-out; }
+        * { box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--steam-bg);
+            color: var(--steam-text);
+            /* Tahoma is the secret ingredient for the Old Steam look */
+            font-family: "Tahoma", "Arial", sans-serif; 
             margin: 0;
-            padding: 20px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
+        /* --- THE 3D BEVEL EFFECT --- */
+        .steam-panel {
+            background: var(--steam-panel);
+            border: 1px solid var(--steam-border-dark);
+            border-top: 1px solid var(--steam-border-light);
+            border-left: 1px solid var(--steam-border-light);
+            box-shadow: inset 1px 1px 0px rgba(255,255,255,0.05);
+            padding: 15px;
+        }
+
         /* --- HEADER & SEARCH --- */
         header {
-            text-align: center;
-            margin-bottom: 40px;
-            width: 100%;
-            max-width: 800px;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-        }
-
-        h2 {
-            font-size: 2.5rem;
-            margin-top: 12px;
-            margin-bottom: 12px;
-        }
-
-        #searchBar {
-            width: 100%;
-            padding: 15px 25px;
-            border-radius: 50px;
-            border: 2px solid #334155;
-            background: var(--card-bg);
-            color: white;
-            font-size: 1.1rem;
-            outline: none;
-        }
-
-        #searchBar:focus {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
-        }
-
-        .glass-panel {
-    background: rgba(30, 41, 59, 0.7);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-        /* --- GRID LAYOUT --- */
-        .temp-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
+            text-align: left;
+            margin-bottom: 20px;
             width: 100%;
             max-width: 1100px;
         }
 
+        h1 {
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin: 0 0 10px 0;
+            font-weight: bold;
+            letter-spacing: 0px;
+            text-transform: none; /* Steam wasn't all caps everywhere */
+        }
+
+        #searchBar {
+            width: 100%;
+            padding: 6px 10px;
+            border: 1px solid #1a201b;
+            background: var(--steam-input);
+            color: var(--steam-yellow);
+            font-size: 0.9rem;
+            outline: none;
+            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* --- GRID LAYOUT --- */
+        .temp-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            width: 100%;
+            max-width: 1100px;
+            padding: 10px;
+            background: rgba(0,0,0,0.15); /* Slightly darker grid area */
+            border: 1px solid var(--steam-border-dark);
+        }
+
         /* --- CARD STYLE --- */
         .temp-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid #334155;
-            display: flex;
-            flex-direction: column;
+            background: var(--steam-panel);
+            border: 1px solid var(--steam-border-dark);
+            border-top: 1px solid var(--steam-border-light);
+            border-left: 1px solid var(--steam-border-light);
+            padding: 4px; /* Internal border look */
             text-decoration: none;
-            color: white;
+            color: var(--steam-text);
         }
 
         .temp-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent-cyan);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            background: #5d6a60;
         }
 
-        /* 1. Ensure the thumbnail container hides anything poking out */
-.thumbnail {
-    width: 100%;
-    height: 140px;
-    background: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-    overflow: hidden; /* Add this */
-}
+        .thumbnail {
+            width: 100%;
+            height: 110px;
+            background: #000;
+            overflow: hidden;
+            border: 1px solid var(--steam-border-dark);
+        }
 
-/* 2. Make the image fill the container perfectly */
-.thumbnail img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* This is the magic: it crops to fill without squishing */
-    object-position: center; /* Keeps the middle of the art visible */
-}
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: saturate(0.8); /* Mutes the colors slightly for that old feel */
+        }
 
         .info {
-            padding: 15px;
-            text-align: center;
+            padding: 8px 4px;
         }
 
-        .info h3 { margin: 0 0 10px 0; font-size: 1.2rem; }
+        .info h3 { 
+            margin: 0; 
+            font-size: 0.85rem; 
+            font-weight: bold;
+            color: var(--steam-yellow);
+        }
 
         .play-btn {
-            background: var(--gradient);
-            padding: 8px 0;
-            border-radius: 8px;
+            margin-top: 6px;
+            background: linear-gradient(to bottom, #758276 0%, #4b564d 100%);
+            border: 1px solid var(--steam-border-dark);
+            padding: 4px;
+            text-align: center;
+            font-size: 0.7rem;
+            color: white;
             font-weight: bold;
-            display: block;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
         }
 
-        /* Hidden class for search */
-        .hidden { display: none; }
+        /* User Section UI */
+        .user-panel {
+            background: var(--steam-input);
+            border: 1px solid var(--steam-border-dark);
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hidden { display: none !important; }
+
+        /* Scrollbar styling for that old-school feel */
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: var(--steam-input); }
+        ::-webkit-scrollbar-thumb { 
+            background: var(--steam-panel); 
+            border: 1px solid var(--steam-border-dark);
+        }
     </style>
 </head>
 <body>
@@ -340,40 +354,26 @@
             }
         }
 
-        function renderTrendingUI(games) {
-    const container = document.getElementById('trending-section');
-    const list = document.getElementById('trending-list');
-    
-    if (games.length === 0) {
-        container.classList.add('hidden');
-        return;
-    }
+ function renderTrendingUI(games) {
+            const container = document.getElementById('trending-section');
+            const list = document.getElementById('trending-list');
+            if (games.length === 0) { container.classList.add('hidden'); return; }
 
-    container.classList.remove('hidden');
-    list.innerHTML = '';
+            container.classList.remove('hidden');
+            list.innerHTML = '';
 
-    games.forEach(([title, count], index) => {
-        const rankColor = index === 0 ? 'border-cyan-500/50' : 'border-white/5';
-        const rankLabel = index === 0 ? 'TOP SECTOR - ' : `RANK ${index + 1}`;
-        
-        list.innerHTML += `
-    <div style="background: #1e293b; margin-bottom: 25px; padding: 25px; border-radius: 10px; border: 1px solid #334155;">
-        <div class="flex justify-between items-start">
-            <span class="text-[10px] font-black text-cyan-400 uppercase tracking-widest">${rankLabel}</span>
-            <span class="text-xl font-black text-white/10 italic">#${index + 1}</span>
-        </div>
-        <h2 class="font-bold text-white uppercase truncate">${title}</h4>
-        <div class="flex items-center gap-2 mt-1">
-            <span class="text-[9px] font-mono text-cyan-500/80">${count} ACTIVE</span>
-            <div class="h-1 flex-grow bg-slate-800 rounded-full overflow-hidden">
-                <div class="h-full bg-cyan-500 shadow-[0_0_8px_#22d3ee]" style="width: ${Math.min(count * 10, 100)}%"></div>
-            </div>
-        </div>
-    </div>
-`;
-    });
-}
-
+            games.forEach(([title, count], index) => {
+                list.innerHTML += `
+                <div class="steam-panel" style="margin-bottom: 0;">
+                    <div class="flex justify-between">
+                        <span class="text-[9px] font-bold text-emerald-400">POPULAR SECTOR</span>
+                        <span class="text-[9px] text-slate-500">#${index + 1}</span>
+                    </div>
+                    <h3 class="text-xs font-bold text-white mt-1">${title}</h3>
+                    <p class="text-[9px] text-slate-400">${count} CITIZENS ACTIVE</p>
+                </div>`;
+            });
+        }
 // Call this along with your other load functions
 updateTrendingGames();
 

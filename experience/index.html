@@ -8,128 +8,149 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../global.js"></script>
-    <!-- js-dos style sheet -->
     <link rel="stylesheet" href="https://v8.js-dos.com/latest/js-dos.css">
-    <!-- js-dos -->
     <script src="https://v8.js-dos.com/latest/js-dos.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Fira+Code&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-dark: #0f172a;
-            --card-bg: #1e293b;
-            --accent-cyan: #ff7300;
-            --accent-purple: #9a0000;
-            --gradient: linear-gradient(135deg, #ff7700 0%, #920e05 100%);
+            --steam-bg: #38413a;
+            --steam-panel: #4b564d;
+            --steam-border-light: #5d6a60;
+            --steam-border-dark: #2a322c;
+            --steam-input: #2a322c;
+            --steam-text: #d1d1d1;
+            --steam-yellow: #c1c6ad;
         }
 
-        body { background-color: var(--bg-dark); font-family: 'Inter', sans-serif; }
-
-        .neon-border {
-            box-shadow: 0 0 20px rgba(34, 211, 238, 0.2), inset 0 0 10px rgba(34, 211, 238, 0.1);
-            border: 1px solid rgba(34, 211, 238, 0.3);
+        body { 
+            background-color: var(--steam-bg); 
+            font-family: "Tahoma", "Verdana", sans-serif; 
+            color: var(--steam-text);
+            font-size: 11px;
         }
 
-    thead {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        backdrop-filter: blur(10px);
-    }
-
-        .glass-panel {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        /* HARD BORDERS (The 2004 Signature) */
+        .steam-window {
+            background: var(--steam-panel);
+            border: 1px solid var(--steam-border-dark);
+            border-top: 1px solid var(--steam-border-light);
+            border-left: 1px solid var(--steam-border-light);
+            padding: 2px;
         }
 
-        /* Scanline effect for the activity monitor */
-        .scanlines::before {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 10;
-            background-size: 100% 4px, 3px 100%;
-            pointer-events: none;
+        .steam-inset {
+            background: var(--steam-input);
+            border: 1px solid var(--steam-border-dark);
+            box-shadow: inset 1px 1px 3px rgba(0,0,0,0.5);
+        }
+
+        /* 2004 BUTTONS */
+        .steam-btn {
+            background: linear-gradient(to bottom, #758276 0%, #4b564d 100%);
+            border: 1px solid #1a201b;
+            border-top: 1px solid #5d6a60;
+            color: white;
+            padding: 4px 12px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 11px;
+        }
+
+        .steam-btn:active {
+            background: #323933;
+            border: 1px solid #5d6a60;
+            border-top: 1px solid #1a201b;
+        }
+
+        .steam-btn-large {
+            background: linear-gradient(to bottom, #a4ad8d 0%, #6b7754 100%);
+            border: 1px solid #000;
+            padding: 10px 40px;
+            font-size: 18px;
+            font-weight: 900;
+            font-style: italic;
+        }
+
+        h1 { color: #fff; text-shadow: 1px 1px 0px #000; }
+
+        /* TAB STYLE */
+        .steam-tab {
+            padding: 5px 15px;
+            background: var(--steam-panel);
+            border: 1px solid var(--steam-border-dark);
+            border-bottom: none;
+            display: inline-block;
+            margin-right: 2px;
+            color: var(--steam-yellow);
         }
     </style>
 </head>
-<body class="text-slate-200 overflow-x-hidden">
+<body class="p-4">
 
-    <div id="bg-image" class="fixed inset-0 -z-20 bg-cover bg-center scale-110 blur-3xl opacity-40 transition-all duration-1000"></div>
-    <div class="fixed inset-0 -z-10 bg-slate-950/80"></div>
-
-    <nav class="w-full px-6 py-4 flex justify-between items-center glass-panel sticky top-0 z-50">
-        <a href="../" class="text-xl font-black tracking-tighter hover:opacity-80 transition">
-            <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-500">JAYRAFFE COMPLEX</span>
+    <nav class="flex justify-between items-center mb-4 pb-2 border-b border-white/10">
+        <a href="../" class="font-bold text-white tracking-tight text-lg">
+            JAYRAFFE COMPLEX <span class="text-xs opacity-50 font-normal">v1.1.0 (Moose Jayraffe)</span>
         </a>
-        <a href="auth/" id="user-status" class="flex items-center gap-4 bg-slate-900/50 px-4 py-2 rounded-full border border-white/10 hover:border-cyan-500/50 transition">
-    <div class="text-right hidden sm:block">
-        <p id="user-rank" class="text-xs text-slate-400 uppercase font-bold italic">Unverified</p>
-        <p id="user-name" class="text-sm font-semibold">Sign In / Register</p>
-    </div>
-    <div id="user-avatar" class="w-10 h-10 rounded-full bg-slate-800 border-2 border-white/10 flex items-center justify-center">
-        👤
-    </div>
-</a>
+        <div class="flex items-center gap-4">
+            <div class="text-right">
+                <span id="user-name" class="font-bold text-white">Guest User</span>
+                <p id="user-rank" class="text-[9px] uppercase opacity-50">Not Connected</p>
+            </div>
+            <div id="user-avatar" class="w-8 h-8 steam-inset flex items-center justify-center">👤</div>
+        </div>
     </nav>
 
-    <main class="container mx-auto px-4 py-8 max-w-6xl">
+    <main class="max-w-6xl mx-auto">
         
-        <div class="relative group mb-12">
-            <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
-            <div class="relative bg-black rounded-xl overflow-hidden aspect-video w-full neon-border">
-                <div id="activity-container" class="w-full h-full flex flex-col items-center justify-center scanlines">
-                    <div id="loading-ui" class="text-center z-20">
-                        <div class="mb-6 w-24 h-24 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin mx-auto"></div>
-                        <button id="start-btn" class="px-12 py-4 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:scale-105 active:scale-95 text-white rounded-full font-black text-xl shadow-lg shadow-cyan-900/40 transition-all uppercase tracking-widest">
-                            Start Activity
+        <div class="steam-window mb-6">
+            <div class="bg-[#323933] p-1 mb-1 text-[10px] font-bold uppercase px-2 text-slate-400">
+                Live Interface Uplink // <span id="activity-tags">LOADING...</span>
+            </div>
+            <div class="relative bg-black aspect-video w-full steam-inset overflow-hidden">
+                <div id="activity-container" class="w-full h-full flex items-center justify-center">
+                    <div id="loading-ui" class="text-center">
+                        <button id="start-btn" class="steam-btn steam-btn-large">
+                            LAUNCH ACTIVITY
                         </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
             
-            <div class="lg:col-span-2 space-y-6">
-                <div>
-                    <span id="activity-tags" class="px-3 py-1 rounded bg-cyan-500/10 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/20">Loading...</span>
-                    <h1 id="activity-title" class="text-6xl font-black tracking-tighter mt-4 uppercase italic">activity TITLE</h1>
-                    <p id="activity-creator" class="font-mono text-purple-400 text-sm mt-2">AUTHOR: UNKNOWN</p>
-                </div>
+            <div class="lg:col-span-2">
+                <div class="steam-tab uppercase font-bold">Details</div>
+                <div class="steam-window p-6 min-h-[200px]">
+                    <h1 id="activity-title" class="text-4xl font-black italic uppercase mb-1">ACTIVITY TITLE</h1>
+                    <p id="activity-creator" class="text-yellow-600 font-bold mb-4">DEV: UNKNOWN</p>
+                    
+                    <div class="h-px w-full bg-black/20 mb-4"></div>
+                    
+                    <p id="activity-desc" class="text-sm leading-relaxed text-slate-300">
+                        Fetching sector data...
+                    </p>
 
-                <div class="h-px w-full bg-gradient-to-r from-white/10 to-transparent"></div>
-
-                <p id="activity-desc" class="text-slate-400 leading-relaxed text-lg max-w-2xl">
-                    Fetching activity data from the Jayraffe Complex archives...
-                </p>
-
-                <div id="server-preview" class="hidden glass-panel p-6 rounded-xl border-l-4 border-cyan-500">
-                    <h3 class="font-bold text-cyan-400 mb-2 uppercase tracking-tighter">Live Multiplayer Uplink</h3>
-                    <p class="text-sm text-slate-400">Join 12 players currently in Crossfire</p>
+                    <div id="server-preview" class="hidden mt-6 p-3 steam-inset bg-[#2a322c]">
+                        <p class="text-[10px] font-bold text-emerald-500 uppercase">Multiplayer detected: 12 Players Online</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="space-y-6">
-                <div class="glass-panel p-6 rounded-2xl">
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-4 tracking-widest">Visual Recon</h3>
-                    <div class="rounded-lg overflow-hidden border border-white/5 shadow-2xl rotate-2 hover:rotate-0 transition duration-500">
-                        <img id="random-screenshot" src="" alt="Gallery" class="w-full h-48 object-cover">
+            <div class="space-y-4">
+                <div class="steam-tab uppercase font-bold">Preview</div>
+                <div class="steam-window p-2">
+                    <div class="steam-inset">
+                        <img id="random-screenshot" src="" class="w-full h-auto grayscale-[0.5] hover:grayscale-0 transition duration-500">
                     </div>
                 </div>
                 
-                <div class="flex gap-4">
-                    <button id="fav-btn" onclick="toggleFavorite()" class="flex-1 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 font-bold text-sm border border-white/5 transition flex items-center justify-center gap-2 group">
-                    <svg id="fav-icon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 fill-none stroke-slate-400 group-hover:stroke-pink-500 transition-all" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
-                    <span id="fav-text">FAVORITE</span>
+                <div class="flex gap-2">
+                    <button id="fav-btn" onclick="toggleFavorite()" class="steam-btn flex-1 flex items-center justify-center gap-2">
+                        <span id="fav-text">FAVORITE</span>
                     </button>
-                    <button class="flex-1 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 font-bold text-sm border border-white/5 transition">SHARE</button>
+                    <button class="steam-btn flex-1">SHARE</button>
                 </div>
             </div>
 
@@ -137,223 +158,84 @@
     </main>
 
     <script>
-    // State management
-    let currentUser = null;
-    let data = null; // Move data to the outer scope
-
-    const params = new URLSearchParams(window.location.search);
-    const activityId = params.get('id') || 'hl1';
-    
-    // UI INJECTION
-
-
-function initPage() {
-    // Access the library from the window object
-    const library = window.activityLibrary;
-    
-    if (!library) {
-        console.error("Library not found yet. Retrying...");
-        return;
-    }
-
-    data = library[activityId];
-
-    if (data) {
-        document.title = `Jayraffe Complex | ${data.title}`;
-        document.getElementById('activity-title').innerText = data.title;
-        document.getElementById('activity-creator').innerText = `Creator: ${data.creator}`;
-        document.getElementById('activity-desc').innerText = data.desc;
-        document.getElementById('activity-tags').innerText = data.tags;
-        // Added ../ to paths since we are in a subfolder
-        document.getElementById('bg-image').style.backgroundImage = `url(../${data.banner})`;
-        document.getElementById('random-screenshot').src = `../${data.screenshots[0]}`;
-
-        if (data.engine === 'xash3d') {
-            document.getElementById('server-preview').classList.remove('hidden');
-        }
-    }
-}
-
-async function updatePresence(gameTitle) {
-    const { data: { user } } = await window.supabaseClient.auth.getUser();
-    if (!user) return;
-
-    const { error } = await window.supabaseClient
-        .from('presence')
-        .upsert({ 
-            user_id: user.id, 
-            last_seen: new Date().toISOString(),
-            current_activity: gameTitle 
-        });
-}
-
-
-
-
-// ENGINE LOADER
-document.getElementById('start-btn').addEventListener('click', function () {
-    const container = document.getElementById('activity-container');
-    container.innerHTML = ''; // Clear the loading UI
-
-    // Start the heartbeat when the game loads
-// And repeat it every 30 seconds
-// Replace the old setInterval inside the click listener with this:
-setInterval(() => {
-    // We already have 'activityId' defined at the top of the script
-    updatePresence(data.title); 
-}, 30000);
-
-    if (data.engine === 'Flash') {
-        // Create Ruffle Player
-        const ruffle = window.RufflePlayer.newest();
-        const player = ruffle.createPlayer();
-        player.className = "w-full h-full";
-        container.appendChild(player);
-        
-        // Load the SWF (Assuming your naming convention matches your library title)
-        player.load(`../assets/swfs/${data.config.filename}.swf`);
-
-    } else if (data.engine === "JS-DOS") {
-    
-   const loadingUI = document.getElementById('loading-ui');
-    
-    // Safety check: Only hide if it actually exists
-    if (loadingUI) {
-        loadingUI.classList.add('hidden');
-    }
-
-    // Clear container and setup DOS
-    container.innerHTML = '<div id="dos" class="w-full h-full"></div>';
-    
-    Dos(document.getElementById("dos"),{ url: (data.config.url), key: ("zgwvz"), kiosk: (true), autoStart: (true)});
-        
-        
-    } else if (data.engine === "xash3d") {
-        // Default Loader for HTML5 / Xash3D (Iframe based)
-
-        // Add this inside your "Start Game" function
+        let data = null;
         const params = new URLSearchParams(window.location.search);
-        const connectAddr = params.get('connect');
+        const activityId = params.get('id') || 'hl1';
 
-        let iframeSrc = data.config.url; // e.g., "engines/xash3d/index.html"
+        function initPage() {
+            const library = window.activityLibrary;
+            if (!library) return;
+            data = library[activityId];
 
-        if (connectAddr) {
-            // We pass the server address to Xash3D via the URL hash or query
-            // Most web ports accept "args" in the URL
-            iframeSrc += `?args=-connect ${connectAddr}`;
+            if (data) {
+                document.title = `Steam | ${data.title}`;
+                document.getElementById('activity-title').innerText = data.title;
+                document.getElementById('activity-creator').innerText = `DEVELOPER: ${data.creator.toUpperCase()}`;
+                document.getElementById('activity-desc').innerText = data.desc;
+                document.getElementById('activity-tags').innerText = data.tags;
+                document.getElementById('random-screenshot').src = `../${data.screenshots[0]}`;
+                
+                if (data.engine === 'xash3d') {
+                    document.getElementById('server-preview').classList.remove('hidden');
+                }
+            }
         }
 
-        const activityFrame = document.createElement('iframe');
-        activityFrame.src = data.config.url;
-        activityFrame.className = "w-full h-full border-0";
-        activityFrame.allow = "autoplay; fullscreen; keyboard; activitypad; pointer-lock";
-        container.appendChild(activityFrame);
+        document.getElementById('start-btn').addEventListener('click', function () {
+            const container = document.getElementById('activity-container');
+            container.innerHTML = ''; 
 
-    } else {
-        const activityFrame = document.createElement('iframe');
-        activityFrame.src = data.config.url;
-        activityFrame.className = "w-full h-full border-0";
-        activityFrame.allow = "autoplay; fullscreen; keyboard; activitypad; pointer-lock";
-        container.appendChild(activityFrame);
-    }
-});
+            setInterval(() => { updatePresence(data.title); }, 30000);
 
-async function toggleFavorite() {
-    const client = window.supabaseClient;
-    const { data: { user } } = await client.auth.getUser();
+            if (data.engine === 'Flash') {
+                const ruffle = window.RufflePlayer.newest();
+                const player = ruffle.createPlayer();
+                player.className = "w-full h-full";
+                container.appendChild(player);
+                player.load(`../assets/swfs/${data.config.filename}.swf`);
+            } else if (data.engine === "JS-DOS") {
+                container.innerHTML = '<div id="dos" class="w-full h-full"></div>';
+                Dos(document.getElementById("dos"),{ url: (data.config.url), key: ("zgwvz"), kiosk: (true), autoStart: (true)});
+            } else {
+                const activityFrame = document.createElement('iframe');
+                activityFrame.src = data.config.url;
+                activityFrame.className = "w-full h-full border-0";
+                activityFrame.allow = "autoplay; fullscreen; keyboard; activitypad; pointer-lock";
+                container.appendChild(activityFrame);
+            }
+        });
 
-    if (!user) {
-        alert("Please sign in to save favorites!");
-        return;
-    }
-
-    const icon = document.getElementById('fav-icon');
-    const text = document.getElementById('fav-text');
-    
-    // 1. Fetch current favorites
-    let { data: profile } = await client.from('profiles').select('favorites').eq('id', user.id).single();
-    let favs = profile?.favorites || [];
-    
-    // Check if current activityId is in the list
-    const isFav = favs.includes(activityId);
-
-    if (isFav) {
-        favs = favs.filter(id => id !== activityId); // Remove
-        icon.classList.replace('fill-pink-500', 'fill-none');
-        icon.classList.replace('stroke-pink-500', 'stroke-slate-400');
-        text.innerText = "FAVORITE";
-    } else {
-        favs.push(activityId); // Add
-        icon.classList.replace('fill-none', 'fill-pink-500');
-        icon.classList.replace('stroke-slate-400', 'stroke-pink-500');
-        text.innerText = "FAVORITED";
-    }
-
-    // 2. Update Supabase
-    await client.from('profiles').update({ favorites: favs }).eq('id', user.id);
-}
-
-// Check if already favorited on page load
-// Change this function to check for the client first
-async function syncFavoriteStatus() {
-    const client = window.supabaseClient;
-
-    // The Guard: If client isn't ready, stop here so it doesn't crash
-    if (!client) {
-        console.error("Supabase client is not initialized.");
-        return;
-    }
-
-    const { data: { user } } = await client.auth.getUser();
-    if (!user) return;
-
-    let { data: profile } = await client.from('profiles').select('favorites').eq('id', user.id).single();
-    if (profile?.favorites?.includes(activityId)) {
-        document.getElementById('fav-icon').classList.replace('fill-none', 'fill-pink-500');
-        document.getElementById('fav-icon').classList.replace('stroke-slate-400', 'stroke-pink-500');
-        document.getElementById('fav-text').innerText = "FAVORITED";
-    }
-}
-
-async function syncUserStatus() {
-    const client = window.supabaseClient;
-    const { data: { user } } = await client.auth.getUser();
-
-    const userNameElem = document.getElementById('user-name');
-    const userRankElem = document.getElementById('user-rank');
-    const userAvatarElem = document.getElementById('user-avatar');
-
-    if (user) {
-    // RE-WIRE THE LINK
-    document.getElementById('user-status').href = "../profile/";
-    
-    // Existing code...
-        userNameElem.innerText = user.user_metadata?.display_name || user.email.split('@')[0];
-        userRankElem.innerText = "Verified Citizen";
-        
-        if (user.user_metadata?.avatar_url) {
-            userAvatarElem.innerHTML = `<img src="${user.user_metadata.avatar_url}" class="w-full h-full rounded-full object-cover">`;
-        } else {
-            userAvatarElem.innerText = "🆔";
+        async function updatePresence(gameTitle) {
+            const client = window.supabaseClient;
+            if(!client) return;
+            const { data: { user } } = await client.auth.getUser();
+            if (user) {
+                await client.from('presence').upsert({ 
+                    user_id: user.id, 
+                    last_seen: new Date().toISOString(),
+                    current_activity: gameTitle 
+                });
+            }
         }
-        
-        // IMPORTANT: Start the "Currently Playing" heartbeat now that we know the user
-        updatePresence(data.title); 
-    } else {
-        // If not logged in, maybe redirect them or show a "Guest" warning
-        userNameElem.innerText = "Guest User";
-        userRankElem.innerText = "Unauthorized";
-    }
-}
 
-// Run this when the page is ready
+        async function syncUserStatus() {
+            const client = window.supabaseClient;
+            if(!client) return;
+            const { data: { user } } = await client.auth.getUser();
+            if (user) {
+                document.getElementById('user-name').innerText = user.user_metadata?.display_name || user.email.split('@')[0];
+                document.getElementById('user-rank').innerText = "Verified Citizen";
+                if (user.user_metadata?.avatar_url) {
+                    document.getElementById('user-avatar').innerHTML = `<img src="${user.user_metadata.avatar_url}" class="w-full h-full object-cover">`;
+                }
+                updatePresence(data.title); 
+            }
+        }
 
-// CRITICAL: Change your event listener at the bottom
-window.addEventListener('load', () => {
-    initPage();
-    syncFavoriteStatus();
-    syncUserStatus();
-});
-</script>
+        window.addEventListener('load', () => {
+            initPage();
+            syncUserStatus();
+        });
+    </script>
 </body>
 </html>

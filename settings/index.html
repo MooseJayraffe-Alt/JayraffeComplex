@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jayraffe Complex | Options</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../global.js"></script>
+    <style>
+        :root {
+            --steam-bg: #3d463f;
+            --steam-panel: #4b564d;
+            --steam-border-light: #5d6a60;
+            --steam-border-dark: #2a322c;
+            --steam-input: #2a322c;
+            --steam-text: #d1d1d1;
+            --steam-yellow: #c1c6ad;
+        }
+
+        body { 
+            background-color: var(--steam-bg); 
+            color: var(--steam-text);
+            font-family: "Tahoma", "Verdana", sans-serif; 
+            font-size: 11px;
+            padding: 20px;
+        }
+
+        .settings-window {
+            background: var(--steam-panel);
+            border: 1px solid var(--steam-border-dark);
+            border-top: 1px solid var(--steam-border-light);
+            border-left: 1px solid var(--steam-border-light);
+            width: 480px;
+            margin: auto;
+        }
+
+        /* Tab Navigation */
+        .tab-bar {
+            display: flex;
+            padding: 10px 10px 0 10px;
+            gap: 2px;
+        }
+        .tab {
+            padding: 4px 12px;
+            background: #3d463f;
+            border: 1px solid var(--steam-border-dark);
+            border-bottom: none;
+            cursor: pointer;
+            color: #888;
+        }
+        .tab.active {
+            background: var(--steam-panel);
+            color: white;
+            border-top: 1px solid var(--steam-border-light);
+            border-left: 1px solid var(--steam-border-light);
+            margin-bottom: -1px;
+            z-index: 10;
+        }
+
+        .content-area {
+            border: 1px solid var(--steam-border-dark);
+            border-top: 1px solid var(--steam-border-light);
+            border-left: 1px solid var(--steam-border-light);
+            margin: 0 10px 10px 10px;
+            padding: 20px;
+            min-height: 250px;
+        }
+
+        .steam-input {
+            background: var(--steam-input);
+            border: 1px solid var(--steam-border-dark);
+            border-right: 1px solid var(--steam-border-light);
+            border-bottom: 1px solid var(--steam-border-light);
+            color: #fff;
+            padding: 4px 6px;
+            width: 100%;
+            outline: none;
+        }
+
+        .steam-btn {
+            background: linear-gradient(to bottom, #5a665b 0%, #3d463f 100%);
+            border: 1px solid var(--steam-border-dark);
+            border-top: 1px solid var(--steam-border-light);
+            border-left: 1px solid var(--steam-border-light);
+            color: #fff;
+            padding: 4px 15px;
+            cursor: pointer;
+        }
+
+        .label-yellow { color: var(--steam-yellow); margin-bottom: 4px; display: block; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="settings-window">
+        <div class="p-2 border-b border-black/20 flex justify-between items-center">
+            <span class="font-bold text-white uppercase text-[10px]">Settings</span>
+        </div>
+
+        <div class="tab-bar">
+            <div class="tab active" onclick="showTab('account')">Account</div>
+            <div class="tab" onclick="showTab('interface')">Interface</div>
+        </div>
+
+        <div class="content-area">
+            <div id="tab-account" class="tab-content space-y-4">
+                <div>
+                    <label class="label-yellow">Display Name</label>
+                    <input type="text" id="set-username" class="steam-input">
+                </div>
+                <div>
+                    <label class="label-yellow">Avatar URL</label>
+                    <input type="text" id="set-avatar" class="steam-input">
+                </div>
+                <div class="pt-4 border-t border-black/20">
+                    <p class="text-[9px] opacity-50 mb-2">Changing your email requires verification.</p>
+                    <button class="steam-btn opacity-50" disabled>Change Email...</button>
+                </div>
+            </div>
+
+            <div id="tab-interface" class="tab-content hidden space-y-4">
+                <label class="label-yellow">UI Accent Color</label>
+                <select id="ui-theme" class="steam-input bg-[#2a322c]">
+                    <option value="classic">Complex Green (Default)</option>
+                    <option value="blue">Blue Shift</option>
+                    <option value="orange">Hazardous Orange</option>
+                </select>
+                <p class="text-[10px] opacity-60 italic">Note: Some interface elements may require a restart to reflect theme changes.</p>
+            </div>
+        </div>
+
+        <div class="p-3 bg-black/10 flex justify-end gap-2">
+            <button onclick="saveSettings()" class="steam-btn">OK</button>
+            <button onclick="window.location.href='../homepage'" class="steam-btn">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById('tab-' + tabName).classList.remove('hidden');
+            event.currentTarget.classList.add('active');
+        }
+
+        async function loadCurrentSettings() {
+            const client = window.supabaseClient;
+            const { data: { user } } = await client.auth.getUser();
+            
+            const { data: profile } = await client
+                .from('profiles')
+                .select('*')
+                .eq('id', user.id)
+                .single();
+
+            if (profile) {
+                document.getElementById('set-username').value = profile.display_name || '';
+                document.getElementById('set-avatar').value = profile.avatar_url || '';
+            }
+        }
+
+        async function saveSettings() {
+            const client = window.supabaseClient;
+            const { data: { user } } = await client.auth.getUser();
+
+            const updates = {
+                display_name: document.getElementById('set-username').value,
+                avatar_url: document.getElementById('set-avatar').value,
+            };
+
+            const { error } = await client
+                .from('profiles')
+                .update(updates)
+                .eq('id', user.id);
+
+            if (error) alert("Error: " + error.message);
+            else window.location.href = '../profile/';
+        }
+
+        window.addEventListener('load', loadCurrentSettings);
+    </script>
+</body>
+</html>

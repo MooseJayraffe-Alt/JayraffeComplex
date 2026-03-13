@@ -22,16 +22,6 @@ window.activityLibrary = {
             screenshots: ["assets/images/DeltaruneThumbnail.webp"],
             config: { url: "https://jimmyqrg.github.io/loader/?content=https%3A%2F%2Fjimmyqrg.github.io%2Fjqrg-activitys%2Factivitys%2Fdeltarune%2F" }
         },
-        "AceAttorney": {
-            title: "Phoenix Wright: Ace Attorney",
-            creator: "if i say i'll get cooked by their ninjas",
-            tags: "objection",
-            desc: "peaknix wright",
-            banner: "assets/images/HoldIt.jpg",
-            engine: "HTML5",
-            screenshots: ["assets/images/HoldIt.jpg"],
-            config: { url: "https://selenite.cc/loader.html?title=Ace%20Attorney%3A%20Pheonix%20Wright&dir=aceattorneyphoenixwright&img=logo.png&type=g" }
-        },
         "bendy": {
             title: "Bendy and the Ink Machine",
             creator: "TheMeatly",
@@ -40,8 +30,20 @@ window.activityLibrary = {
             banner: "assets/images/BendyThumbnail.jpg",
             engine: "HTML5",
             screenshots: ["assets/images/BendyThumbnail.jpg"],
-            config: { url: "https://selenite.cc/resources/semag/bendy/index.html" }
+            config: { url: "https://moosejayraffe-alt.github.io/bendy-and-the-ink-machine/" }
         },
+
+        "cuphead": {
+            title: "Cuphead",
+            creator: "Studio MDHR",
+            tags: "2D Side-Scroller / Action",
+            desc: "hey can someone play as mughead (no-one except me would get this reference)",
+            banner: "assets/images/BendyThumbnail.jpg",
+            engine: "HTML5",
+            screenshots: ["assets/images/BendyThumbnail.jpg"],
+            config: { url: "https://moosejayraffe-alt.github.io/cuphead/" }
+        },
+
         "doom": {
             title: "Doom",
             creator: "ID Software",
@@ -70,7 +72,7 @@ window.activityLibrary = {
             banner: "assets/images/UltrakillThumbnail.jpg",
             engine: "HTML5",
             screenshots: ["assets/images/UltrakillThumbnail.jpg"],
-            config: { url: "https://selenite.cc/resources/semag/ultrakill/index.html" }
+            config: { url: "https://moosejayraffe-alt.github.io/UK-web/" }
         },
         "hk": {
             title: "Hollow Knight",
@@ -140,9 +142,56 @@ async function checkAuthStatus() {
 async function handleSignOut() {
     if (window.supabaseClient) {
         await window.supabaseClient.auth.signOut();
-        window.location.href = "../"; // This takes you back to home
+        window.location.href = "../homepage"; // This takes you back to home
     }
 }
+
+async function updateNavIdentity() {
+    const client = window.supabaseClient;
+    const { data: { user } } = await client.auth.getUser();
+
+    if (user) {
+        const { data: profile } = await client
+            .from('profiles')
+            .select('display_name')
+            .eq('id', user.id)
+            .single();
+
+        const display = document.getElementById('nav-user-display');
+        if (display && profile) {
+            display.innerText = profile.display_name;
+            display.classList.remove('text-white/40');
+            display.classList.add('text-steam-yellow');
+        }
+    }
+}
+
+// --- GLOBAL UI SOUND SYSTEM ---
+
+// Create the audio object (replace with your actual sound file path)
+const uiClickSound1 = new Audio('../assets/audio/buttonclickrelease.wav');
+uiClickSound1.volume = 0.35; // Adjust volume so it's not too startling
+
+function playClick() {
+    // Reset the sound to the start in case it's clicked rapidly
+    uiClickSound1.currentTime = 0;
+    uiClickSound1.play().catch(e => console.log("Audio play blocked by browser. Interaction required."));
+}
+
+// Global Listener for all button/link interactions
+document.addEventListener('click', (event) => {
+    const target = event.target;
+
+    // Check if the clicked element (or its parent) is a button or link
+    const isInteractive = target.closest('button') || target.closest('a') || target.closest('.steam-btn');
+
+    if (isInteractive) {
+        playClick();
+    }
+}, true); // Using 'true' for capturing phase ensures it catches the click early
+
+// Call this on load
+window.addEventListener('load', updateNavIdentity);
 
 // Check status whenever a page finishes loading
 document.addEventListener('load', checkAuthStatus);

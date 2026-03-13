@@ -2,76 +2,152 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jayraffe Complex | Citizen Search</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../global.js"></script>
     <style>
+        :root {
+            --steam-bg: #38413a;
+            --steam-panel: #4b564d;
+            --steam-border-light: #5d6a60;
+            --steam-border-dark: #2a322c;
+            --steam-input: #2a322c;
+            --steam-text: #d1d1d1;
+            --steam-yellow: #c1c6ad;
+        }
+
         body { 
-            background-color: #0f172a; 
-            font-family: 'Inter', sans-serif; 
-            color: white; 
-            background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 100%);
+            background-color: var(--steam-bg); 
+            color: var(--steam-text);
+            font-family: "Tahoma", "Verdana", sans-serif; 
+            font-size: 11px;
+            margin: 0;
+            padding: 0;
         }
-        .glass-panel { 
-            background: rgba(30, 41, 59, 0.4); 
-            backdrop-filter: blur(12px); 
-            border: 1px solid rgba(255, 255, 255, 0.05); 
+
+        /* 2004 Window Bevels */
+        .steam-window {
+            background: var(--steam-panel);
+            border: 1px solid var(--steam-border-dark);
+            border-top: 1px solid var(--steam-border-light);
+            border-left: 1px solid var(--steam-border-light);
+            padding: 2px;
         }
-        .input-glow:focus-within {
-            box-shadow: 0 0 20px rgba(34, 211, 238, 0.15);
-            border-color: rgba(34, 211, 238, 0.4);
+
+        .steam-inset {
+            background: var(--steam-input);
+            border: 1px solid var(--steam-border-dark);
+            border-right: 1px solid var(--steam-border-light);
+            border-bottom: 1px solid var(--steam-border-light);
+        }
+
+        /* Standard Buttons */
+        .steam-btn {
+            background: linear-gradient(to bottom, #758276 0%, #4b564d 100%);
+            border: 1px solid #1a201b;
+            border-top: 1px solid #5d6a60;
+            color: white;
+            padding: 4px 12px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 10px;
+        }
+
+        .steam-btn:active {
+            background: #323933;
+            border: 1px solid #5d6a60;
+            border-top: 1px solid #1a201b;
+        }
+
+        .steam-input {
+            background: var(--steam-input);
+            border: 1px solid var(--steam-border-dark);
+            color: white;
+            padding: 4px 8px;
+            outline: none;
+            font-family: monospace;
+        }
+
+        .result-entry {
+            background: var(--steam-panel);
+            border-bottom: 1px solid var(--steam-border-dark);
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .result-entry:hover {
+            background-color: #5d6a60;
+        }
+
+        .result-entry:nth-child(even) {
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        .status-label {
+            color: var(--steam-yellow);
+            font-size: 9px;
+            text-transform: uppercase;
         }
     </style>
 </head>
-<body class="min-h-screen pb-20">
+<body class="p-4">
 
-    <nav class="w-full px-6 py-4 flex justify-between items-center glass-panel sticky top-0 z-50">
-        <a href="../" class="text-xl font-black tracking-tighter hover:opacity-80 transition">
-            <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 uppercase">Jayraffe Complex</span>
+    <nav class="flex justify-between items-center mb-4 pb-2 border-b border-white/10">
+        <a href="../homepage" class="font-bold text-white tracking-tight text-lg">
+            JAYRAFFE COMPLEX <span class="text-[9px] opacity-50 font-normal ml-2">SEARCH_PROTO v2.1</span>
         </a>
-        <div class="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Global Directory v2.1</div>
     </nav>
 
-    <main class="max-w-4xl mx-auto pt-16 px-6">
-        <header class="mb-12">
-            <h1 class="text-4xl font-black italic tracking-tighter text-white uppercase mb-2">Citizen Search</h1>
-            <p class="text-cyan-400 font-mono text-[10px] tracking-[0.4em] uppercase">Enter Alias to Query Mainframe</p>
+    <main class="max-w-4xl mx-auto">
+        <header class="mb-6">
+            <h1 class="text-3xl font-black italic tracking-tighter text-white uppercase mb-1">Citizen Search</h1>
+            <p class="text-yellow-600 font-bold text-[10px] uppercase">Querying Central Mainframe Directory</p>
         </header>
 
-        <div class="glass-panel p-2 rounded-2xl mb-12 flex items-center gap-2 input-glow transition-all duration-300">
-            <div class="pl-4 text-slate-500">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
+        <div class="steam-window p-4 mb-6">
+            <div class="flex flex-col sm:flex-row gap-3 items-end">
+                <div class="flex-grow w-full">
+                    <label class="block text-[9px] uppercase font-bold text-white/50 mb-1">Input Alias or Keyword</label>
+                    <input type="text" id="citizen-query" 
+                           placeholder="SEARCHING FOR..." 
+                           class="steam-input w-full uppercase">
+                </div>
+                <button onclick="searchCitizens()" class="steam-btn h-[28px] whitespace-nowrap">
+                    Execute Query
+                </button>
             </div>
-            <input type="text" id="citizen-query" 
-                   placeholder="SEARCHING FOR..." 
-                   class="bg-transparent border-none outline-none flex-grow p-4 font-mono text-sm uppercase tracking-widest text-white placeholder:text-slate-700">
-            <button onclick="searchCitizens()" class="bg-cyan-500 text-black font-black px-8 py-3 rounded-xl hover:bg-cyan-400 transition-all text-xs uppercase tracking-widest shadow-lg shadow-cyan-500/20">
-                EXECUTE
-            </button>
         </div>
 
-        <div id="search-results" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="col-span-full border-2 border-dashed border-white/5 rounded-3xl py-20 flex flex-col items-center justify-center opacity-40">
-                <p class="font-mono text-xs uppercase tracking-[0.3em]">System Standby: Enter Query</p>
+        <div class="steam-window min-h-[300px]">
+            <div class="bg-[#323933] p-1 px-2 border-b border-black/40 text-[9px] font-bold text-white/60">
+                DIRECTORY MATCHES
+            </div>
+            <div id="search-results" class="steam-inset min-h-[280px]">
+                <div class="flex flex-col items-center justify-center h-[280px] opacity-30 italic">
+                    <p>Enter criteria to begin uplink...</p>
+                </div>
             </div>
         </div>
+        
     </main>
 
     <script>
-        // Use the searchCitizens logic I gave you in the previous message
         async function searchCitizens() {
             const query = document.getElementById('citizen-query').value.trim();
             const resultsContainer = document.getElementById('search-results');
 
             if (query.length < 2) {
-                resultsContainer.innerHTML = `<p class="col-span-full text-center text-amber-500 font-mono text-xs uppercase py-10 tracking-widest">Uplink Error: Input too short</p>`;
+                resultsContainer.innerHTML = `<div class="p-10 text-center text-red-400">Error: Input too short.</div>`;
                 return;
             }
 
-            resultsContainer.innerHTML = `<p class="col-span-full text-center text-cyan-500 font-mono text-xs animate-pulse py-10 tracking-[0.5em]">BRUTFORCING DIRECTORY...</p>`;
+            resultsContainer.innerHTML = `<div class="p-10 text-center animate-pulse text-yellow-600 font-bold uppercase">Syncing with directory...</div>`;
 
             const { data: users, error } = await window.supabaseClient
                 .from('profiles')
@@ -80,34 +156,31 @@
                 .limit(12);
 
             if (error) {
-                resultsContainer.innerHTML = `<p class="col-span-full text-center text-red-500 font-mono text-xs uppercase py-10">ERROR: ${error.message}</p>`;
+                resultsContainer.innerHTML = `<div class="p-10 text-center text-red-500">ERROR: ${error.message}</div>`;
                 return;
             }
 
             if (users.length === 0) {
-                resultsContainer.innerHTML = `<p class="col-span-full text-center text-slate-500 font-mono text-xs uppercase py-10 tracking-widest italic">No citizens found matching that signature.</p>`;
+                resultsContainer.innerHTML = `<div class="p-10 text-center opacity-50 italic">No citizens found matching that signature.</div>`;
                 return;
             }
 
             resultsContainer.innerHTML = users.map(user => `
-                <a href="../profile/?id=${user.id}" class="glass-panel p-4 rounded-2xl flex items-center gap-4 hover:bg-white/5 transition-all duration-300 group">
-                    <div class="w-14 h-14 rounded-full bg-slate-800 border-2 border-white/5 overflow-hidden flex-shrink-0 group-hover:border-cyan-500/50 transition-colors">
-                        ${user.avatar_url ? `<img src="${user.avatar_url}" class="w-full h-full object-cover">` : `<div class="flex items-center justify-center h-full text-xl opacity-20">👤</div>`}
+                <div onclick="window.location.href='../profile/?id=${user.id}'" class="result-entry">
+                    <div class="w-10 h-10 steam-inset overflow-hidden flex-shrink-0">
+                        ${user.avatar_url ? `<img src="${user.avatar_url}" class="w-full h-full object-cover">` : `<div class="flex items-center justify-center h-full text-lg opacity-20">👤</div>`}
                     </div>
-                    <div class="min-w-0">
-                        <h4 class="font-bold text-white uppercase tracking-tight group-hover:text-cyan-400 transition-colors">${user.display_name}</h4>
-                        <p class="text-[10px] text-slate-500 italic truncate font-mono mt-1">${user.bio || 'STAYING HIDDEN...'}</p>
+                    <div class="flex-grow min-w-0">
+                        <div class="font-bold text-white uppercase leading-none">${user.display_name}</div>
+                        <div class="status-label mt-1">${user.bio ? user.bio : 'Offline / No Status'}</div>
                     </div>
-                    <div class="ml-auto opacity-0 group-hover:opacity-100 text-cyan-400 transform translate-x-2 group-hover:translate-x-0 transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                        </svg>
+                    <div class="text-[9px] opacity-40 font-mono">
+                        VIEW_DATA
                     </div>
-                </a>
+                </div>
             `).join('');
         }
 
-        // Search on Enter key
         document.getElementById('citizen-query').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') searchCitizens();
         });

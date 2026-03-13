@@ -2,123 +2,153 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jayraffe Complex | Server Uplink</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../global.js"></script>
-    <title>Jayraffe Complex | Server Browser</title>
-    <style>
-        /* Reuse your global variables or link a central CSS file */
-        body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; padding: 40px; }
-        .server-row:hover { background: rgba(34, 211, 238, 0.05); cursor: pointer; }
-        .status-online { color: #10b981; }
-        .status-full { color: #f59e0b; }
-    </style>
-</head>
-<body>
+    <link rel="stylesheet" href="../style.css"> </head>
+<body class="p-6 bg-[#3d463f]">
 
-    <header class="max-w-6xl mx-auto mb-8 flex justify-between items-end">
-        <div>
-            <h1 class="text-4xl font-black italic tracking-tighter text-white">NETWORK NODES</h1>
-            <p class="text-cyan-500 font-mono text-xs uppercase tracking-[0.3em]">Active GoldSrc Uplinks</p>
+    <nav class="steam-window mb-4 p-2 flex justify-between items-center text-white">
+        <div class="flex gap-4 items-center">
+            <a href="../homepage" class="font-bold">JAYRAFFE COMPLEX</a>
+            <span class="opacity-30">|</span>
+            <div class="flex gap-3 uppercase text-[9px] font-bold">
+                <a href="../board/">Message Board</a>
+                <a href="../search/">Citizens</a>
+                <a href="../servers/" class="text-steam-yellow">Server Uplink</a>
+            </div>
         </div>
-        <button onclick="refreshServers()" class="px-4 py-2 bg-slate-900 border border-white/10 rounded-lg text-xs font-bold hover:border-cyan-500 transition">REFRESH LIST</button>
-    </header>
+        <div class="flex gap-4 items-center px-2">
+            <a href="../settings/" class="text-[10px] uppercase font-bold opacity-60 hover:opacity-100">Settings</a>
+            <div id="nav-user-display" class="text-[10px] uppercase font-bold text-steam-yellow"></div>
+        </div>
+    </nav>
 
-    <main class="max-w-6xl mx-auto glass-panel overflow-hidden rounded-2xl border border-white/5">
-        <table class="w-full text-left border-collapse">
-            <thead class="bg-slate-900/80 border-b border-white/10">
-                <tr>
-                    <th class="p-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Status</th>
-                    <th class="p-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Server Name</th>
-                    <th class="p-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Map</th>
-                    <th class="p-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Players</th>
-                    <th class="p-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Action</th>
-                </tr>
-            </thead>
-            <tbody id="server-list">
-                </tbody>
-        </table>
-    </main>
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        
+        <div class="steam-window p-4 h-fit">
+            <div class="label-yellow uppercase font-bold text-[10px] mb-4">Broadcast New Uplink</div>
+            <div class="space-y-4">
+                <div>
+                    <label class="text-[9px] uppercase opacity-60 block mb-1">Target Engine</label>
+                    <select id="game-select" class="steam-input">
+                        <option>Garry's Mod 10</option>
+                        <option>Team Fortress 2</option>
+                        <option>Xash3D (HL1)</option>
+                        <option>Counter-Strike 1.6</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-[9px] uppercase opacity-60 block mb-1">Host/Server Name</label>
+                    <input type="text" id="server-name" class="steam-input" placeholder="e.g. School Construct">
+                </div>
+                <div>
+                    <label class="text-[9px] uppercase opacity-60 block mb-1">Tunnel Address (ZeroTier/Playit)</label>
+                    <input type="text" id="server-ip" class="steam-input" placeholder="10.x.x.x:27015">
+                </div>
+                <button onclick="broadcastServer()" class="steam-btn w-full py-2 font-bold">INITIALIZE BROADCAST</button>
+            </div>
+            
+            <div class="mt-6 p-2 bg-black/20 border border-white/5 text-[9px] opacity-50 italic">
+                Note: Uplinks will automatically expire after 2 hours of inactivity.
+            </div>
+        </div>
+
+        <div class="lg:col-span-3 steam-window min-h-[500px] flex flex-col">
+            <div class="bg-black/20 p-2 border-b border-black/40 flex justify-between items-center">
+                <span class="label-yellow uppercase font-bold text-[10px]">Active Network Uplinks</span>
+                <button onclick="loadServers()" class="text-[9px] opacity-60 hover:opacity-100 underline uppercase">Refresh List</button>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-[11px] border-collapse">
+                    <thead class="bg-[#4b564d] text-white/50 uppercase text-[9px] sticky top-0">
+                        <tr>
+                            <th class="p-2 border-r border-black/20">Game</th>
+                            <th class="p-2 border-r border-black/20">Server Name</th>
+                            <th class="p-2 border-r border-black/20">Host</th>
+                            <th class="p-2 border-r border-black/20">Address</th>
+                            <th class="p-2">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="server-list" class="text-white">
+                        </tbody>
+                </table>
+            </div>
+            <div id="empty-state" class="flex-grow flex items-center justify-center opacity-20 hidden">
+                <div class="text-center italic">No active broadcasts detected in the Complex...</div>
+            </div>
+        </div>
+    </div>
 
     <script>
+        const client = window.supabaseClient;
 
-// We wrap the URL in a public proxy
-const PROXY_URL = "https://api.allorigins.win/raw?url=";
-const MASTER_SERVER_URL = "https://master.xash.su/api/servers";
+        async function loadServers() {
+            const { data: servers, error } = await client
+                .from('game_servers')
+                .select(`*, profiles(display_name)`)
+                .gt('created_at', new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString()) // Only last 2 hours
+                .order('created_at', { ascending: false });
 
-async function refreshServers() {
-    const list = document.getElementById('server-list');
-    list.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-cyan-500 animate-pulse font-mono">BYPASSING SECURITY & SCANNING...</td></tr>';
+            const list = document.getElementById('server-list');
+            const empty = document.getElementById('empty-state');
+            
+            list.innerHTML = '';
+            if (!servers || servers.length === 0) {
+                empty.classList.remove('hidden');
+                return;
+            }
+            empty.classList.add('hidden');
 
-    try {
-        // We fetch through the proxy instead of directly
-        const response = await fetch(PROXY_URL + encodeURIComponent(MASTER_SERVER_URL));
-        
-        if (!response.ok) throw new Error('Network response was not ok');
-        
-        const data = await response.json();
+            servers.forEach(srv => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-white/5 hover:bg-white/5 group";
+                tr.innerHTML = `
+                    <td class="p-2 opacity-70">${srv.game_name}</td>
+                    <td class="p-2 font-bold text-steam-yellow">${srv.server_name}</td>
+                    <td class="p-2 opacity-70">${srv.profiles.display_name}</td>
+                    <td class="p-2"><code class="bg-black/40 px-1 rounded text-[10px] font-mono">${srv.ip_address}</code></td>
+                    <td class="p-2">
+                        <button onclick="copyConnect('${srv.ip_address}')" class="steam-btn !py-0 !px-2 text-[9px]">COPY CONNECT</button>
+                    </td>
+                `;
+                list.appendChild(tr);
+            });
+        }
 
-        // The Xash API returns { "servers": [...] }
-        const activeServers = data.servers
-            .filter(s => s.players > 0) 
-            .sort((a, b) => b.players - a.players);
+        async function broadcastServer() {
+            const { data: { user } } = await client.auth.getUser();
+            const payload = {
+                host_id: user.id,
+                game_name: document.getElementById('game-select').value,
+                server_name: document.getElementById('server-name').value,
+                ip_address: document.getElementById('server-ip').value
+            };
 
-        renderServers(activeServers);
-    } catch (error) {
-        console.error("Fetch Error:", error);
-        list.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-red-500 font-mono">UPLINK FAILED: ${error.message}</td></tr>`;
-    }
-}
+            const { error } = await client.from('game_servers').insert(payload);
+            if (error) alert("Broadcast failed: " + error.message);
+            else {
+                loadServers();
+                // Clear inputs
+                document.getElementById('server-name').value = '';
+                document.getElementById('server-ip').value = '';
+            }
+        }
 
-function renderServers(serverArray) {
-    const list = document.getElementById('server-list');
-    list.innerHTML = '';
+        function copyConnect(ip) {
+            const cmd = `connect ${ip}`;
+            navigator.clipboard.writeText(cmd);
+            alert("Copied to clipboard!\nOpen your game console (~) and paste to join.");
+        }
 
-    if (serverArray.length === 0) {
-        list.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-slate-500 font-mono">NO ACTIVE NODES FOUND</td></tr>';
-        return;
-    }
-
-    serverArray.forEach(server => {
-        // Clean up the name (remove color codes like ^1, ^2 often found in HL names)
-        const cleanName = server.name.replace(/\^[0-9]/g, '');
-        const isFull = server.players >= server.maxplayers;
-        
-        list.innerHTML += `
-            <tr class="server-row border-b border-white/5 hover:bg-white/[0.02] transition">
-                <td class="p-4 font-mono text-[10px] ${isFull ? 'text-amber-500' : 'text-emerald-500'}">
-                    ● ${isFull ? 'FULL' : 'ONLINE'}
-                </td>
-                <td class="p-4">
-                    <div class="font-bold text-sm text-slate-200">${cleanName}</div>
-                    <div class="text-[9px] text-slate-500 font-mono">${server.addr}</div>
-                </td>
-                <td class="p-4 font-mono text-xs text-slate-400 italic">${server.map}</td>
-                <td class="p-4">
-                    <div class="flex items-center gap-2">
-                        <span class="text-xs font-mono w-8">${server.players}/${server.maxplayers}</span>
-                        <div class="w-16 h-1 bg-slate-800 rounded-full overflow-hidden hidden sm:block">
-                            <div class="h-full bg-cyan-500" style="width: ${(server.players/server.maxplayers)*100}%"></div>
-                        </div>
-                    </div>
-                </td>
-                <td class="p-4">
-                    <button onclick="deployTo('${server.addr}')" 
-                        class="px-3 py-1 bg-cyan-500/10 border border-cyan-500/50 text-cyan-400 text-[10px] font-black rounded uppercase hover:bg-cyan-500 hover:text-white transition">
-                        Deploy
-                    </button>
-                </td>
-            </tr>
-        `;
-    });
-}
-
-function deployTo(address) {
-    // Redirect to the experience page with the connection string
-    window.location.href = `../experience/?id=hl1&connect=${address}`;
-}
-
-window.onload = refreshServers;
+        // Initialize
+        window.addEventListener('load', () => {
+            loadServers();
+            // Optional: Set up real-time subscription
+            client.channel('any').on('postgres_changes', { event: '*', table: 'game_servers' }, loadServers).subscribe();
+        });
     </script>
 </body>
 </html>

@@ -2,523 +2,177 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="global.js"></script>
-    <title>Jayraffe Complex | Main Page</title>
-
-
+    <title>Jayraffe Complex | OS Shell</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/global.js"></script> 
     <style>
-        /* --- OLD STEAM DESIGN SYSTEM --- */
         :root {
-            /* Classic Steam Olive/Slate Palette */
-            --steam-bg: #38413a;       /* Dark background */
-            --steam-panel: #4b564d;    /* Main panel color */
-            --steam-border-light: #5d6a60; /* Top/Left bevel highlight */
-            --steam-border-dark: #2a322c;  /* Bottom/Right bevel shadow */
-            --steam-input: #2a322c;    /* Sunken input fields */
-            --steam-text: #d1d1d1;
-            --steam-yellow: #c1c6ad;   /* The classic "off-white" text */
-            --steam-green: #a4ad8d;    /* Sub-headers */
+            --steam-bg: #38413a;
+            --steam-panel: #4b564d;
+            --steam-border-light: #5d6a60;
+            --steam-border-dark: #2a322c;
+            --steam-input: #2a322c;
+            --steam-yellow: #c1c6ad;
+            --steam-green: #a4ad8d;
         }
 
-        * { box-sizing: border-box; }
-
-        body {
-            background-color: var(--steam-bg);
-            color: var(--steam-text);
-            /* Tahoma is the secret ingredient for the Old Steam look */
-            font-family: "Tahoma", "Arial", sans-serif; 
+        body, html {
             margin: 0;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* --- THE 3D BEVEL EFFECT --- */
-        .steam-panel {
-            background: var(--steam-panel);
-            border: 1px solid var(--steam-border-dark);
-            border-top: 1px solid var(--steam-border-light);
-            border-left: 1px solid var(--steam-border-light);
-            box-shadow: inset 1px 1px 0px rgba(255,255,255,0.05);
-            padding: 15px;
-        }
-
-        /* --- HEADER & SEARCH --- */
-        header {
-            text-align: left;
-            margin-bottom: 20px;
-            width: 100%;
-            max-width: 1100px;
-        }
-
-        h1 {
-            font-size: 1.2rem;
-            color: #ffffff;
-            margin: 0 0 10px 0;
-            font-weight: bold;
-            letter-spacing: 0px;
-            text-transform: none; /* Steam wasn't all caps everywhere */
-        }
-
-        #searchBar {
-            width: 100%;
-            padding: 6px 10px;
-            border: 1px solid #1a201b;
-            background: var(--steam-input);
-            color: var(--steam-yellow);
-            font-size: 0.9rem;
-            outline: none;
-            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.5);
-        }
-
-        /* --- GRID LAYOUT --- */
-        .temp-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 12px;
-            width: 100%;
-            max-width: 1100px;
-            padding: 10px;
-            background: rgba(0,0,0,0.15); /* Slightly darker grid area */
-            border: 1px solid var(--steam-border-dark);
-        }
-
-        /* --- CARD STYLE --- */
-        .temp-card {
-            background: var(--steam-panel);
-            border: 1px solid var(--steam-border-dark);
-            border-top: 1px solid var(--steam-border-light);
-            border-left: 1px solid var(--steam-border-light);
-            padding: 4px; /* Internal border look */
-            text-decoration: none;
-            color: var(--steam-text);
-        }
-
-        .temp-card:hover {
-            background: #5d6a60;
-        }
-
-        .thumbnail {
-            width: 100%;
-            height: 110px;
-            background: #000;
-            overflow: hidden;
-            border: 1px solid var(--steam-border-dark);
-        }
-
-        .thumbnail img {
-            width: 100%;
+            padding: 0;
             height: 100%;
-            object-fit: cover;
-            filter: saturate(0.8); /* Mutes the colors slightly for that old feel */
+            overflow: hidden; 
+            background-color: var(--steam-bg);
+            font-family: "Tahoma", sans-serif;
+            display: flex;
+            flex-direction: column; /* Stack frame on top of hotbar */
         }
 
-        .info {
-            padding: 8px 4px;
+        /* THE VIEWPORT (Where your site lives) */
+        #content-frame {
+            flex-grow: 1; /* Take up all available space */
+            width: 100%;
+            border: none;
+            background: #000;
         }
 
-        .info h3 { 
-            margin: 0; 
-            font-size: 0.85rem; 
-            font-weight: bold;
-            color: var(--steam-yellow);
+        .universal-hotbar {
+            height: 45px;
+            background: var(--steam-panel);
+            border-top: 1px solid var(--steam-border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+            flex-shrink: 0; /* Don't let the hotbar squash */
         }
 
-        .play-btn {
-            margin-top: 6px;
+        .steam-btn {
             background: linear-gradient(to bottom, #758276 0%, #4b564d 100%);
             border: 1px solid var(--steam-border-dark);
-            padding: 4px;
-            text-align: center;
-            font-size: 0.7rem;
+            border-top: 1px solid var(--steam-border-light);
             color: white;
+            padding: 2px 12px;
+            font-size: 11px;
             font-weight: bold;
+            cursor: pointer;
         }
 
-        /* User Section UI */
-        .user-panel {
+        .steam-btn:active { background: var(--steam-input); }
+
+        .steam-input {
             background: var(--steam-input);
             border: 1px solid var(--steam-border-dark);
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .hidden { display: none !important; }
-
-        /* Scrollbar styling for that old-school feel */
-        ::-webkit-scrollbar { width: 12px; }
-        ::-webkit-scrollbar-track { background: var(--steam-input); }
-        ::-webkit-scrollbar-thumb { 
-            background: var(--steam-panel); 
-            border: 1px solid var(--steam-border-dark);
+            color: var(--steam-yellow);
+            font-size: 10px;
+            outline: none;
         }
     </style>
 </head>
 <body>
 
-    <div class="w-full max-w-5xl flex justify-between items-center my-8">
-        <a href="auth/" id="profile-link" class="flex items-center gap-4 bg-slate-900/50 px-4 py-2 rounded-full border border-white/10 hover:border-cyan-500/50 transition">
-            <div class="text-right hidden sm:block">
-                <p id="user-rank" class="text-xs text-slate-400 uppercase font-bold italic">Unverified</p>
-                <p id="user-name" class="text-sm font-semibold">Sign In / Register</p>
-            </div>
-            <div id="user-avatar" class="w-10 h-10 rounded-full bg-slate-800 border-2 border-white/10 flex items-center justify-center">
-            👤
-            </div>
-        </a>
-
-        <div class="glass-panel p-3 px-5 rounded-full border border-emerald-500/20 bg-emerald-500/5 flex items-center gap-3">
-            <div class="relative flex h-2 w-2">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </div>
-            <div class="leading-none">
-                <span id="live-counter" class="text-lg font-black text-white italic tracking-tighter">00</span>
-                <span class="text-[9px] font-bold uppercase tracking-widest text-emerald-500 ml-1">Citizens Active</span>
-            </div>
-        </div>
-    </div>
-
-    <header>
-        <h1>JAYRAFFE COMPLEX</h1>
-        <input type="text" id="searchBar" placeholder="Search the archives..." onkeyup="filterGames()">
-    </header>
-
-    <section id="trending-section" class="w-full max-w-5xl mb-12 hidden">
-        <h3 class="text-[10px] font-bold uppercase tracking-[0.4em] text-cyan-500 mb-4 flex items-center gap-2">
-            <span class="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></span>
-            High-Traffic Sectors
-        </h3>
-        <div id="trending-list" class="grid grid-cols-1 md:grid-cols-3 gap-2">
-            </div>
-    </section>
-
-    <section id="active-citizens" class="w-full max-w-5xl mb-12">
-    <h3 class="text-[10px] font-bold uppercase tracking-[0.4em] text-emerald-500 mb-4">Current Sector Occupants</h3>
-    <div id="citizen-list" class="flex flex-wrap gap-3">
-        </div>
-    </section>
+    <iframe src="/homepage" id="content-frame"></iframe>
 
     <audio id="bg-music" loop>
-    <source src="assets/audio/hl.mp3" type="audio/mpeg">
-</audio>
+        <source src="/assets/audio/BGM/CCT.mp3" type="audio/mpeg">
+    </audio> 
 
-<div class="fixed bottom-4 left-4 steam-panel flex items-center gap-4 z-[100] opacity-80 hover:opacity-100 transition-opacity">
-    <div class="flex flex-col">
-        <span class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Audio Uplink</span>
-        <span id="track-name" class="text-[10px] text-emerald-500 font-mono truncate w-24 italic">OFFLINE</span>
-    </div>
-    
-    <div class="flex items-center gap-2">
-        <button onclick="toggleMusic()" id="music-btn" class="steam-btn w-8 h-8 flex items-center justify-center text-xs">
-            ▶
-        </button>
+    <div class="universal-hotbar">
         
-        <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5" 
-               class="w-16 accent-emerald-500 cursor-pointer" oninput="updateVolume(this.value)">
-    </div>
-</div>
-
-    <div class="temp-grid" id="tempGrid">
-
-        <a href="https://archive.org/download/mjayraffecomplexdirect/Half-Life.7z" class="temp-card">
-            <div class="thumbnail">
-                <img alt = "we're doomed.." src= "assets/images/HL1Thumbnail.jpg">
-            </div>
-            <div class="info">
-                <h3>Half-Life 1 (Local)</h3>
-                <span class="play-btn">Download Now</span>
-            </div>
-        </a>
-
-         <a href="experience?id=hl1" class="temp-card">
-            <div class="thumbnail">
-                <img alt = "we're doomed.." src= "assets/images/HL1Thumbnail.jpg">
-            </div>
-            <div class="info">
-                <h3>Half-Life 1 (Cloud)</h3>
-                <span class="play-btn">Play Now</span>
-            </div>
-        </a>
-
-        <a href="experience/?id=bendy" class="temp-card">
-            <div class="thumbnail">
-                <img alt = "we're doomed.." src= "assets/images/BendyThumbnail.jpg">
-            </div>
-            <div class="info">
-                <h3>Bendy and the Ink Machine</h3>
-                <span class="play-btn">Play Now</span>
-            </div>
-        </a>
-
-        <a href="experience/?id=hk" class="temp-card">
-            <div class="thumbnail">
-                <img alt = "we're doomed.." src= "assets/images/HollowKnightThumbnail.png">
-            </div>
-            <div class="info">
-                <h3>Hollow Knight</h3>
-                <span class="play-btn">Play Now</span>
-            </div>
-        </a>
-
-
-        <a href="experience/?id=ultrakill" class="temp-card">
-            <div class="thumbnail">
-                <img alt = "we're doomed.." src= "assets/images/UltrakillThumbnail.jpg">
-            </div>
-            <div class="info">
-                <h3>Ultrakill</h3>
-                <span class="play-btn">Play Now</span>
-            </div>
-        </a>
-
-        <a href="experience/?id=AceAttorney" class="temp-card">
-            <div class="thumbnail">
-                <img alt = "we're doomed.." src= "assets/images/HoldIt.jpg">
-            </div>
-            <div class="info">
-                <h3>Ace Attorney</h3>
-                <span class="play-btn">Object Now</span>
-            </div>
-        </a>
-
-        <a href="experience/?id=danganronpa" class="temp-card">
-            <div class="thumbnail">
-                <img alt = "we're doomed.." src= "assets/images/DanganronpaThumbnail.webp">
-            </div>
-            <div class="info">
-                <h3>Danganronpa</h3>
-                <span class="play-btn">Play Now</span>
-            </div>
-        </a>
-
-        <a href="experience/?id=etc" class="temp-card">
-            <div class="thumbnail">
-                <img alt = "we're doomed.." src= "assets/images/HenryStickminETCThumbnail.avif">
-            </div>
-            <div class="info">
-                <h3>Henry Stickmin: Escaping the Complex</h3>
-                <span class="play-btn">Play Now</span>
-            </div>
-        </a>
-
-         <a href="experience/?id=doom" class="temp-card">
-            <div class="thumbnail">
-                <img alt = "we're doomed.." src= "assets/images/DoomThumbnail.webp">
-            </div>
-            <div class="info">
-                <h3>DOOM</h3>
-                <span class="play-btn">Slay Demons Now</span>
-            </div>
-        </a>
-
-        <a href="experience/?id=deltarune" class="temp-card">
-            <div class="thumbnail">
-                <img alt = "we're doomed.." src= "assets/images/DeltaruneThumbnail.webp">
-            </div>
-            <div class="info">
-                <h3>Deltarune</h3>
-                <span class="play-btn">Play Now</span>
-            </div>
-        </a>
-
-       <a href="https://archive.org/download/mjayraffecomplexdirect/Team%20Fortress%202.7z" class="temp-card">
-            <div class="thumbnail">
-                <img alt = "we're doomed.." src= "assets/images/tf2.jpg">
-            </div>
-            <div class="info">
-                <h3>Team Fortress 2</h3>
-                <span class="play-btn">Download Now</span>
-            </div>
-        </a>
-
-        <a href="https://archive.org/details/garrys-mod-10-nosteam_202501" class="temp-card">
-            <div class="thumbnail">
-                <img alt = "we're doomed.." src= "assets/images/GMOD.jpg">
-            </div>
-            <div class="info">
-                <h3>GMoD</h3>
-                <span class="play-btn">Download Now</span>
-            </div>
-        </a>
-
-        
-
-        <a href="https://polytoria.com/create" class="temp-card">
-            <div class="thumbnail">🧩</div>
-            <div class="info">
-                <h3>Polytoria Creator</h3>
-                <span class="play-btn">Create Now</span>
-            </div>
-        </a>
-
+        <div class="flex items-center gap-4">
+            <button onclick="navigateFrame('/homepage')" class="steam-btn">ARCHIVES</button>
+            <button onclick="navigateFrame('/network/')" class="steam-btn">CITIZENS</button>
+            <button onclick="navigateFrame('/profile/')" class="steam-btn">PROFILE</button>
         </div>
 
-    <script>
-        function filterGames() {
-            let input = document.getElementById('searchBar').value.toLowerCase();
-            let cards = document.getElementsByClassName('temp-card');
+        <div class="flex items-center gap-6 bg-black/20 px-4 h-full border-x border-black/20">
+            <div class="flex items-center gap-2">
+                <button id="music-btn" onclick="toggleMusic()" class="steam-btn w-8">▶</button>
+                <div class="flex flex-col">
+                    <span class="text-[8px] font-bold text-emerald-500 tracking-tighter">AUDIO UPLINK</span>
+                    <select id="track-selector" onchange="changeTrack(this.value)" class="steam-input">
+                        <option value="assets/audio/bgm/CCT.mp3">HL1: CLOSING THEME</option>
+                        <option value="assets/audio/bgm/NMJ.mp3">HL1: NUCLEAR MISSION JAM</option>
+                        <option value="assets/audio/bgm/VT.mp3">HL1: VALVE THEME</option>
+                        <option value="assets/audio/bgm/KB.mp3">HL1: KLAXON BEAT</option>
+                    </select>
+                </div>
+            </div>
+            <input type="range" min="0" max="1" step="0.01" value="0.5" class="w-16 accent-emerald-500" oninput="updateVolume(this.value)">
+        </div>
 
-            for (let i = 0; i < cards.length; i++) {
-                let title = cards[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
-                if (title.includes(input)) {
-                    cards[i].classList.remove('hidden');
-                } else {
-                    cards[i].classList.add('hidden');
-                }
+        <div class="flex items-center gap-3">
+            <span class="text-[9px] font-bold text-slate-400">SESSION: <span class="text-emerald-500">ENCRYPTED</span></span>
+            <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_5px_#10b981]"></div>
+        </div>
+    </div>
+
+    <nav class="steam-window mb-4 p-2 flex justify-between items-center">
+    <div class="flex gap-4 items-center">
+        <button onclick="navigateFrame('/homepage')" class="font-bold text-white px-2">JAYRAFFE COMPLEX</button>
+        <span class="opacity-30">|</span>
+        <div class="flex gap-3 uppercase text-[9px] font-bold">
+            <button onclick="navigateFrame('/board')" class="hover:text-white transition">Message Board</button>
+        </div>
+    </div>
+    
+    <div class="flex items-center gap-4 px-2">
+        <button onclick="openSettings()" class="flex items-center gap-1 hover:text-white transition group">
+            <span class="text-[10px] uppercase font-bold opacity-60 group-hover:opacity-100">Settings</span>
+        </button>
+        <span class="opacity-30">|</span>
+        <div id="nav-user-display" class="text-[10px] uppercase font-bold text-white/40">
+            </div>
+    </div>
+</nav>
+
+    
+</body>
+
+<script>
+        const music = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('music-btn');
+        const frame = document.getElementById('content-frame');
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                musicBtn.innerText = "II";
+            } else {
+                music.pause();
+                musicBtn.innerText = "▶";
             }
         }
 
- function renderTrendingUI(games) {
-            const container = document.getElementById('trending-section');
-            const list = document.getElementById('trending-list');
-            if (games.length === 0) { container.classList.add('hidden'); return; }
-
-            container.classList.remove('hidden');
-            list.innerHTML = '';
-
-            games.forEach(([title, count], index) => {
-                list.innerHTML += `
-                <div class="steam-panel" style="margin-bottom: 0;">
-                    <div class="flex justify-between">
-                        <span class="text-[9px] font-bold text-emerald-400">POPULAR SECTOR</span>
-                        <span class="text-[9px] text-slate-500">#${index + 1}</span>
-                    </div>
-                    <h3 class="text-xs font-bold text-white mt-1">${title}</h3>
-                    <p class="text-[9px] text-slate-400">${count} CITIZENS ACTIVE</p>
-                </div>`;
-            });
+        function updateVolume(val) {
+            music.volume = val;
         }
-// Call this along with your other load functions
-updateTrendingGames();
 
-        async function updateTrendingGames() {
-    const fiveMinutesAgo = new Date(Date.now() - 5 * 60000).toISOString();
-
-    // 1. Get all active rows from the last 5 minutes
-    const { data: activeUsers, error } = await window.supabaseClient
-        .from('presence')
-        .select('current_activity')
-        .gt('last_seen', fiveMinutesAgo);
-
-    if (error || !activeUsers) return;
-
-    // 2. Count the frequency of each game title
-    const counts = activeUsers.reduce((acc, user) => {
-        if (user.current_activity) {
-            acc[user.current_activity] = (acc[user.current_activity] || 0) + 1;
+        function changeTrack(src) {
+            const wasPlaying = !music.paused;
+            music.src = src;
+            if (wasPlaying) music.play();
         }
-        return acc;
-    }, {});
 
-    // 3. Convert to an array and sort by count
-    const sortedGames = Object.entries(counts)
-        .sort(([, a], [, b]) => b - a)
-        .slice(0, 3); // Get Top 3
-
-    renderTrendingUI(sortedGames);
-}
-
-        async function getActiveCount() {
-    const fiveMinutesAgo = new Date(Date.now() - 5 * 60000).toISOString();
-
-    const { count, error } = await window.supabaseClient
-        .from('presence')
-        .select('*', { count: 'exact', head: true })
-        .gt('last_seen', fiveMinutesAgo);
-
-    if (!error) {
-        // Pad with a zero (e.g., "05" instead of "5") for that retro look
-        document.getElementById('live-counter').innerText = count.toString().padStart(2, '0');
-    }
-}
-
-async function updateCitizenList() {
-    const fiveMinutesAgo = new Date(Date.now() - 5 * 60000).toISOString();
-    const list = document.getElementById('citizen-list');
-
-    // Fetch active presence and join with profile data
-    const { data, error } = await window.supabaseClient
-        .from('presence')
-        .select(`
-            user_id,
-            current_activity,
-            profiles ( display_name, avatar_url )
-        `)
-        .gt('last_seen', fiveMinutesAgo);
-
-    if (error || !data) return;
-
-    list.innerHTML = data.map(session => `
-        <a href="profile/?id=${session.user_id}" class="group relative flex items-center gap-3 bg-slate-900/40 p-2 pr-4 rounded-full border border-white/5 hover:border-emerald-500/50 transition">
-            <div class="w-8 h-8 rounded-full bg-slate-800 border border-white/10 overflow-hidden">
-                <img src="${session.profiles?.avatar_url || '../assets/default-avatar.png'}" class="w-full h-full object-cover">
-            </div>
-            <div>
-                <p class="text-xs font-bold text-white leading-none">${session.profiles?.display_name || 'Unknown'}</p>
-                <p class="text-[8px] text-emerald-500 uppercase tracking-tighter">Playing: ${session.current_activity || 'Browsing'}</p>
-            </div>
-            <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-[8px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 pointer-events-none transition">
-                VIEW DOSSIER
-            </div>
-        </a>
-    `).join('');
-}
-
-
-
-async function checkUserSession() {
-    const { data: { user } } = await window.supabaseClient.auth.getUser();
-
-    const profileLink = document.getElementById('profile-link');
-    const userName = document.getElementById('user-name');
-    const userRank = document.getElementById('user-rank');
-    const userAvatar = document.getElementById('user-avatar');
-
-    if (user) {
-        // 1. Change the destination to the Profile page
-        profileLink.href = "profile/"; 
-
-        // 2. Update the UI with their info
-        userName.innerText = user.user_metadata?.display_name || user.email.split('@')[0];
-        userRank.innerText = "Verified Citizen";
-        
-        // 3. If they have an avatar, show it, otherwise keep the emoji
-        if (user.user_metadata?.avatar_url) {
-            userAvatar.innerHTML = `<img src="${user.user_metadata.avatar_url}" class="w-full h-full rounded-full object-cover">`;
-        } else {
-            userAvatar.innerText = "🆔 Profile"; 
+        function navigateFrame(url) {
+            if (frame) {
+                frame.src = url;
+            } else {
+                console.error("Critical Error: content-frame not found in DOM.");
+            }
         }
-    } else {
-        // User is not logged in
-        profileLink.href = "auth/";
-        userName.innerText = "Sign In / Register";
-        userRank.innerText = "Unverified";
-        userAvatar.innerText = "👤 Sign-Up";
-    }
+
+        function openSettings() {
+       // Opens settings in a specific 480x550 window, centered
+        const width = 480;
+        const height = 550;
+        const left = (screen.width / 2) - (width / 2);
+        const top = (screen.height / 2) - (height / 2);
+    
+        window.open('/settings/', 'JayraffeSettings', 
+            `width=${width},height=${height},top=${top},left=${left},resizable=no,scrollbars=no`
+        );
 }
-
-// Call this function when the page loads
-async function initializeHome() {
-    await checkUserSession();
-    await getActiveCount();
-    await updateTrendingGames();
-    await updateCitizenList();
-}
-
-// Event Listeners
-window.addEventListener('load', initializeHome);
-
-// Timers to keep data fresh
-setInterval(updateCitizenList, 30000);
-setInterval(getActiveCount, 60000);    // Refresh total count every minute
-setInterval(updateTrendingGames, 30000); // Refresh trending list every 30s
     </script>
-
-</body>
 </html>

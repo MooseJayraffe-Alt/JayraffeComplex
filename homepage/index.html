@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="global.js"></script>
+    <title>Jayraffe Complex | Archives</title>
+
+    <style>
+        :root {
+            --steam-bg: #38413a;
+            --steam-panel: #4b564d;
+            --steam-border-light: #5d6a60;
+            --steam-border-dark: #2a322c;
+            --steam-input: #2a322c;
+            --steam-text: #d1d1d1;
+            --steam-yellow: #c1c6ad;
+            --steam-olive-dark: #3d463f;
+        }
+
+        body {
+            background-color: var(--steam-bg);
+            color: var(--steam-text);
+            font-family: "Tahoma", sans-serif; 
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            font-size: 11px;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- TOP STATS & GRAPH --- */
+        .network-area {
+            background: var(--steam-olive-dark);
+            border: 1px solid var(--steam-border-dark);
+            border-top: 1px solid var(--steam-border-light);
+            border-left: 1px solid var(--steam-border-light);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+
+        .graph-container {
+            width: 300px;
+            height: 50px;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .graph-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(193, 198, 173, 0.1) 21px);
+            border-bottom: 2px solid var(--steam-yellow);
+            clip-path: polygon(0% 80%, 15% 40%, 30% 60%, 45% 20%, 60% 70%, 75% 30%, 90% 50%, 100% 40%, 100% 100%, 0% 100%);
+            transition: clip-path 0.8s ease-in-out;
+        }
+
+        /* --- ARCHIVE LIST --- */
+        .archive-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            overflow-y: auto;
+            flex-grow: 1;
+            margin-bottom: 45px;
+            padding-right: 5px;
+            opacity: 0; /* Hidden until "synced" */
+            transition: opacity 0.5s ease;
+        }
+
+        .archive-entry {
+            background: var(--steam-panel);
+            border: 1px solid var(--steam-border-dark);
+            border-top: 1px solid var(--steam-border-light);
+            border-left: 1px solid var(--steam-border-light);
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .entry-thumb {
+            width: 120px;
+            height: 45px;
+            object-fit: cover;
+            border: 1px solid #000;
+        }
+
+        .entry-info { flex-grow: 1; }
+        .entry-title { font-weight: bold; color: #fff; font-size: 13px; margin: 0; }
+        .entry-status { color: var(--steam-yellow); opacity: 0.7; font-size: 10px; text-transform: uppercase; }
+
+        .btn-play {
+            background: linear-gradient(to bottom, #a4ad8d 0%, #6b7754 100%);
+            border: 1px solid #1a201b;
+            color: white;
+            padding: 4px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+        }
+
+        .btn-play:hover { filter: brightness(1.1); border-color: var(--steam-yellow); }
+
+        /* --- FOOTER PROGRESS --- */
+        .footer-bar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: 35px;
+            background: var(--steam-panel);
+            border-top: 1px solid var(--steam-border-light);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 20px;
+        }
+
+        .progress-container {
+            flex-grow: 1;
+            height: 10px;
+            background: #2a322c;
+            border: 1px solid #1a201b;
+            position: relative;
+        }
+
+        #sync-progress {
+            width: 0%;
+            height: 100%;
+            background: var(--steam-yellow);
+            transition: width 0.1s linear;
+        }
+
+        .steam-input {
+            background: var(--steam-input);
+            border: 1px solid var(--steam-border-dark);
+            color: var(--steam-yellow);
+            padding: 6px 10px;
+            width: 100%;
+            outline: none;
+            margin-bottom: 10px;
+        }
+
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: var(--steam-input); }
+        ::-webkit-scrollbar-thumb { background: var(--steam-panel); border: 1px solid var(--steam-border-dark); }
+    </style>
+</head>
+<body>
+
+    <div class="network-area">
+        <div>
+            <p class="m-0 uppercase font-bold text-[9px] opacity-60">Network Usage</p>
+            <h1 id="net-speed" class="m-0 text-white text-2xl font-black italic">0.0 MB/S</h1>
+            <p class="m-0 text-emerald-500 font-mono text-[9px]"><span id="live-counter">00</span> CITIZENS ONLINE</p>
+        </div>
+        <div class="graph-container">
+            <div id="graph-line" class="graph-line"></div>
+        </div>
+    </div>
+
+    <input type="text" id="searchBar" placeholder="Filter Archives..." class="steam-input" onkeyup="filterArchives()">
+
+    <div class="archive-list" id="archive-list"></div>
+
+    <div class="footer-bar">
+        <span id="sync-label" class="font-bold uppercase text-[9px] text-white">Connecting...</span>
+        <div class="progress-container">
+            <div id="sync-progress"></div>
+        </div>
+        <a href="../auth/" id="user-name" class="text-[10px] text-yellow-200 no-underline font-bold">GUEST_USER</a>
+    </div>
+
+    <script>
+        const archives = [
+            { title: 'Bendy and the Ink Machine', status: 'Ready to Play', img: '../assets/images/BendyThumbnail.jpg', url: 'experience/?id=bendy' },
+            { title: 'Cuphead', status: 'Ready to Play', img: '../assets/images/BendyThumbnail.jpg', url: 'experience/?id=cuphead' },
+            { title: 'DOOM', status: 'Ready to Play', img: '../assets/images/DoomThumbnail.webp', url: 'experience/?id=doom' },
+            { title: "Garry's Mod (10)", status: 'Update Required', img: '../assets/images/GMOD.jpg', url: 'https://archive.org/download/mjayraffecomplexdirect/GMod10.7z' },
+            { title: 'Half-Life 1', status: 'Update Required', img: '../assets/images/HL1Thumbnail.jpg', url: 'https://archive.org/download/mjayraffecomplexdirect/Half-Life.7z' },
+            { title: 'Half-Life 1 (Cloud)', status: 'Ready to Play', img: '../assets/images/HL1Thumbnail.jpg', url: 'experience?id=hl1' },
+            { title: 'Hello Neighbor (Alpha 1)', status: 'Update Required', img: '../assets/images/HL1Thumbnail.jpg', url: 'https://archive.org/download/hello-neighbor-pre-alpha.-7z/Hello%20Neighbor%20Alpha%201.7z' },
+            { title: 'Hollow Knight', status: 'Ready to Play', img: '../assets/images/HollowKnightThumbnail.png', url: 'experience/?id=hk' },
+            { title: 'Team Fortress 2', status: 'Update Required', img: '../assets/images/tf2.jpg', url: 'https://archive.org/download/mjayraffecomplexdirect/Team%20Fortress%202.7z' },
+            { title: 'ULTRAKILL', status: 'Ready to Play', img: '../assets/images/UltrakillThumbnail.jpg', url: 'experience/?id=ultrakill' },
+            
+            
+            
+            
+            
+        ];
+
+        function simulateSync() {
+            let progress = 0;
+            const bar = document.getElementById('sync-progress');
+            const label = document.getElementById('sync-label');
+            
+            const interval = setInterval(() => {
+                progress += Math.random() * 5;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    label.innerText = "Sync Complete";
+                    document.getElementById('archive-list').style.opacity = "1";
+                    renderArchives();
+                }
+                bar.style.width = progress + "%";
+                if (progress > 10 && progress < 90) label.innerText = "Syncing Archives...";
+            }, 80);
+        }
+
+        function renderArchives() {
+            const list = document.getElementById('archive-list');
+            list.innerHTML = archives.map(item => `
+                <div class="archive-entry">
+                    <img src="${item.img}" class="entry-thumb">
+                    <div class="entry-info">
+                        <p class="entry-title">${item.title}</p>
+                        <p class="entry-status">${item.status}</p>
+                    </div>
+                    <button onclick="window.location.href='../${item.url}'" class="btn-play">PLAY</button>
+                </div>
+            `).join('');
+        }
+
+        function updateLiveStats() {
+            const speed = (Math.random() * (3.5 - 2.1) + 2.1).toFixed(1);
+            document.getElementById('net-speed').innerText = `${speed} MB/S`;
+            const p = () => Math.floor(Math.random() * 50) + 10;
+            document.getElementById('graph-line').style.clipPath = `polygon(0% 80%, 15% ${p()}%, 30% ${p()}%, 45% ${p()}%, 60% 70%, 75% 30%, 90% 50%, 100% 40%, 100% 100%, 0% 100%)`;
+        }
+
+        function filterArchives() {
+            let input = document.getElementById('searchBar').value.toLowerCase();
+            let entries = document.getElementsByClassName('archive-entry');
+            for (let i = 0; i < entries.length; i++) {
+                let title = entries[i].querySelector('.entry-title').innerText.toLowerCase();
+                entries[i].style.display = title.includes(input) ? "flex" : "none";
+            }
+        }
+
+        async function getActiveCount() {
+            const fiveMinutesAgo = new Date(Date.now() - 5 * 60000).toISOString();
+            const { count } = await window.supabaseClient.from('presence').select('*', { count: 'exact', head: true }).gt('last_seen', fiveMinutesAgo);
+            if (count !== null) document.getElementById('live-counter').innerText = count.toString().padStart(2, '0');
+        }
+
+        window.onload = () => {
+            simulateSync();
+            getActiveCount();
+            setInterval(updateLiveStats, 2000);
+        };
+    </script>
+</body>
+</html>

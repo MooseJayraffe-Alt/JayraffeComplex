@@ -2,90 +2,216 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Jayraffe Complex | Auth</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Steam</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
     <script src="../global.js"></script>
 
     <style>
-        body { background-color: #0f172a; color: white; font-family: sans-serif; }
-        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
+        :root {
+            --steam-bg: #3d463f;
+            --steam-panel: #4b564d;
+            --steam-border-light: #5d6a60;
+            --steam-border-dark: #2a322c;
+            --steam-input: #2a322c;
+            --steam-text: #d1d1d1;
+            --steam-yellow: #c1c6ad;
+        }
+
+        body { 
+            background-color: var(--steam-bg); 
+            color: var(--steam-text);
+            font-family: "Tahoma", "Verdana", sans-serif; 
+            font-size: 11px;
+        }
+
+        /* The signature beveled window effect */
+        .steam-window {
+            background: var(--steam-panel);
+            border: 1px solid var(--steam-border-dark);
+            border-top: 1px solid var(--steam-border-light);
+            border-left: 1px solid var(--steam-border-light);
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+            padding: 15px;
+        }
+
+        /* Inset inputs */
+        .steam-input {
+            background: var(--steam-input);
+            border: 1px solid var(--steam-border-dark);
+            border-right: 1px solid var(--steam-border-light);
+            border-bottom: 1px solid var(--steam-border-light);
+            color: #fff;
+            padding: 4px 6px;
+            outline: none;
+            width: 100%;
+        }
+
+        .steam-input:focus {
+            border: 1px solid var(--steam-yellow);
+        }
+
+        /* Classic beveled buttons */
+        .steam-btn {
+            background: linear-gradient(to bottom, #5a665b 0%, #3d463f 100%);
+            border: 1px solid var(--steam-border-dark);
+            border-top: 1px solid var(--steam-border-light);
+            border-left: 1px solid var(--steam-border-light);
+            color: #fff;
+            padding: 3px 20px;
+            cursor: pointer;
+        }
+
+        .steam-btn:active {
+            border: 1px solid var(--steam-border-light);
+            border-top: 1px solid var(--steam-border-dark);
+            border-left: 1px solid var(--steam-border-dark);
+            background: #2a322c;
+        }
+
+        .label-yellow {
+            color: var(--steam-yellow);
+            text-align: right;
+            padding-right: 10px;
+            font-weight: normal;
+        }
+
+        .steam-hr {
+            border: 0;
+            border-top: 1px solid var(--steam-border-dark);
+            border-bottom: 1px solid var(--steam-border-light);
+            margin: 20px 0;
+        }
+
+        .link-style {
+            color: var(--steam-text);
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 10px;
+        }
+
+        .link-style:hover { color: #fff; }
+
+        /* Customizing the Title Bar */
+        .title-bar {
+            background: var(--steam-panel);
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 5px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen">
 
-    <div class="glass-card p-10 rounded-3xl w-full max-w-md text-center">
-        <h1 class="text-2xl font-black mb-6">SIGN-UP / LOG-IN</h1>
-        
-        <div class="space-y-4">
-            <input type="text" id="username-input" placeholder="USERNAME" class="hidden w-full p-3 rounded-xl bg-slate-900 border border-white/10 outline-none focus:border-cyan-500">
-            
-            <input type="email" id="email-input" placeholder="EMAIL" class="w-full p-3 rounded-xl bg-slate-900 border border-white/10 outline-none focus:border-cyan-500">
-            
-            <input type="password" id="password-input" placeholder="PASSWORD" class="w-full p-3 rounded-xl bg-slate-900 border border-white/10 outline-none focus:border-cyan-500">
-            
-            <button id="auth-submit" onclick="handleAuth()" class="w-full py-3 bg-cyan-600 rounded-xl font-bold uppercase tracking-widest hover:bg-cyan-500">Login</button>
-            
-            <div class="flex justify-center gap-4 mt-4">
-                <button onclick="setAuthMode('login')" class="text-xs text-cyan-400">LOGIN</button>
-                <button onclick="setAuthMode('signup')" class="text-xs text-slate-500">SIGNUP</button>
+    <div class="steam-window w-[450px]">
+        <div class="flex items-center gap-2 mb-6">
+            <span class="text-white font-bold text-sm">Jayraffe Complex</span>
+        </div>
+
+        <div class="space-y-4 px-4">
+            <div class="flex gap-2 mb-4">
+                <button onclick="setAuthMode('login')" id="tab-login" class="text-[10px] text-white font-bold opacity-100">LOGIN</button>
+                <span class="opacity-30">|</span>
+                <button onclick="setAuthMode('signup')" id="tab-signup" class="text-[10px] text-white font-bold opacity-50">SIGNUP</button>
+            </div>
+
+            <div class="grid grid-cols-3 items-center gap-y-3">
+                
+                <label id="label-primary" class="label-yellow col-span-1">Email address</label>
+                <div class="col-span-2">
+                    <input type="email" id="email-input" class="steam-input">
+                </div>
+
+                <label id="label-username" class="label-yellow col-span-1 hidden">Username</label>
+                <div class="col-span-2 hidden" id="container-username">
+                    <input type="text" id="username-input" class="steam-input">
+                </div>
+
+                <label class="label-yellow col-span-1">Password</label>
+                <div class="col-span-2">
+                    <input type="password" id="password-input" class="steam-input">
+                </div>
+
+                <div class="col-start-2 col-span-2 flex items-center gap-2 mt-1">
+                    <input type="checkbox" id="remember" class="accent-[#4b564d]">
+                    <label for="remember" class="text-[10px]">Remember my password</label>
+                </div>
+            </div>
+
+            <div class="flex justify-start gap-2 mt-6 ml-[33.3%]">
+                <button id="auth-submit" onclick="handleAuth()" class="steam-btn">Login</button>
+                <button onclick="window.location.href='../homepage'" class="steam-btn">Cancel</button>
+            </div>
+
+            <hr class="steam-hr">
+
+            <div class="grid grid-cols-3 gap-y-2">
+                <span class="text-right pr-3 opacity-60">New here?</span>
+                <span class="col-span-2 link-style" onclick="setAuthMode('signup')">Create a new account...</span>
+                
+                <span class="text-right pr-3 opacity-60">Lost?</span>
+                <span class="col-span-2 link-style">Reset password...</span>
             </div>
         </div>
     </div>
 
     <script>
-        console.log("Auth script initialized.");
-
         let mode = 'login';
 
         function setAuthMode(newMode) {
             mode = newMode;
-            const uInput = document.getElementById('username-input');
+            const uInput = document.getElementById('container-username');
+            const uLabel = document.getElementById('label-username');
             const submitBtn = document.getElementById('auth-submit');
+            const tabLogin = document.getElementById('tab-login');
+            const tabSignup = document.getElementById('tab-signup');
             
             if (mode === 'signup') {
                 uInput.classList.remove('hidden');
+                uLabel.classList.remove('hidden');
                 submitBtn.innerText = "Create Account";
+                tabSignup.classList.replace('opacity-50', 'opacity-100');
+                tabLogin.classList.replace('opacity-100', 'opacity-50');
             } else {
                 uInput.classList.add('hidden');
+                uLabel.classList.add('hidden');
                 submitBtn.innerText = "Login";
+                tabLogin.classList.replace('opacity-50', 'opacity-100');
+                tabSignup.classList.replace('opacity-100', 'opacity-50');
             }
         }
 
-                            async function handleAuth() {
-    // Look for the global supabase client
-    const client = window.supabaseClient;
+        async function handleAuth() {
+            const client = window.supabaseClient;
+            if (!client) {
+                alert("System Error: Supabase connection not found.");
+                return;
+            }
 
-    if (!client) {
-        alert("System Error: Supabase connection not found. Check global.js");
-        return;
-    }
+            const email = document.getElementById('email-input').value;
+            const password = document.getElementById('password-input').value;
+            const username = document.getElementById('username-input').value;
 
-    const email = document.getElementById('email-input').value;
-    const password = document.getElementById('password-input').value;
-    const username = document.getElementById('username-input').value;
+            if (mode === 'signup') {
+                const { error } = await client.auth.signUp({
+                    email, 
+                    password, 
+                    options: { data: { display_name: username } }
+                });
+                if (error) alert(error.message);
+                else alert("Account Created! You can now login.");
+            } else {
+                const { error } = await client.auth.signInWithPassword({ email, password });
+                if (error) alert(error.message);
+                else window.location.href = "../homepage";
+            }
+        }
 
-    if (mode === 'signup') {
-        const { error } = await client.auth.signUp({
-            email, 
-            password, 
-            options: { data: { display_name: username } }
-        });
-        if (error) alert(error.message);
-        else alert("Account Created! You can now login.");
-    } else {
-        const { error } = await client.auth.signInWithPassword({ email, password });
-        if (error) alert(error.message);
-        else window.location.href = "../";
-    }
-}
-
-    document.getElementById('auth-submit').addEventListener('keypress', (e) => {
+        document.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') handleAuth();
         });
     </script>
-    
 </body>
 </html>

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jayraffe Complex | Message Board</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../global.js"></script>
+    <style>
+        :root {
+            --steam-bg: #3d463f;
+            --steam-panel: #4b564d;
+            --steam-border-light: #5d6a60;
+            --steam-border-dark: #2a322c;
+            --steam-input: #2a322c;
+            --steam-text: #d1d1d1;
+            --steam-yellow: #c1c6ad;
+        }
+
+        body { 
+            background-color: var(--steam-bg); 
+            color: var(--steam-text);
+            font-family: "Tahoma", "Verdana", sans-serif; 
+            font-size: 11px;
+        }
+
+        .steam-window {
+            background: var(--steam-panel);
+            border: 1px solid var(--steam-border-dark);
+            border-top: 1px solid var(--steam-border-light);
+            border-left: 1px solid var(--steam-border-light);
+        }
+
+        .steam-inset {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--steam-border-dark);
+            border-right: 1px solid var(--steam-border-light);
+            border-bottom: 1px solid var(--steam-border-light);
+        }
+
+        /* Forum Row Styling */
+        .forum-header {
+            background: #323933;
+            color: var(--steam-yellow);
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 10px;
+            padding: 4px 10px;
+            border-bottom: 1px solid var(--steam-border-dark);
+        }
+
+        .message-row {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            border-bottom: 1px solid rgba(0,0,0,0.2);
+        }
+
+        .message-row:nth-child(even) { background: rgba(255,255,255,0.03); }
+
+        .user-info {
+            padding: 10px;
+            border-right: 1px solid rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .message-body { padding: 10px; color: white; line-height: 1.4; }
+
+        .steam-input {
+            background: var(--steam-input);
+            border: 1px solid var(--steam-border-dark);
+            color: white;
+            padding: 8px;
+            outline: none;
+            width: 100%;
+            resize: none;
+        }
+
+        .steam-btn {
+            background: linear-gradient(to bottom, #5a665b 0%, #3d463f 100%);
+            border: 1px solid var(--steam-border-dark);
+            border-top: 1px solid var(--steam-border-light);
+            border-left: 1px solid var(--steam-border-light);
+            color: #fff;
+            padding: 4px 15px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Styling for Markdown elements inside the message board */
+        .message-body a { color: #c1c6ad; text-decoration: underline; }
+        .message-body code { background: rgba(0,0,0,0.3); padding: 1px 4px; font-family: monospace; color: #a3e635; }
+        .message-body blockquote { border-left: 3px solid #5d6a60; padding-left: 10px; font-style: italic; opacity: 0.8; }
+        .message-body ul { list-style-type: disc; margin-left: 1.5rem; }
+
+    </style>
+</head>
+<body class="p-4">
+
+    <nav class="steam-window mb-4 p-2 flex justify-between items-center">
+        <div class="flex gap-4">
+            <a href="../homepage" class="font-bold text-white px-2">JAYRAFFE COMPLEX</a>
+            <span class="opacity-30">|</span>
+            <span class="uppercase">Public Discussion</span>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto">
+        <div class="steam-window mb-4">
+            <div class="forum-header flex justify-between">
+                <span>Subject: General Hangout</span>
+                <span>v1.1.0</span>
+            </div>
+            
+            <div id="messages-container" class="steam-inset min-h-[400px] max-h-[600px] overflow-y-auto">
+                <div class="p-10 text-center opacity-40 italic">Syncing with board...</div>
+            </div>
+        </div>
+
+        <div class="steam-window p-4">
+    <div class="flex justify-between items-center mb-2">
+        <div class="label-yellow uppercase font-bold text-[10px]">Quick Reply</div>
+        <button id="preview-toggle-btn" onclick="togglePreview()" class="steam-btn !py-1 !px-2 opacity-70 hover:opacity-100">Preview</button>
+    </div>
+    
+    <div class="relative">
+        <textarea id="message-text" class="steam-input h-24 mb-3" placeholder="Use **bold**, _italic_, or `code` for text formatting."></textarea>
+        <div id="preview-area" class="hidden steam-inset h-24 mb-3 p-2 overflow-y-auto bg-[#323933] text-white prose prose-invert prose-xs max-w-none">
+            </div>
+    </div>
+    
+    <div class="flex justify-end">
+        <button onclick="postMessage()" class="steam-btn">Post Message</button>
+    </div>
+</div>
+
+        <nav class="steam-window mb-4 p-2 flex justify-between items-center">
+    <div class="flex gap-4 items-center">
+        <a href="../homepage" class="font-bold text-white px-2">JAYRAFFE COMPLEX</a>
+        <span class="opacity-30">|</span>
+        <span class="uppercase">Public Discussion</span>
+    </div>
+    <div class="flex items-center gap-2 px-2">
+        <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+        <span class="text-[9px] uppercase font-bold text-emerald-500">
+            Online Now: <span id="online-count">1</span>
+        </span>
+        <span id="online-users" class="text-[9px] opacity-40 ml-2 hidden md:inline"></span>
+    </div>
+</nav>
+
+<div id="mini-profile" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/40">
+    <div class="steam-window w-64 p-4">
+        <div class="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+            <span class="label-yellow text-[9px]">User Profile Card</span>
+            <button onclick="closeMiniProfile()" class="text-white hover:text-red-400 font-bold">X</button>
+        </div>
+        <div class="flex flex-col items-center">
+            <div id="mini-avatar" class="w-20 h-20 steam-inset mb-3 overflow-hidden flex items-center justify-center text-2xl">
+                👤
+            </div>
+            <h4 id="mini-name" class="text-white font-bold text-lg leading-none mb-1">...</h4>
+            <p id="mini-bio" class="text-[10px] italic opacity-60 text-center mb-4 px-2">...</p>
+            
+            <div class="flex gap-2 w-full">
+                <a id="view-full-profile" href="#" class="steam-btn flex-grow text-center py-2">View Full Profile</a>
+            </div>
+        </div>
+    </div>
+</div>
+    </main>
+
+    <script>
+    async function initMessageBoard() {
+        const client = window.supabaseClient;
+        if (!client) { setTimeout(initMessageBoard, 100); return; }
+
+        const { data: { user } } = await client.auth.getUser();
+        
+        // 1. Initial Load
+        await loadMessages();
+
+        // 2. Setup Realtime Channel for Messages & Presence
+        const channel = client.channel('board-room', {
+            config: { presence: { key: user?.id || 'guest-' + Math.random().toString(36).substr(2, 5) } }
+        });
+
+        // Listen for new messages
+        channel.on('postgres_changes', { 
+            event: 'INSERT', 
+            schema: 'public', 
+            table: 'messages' 
+        }, async (payload) => {
+            const { data: msgWithProfile } = await client
+                .from('messages')
+                .select('content, created_at, profiles(display_name, avatar_url)')
+                .eq('id', payload.new.id)
+                .single();
+            appendMessage(msgWithProfile);
+        });
+
+        // Listen for Presence changes (Who is online)
+        channel.on('presence', { event: 'sync' }, () => {
+            const state = channel.presenceState();
+            updateOnlineStatus(state);
+        });
+
+        channel.on('presence', { event: 'join' }, ({ key, newPresences }) => {
+            console.log('User joined:', key);
+        });
+
+        await channel.subscribe(async (status) => {
+            if (status === 'SUBSCRIBED' && user) {
+                // Fetch display name to show in the online list
+                const { data: profile } = await client
+                    .from('profiles')
+                    .select('display_name')
+                    .eq('id', user.id)
+                    .single();
+                
+                // Track this user
+                await channel.track({
+                    display_name: profile?.display_name || 'Anonymous',
+                    online_at: new Date().toISOString(),
+                });
+            }
+        });
+    }
+
+    function updateOnlineStatus(state) {
+    const countEl = document.getElementById('online-count');
+    const usersEl = document.getElementById('online-users');
+    
+    const userList = Object.values(state).flat();
+    countEl.innerText = userList.length;
+
+    usersEl.innerHTML = ''; // Clear current names
+    
+    if (userList.length > 0) {
+        usersEl.classList.remove('hidden');
+        usersEl.innerHTML = " — ";
+        
+        userList.forEach((u, index) => {
+            // Create a clickable link for each user
+            const span = document.createElement('span');
+            span.className = "hover:text-white cursor-pointer transition-colors underline decoration-white/10";
+            span.innerText = u.display_name;
+            span.onclick = () => showMiniProfile(u.user_id); // Assuming we pass user_id in track
+            
+            usersEl.appendChild(span);
+            if (index < userList.length - 1) usersEl.append(', ');
+        });
+    }
+}
+
+async function showMiniProfile(userId) {
+    const client = window.supabaseClient;
+    const modal = document.getElementById('mini-profile');
+    
+    // Fetch user data
+    const { data: profile } = await client
+        .from('profiles')
+        .select('id, display_name, avatar_url, bio')
+        .eq('id', userId)
+        .single();
+
+    if (!profile) return;
+
+    // Fill the modal
+    document.getElementById('mini-name').innerText = profile.display_name || "Unknown Citizen";
+    document.getElementById('mini-bio').innerText = profile.bio ? `"${profile.bio}"` : "No status recorded.";
+    document.getElementById('view-full-profile').href = `../profile/?id=${profile.id}`;
+    
+    if (profile.avatar_url) {
+        document.getElementById('mini-avatar').innerHTML = `<img src="${profile.avatar_url}" class="w-full h-full object-cover">`;
+    } else {
+        document.getElementById('mini-avatar').innerText = "👤";
+    }
+
+    // Show modal
+    modal.classList.remove('hidden');
+}
+
+function closeMiniProfile() {
+    document.getElementById('mini-profile').classList.add('hidden');
+}
+
+// Update the 'track' call in initMessageBoard to include the user_id
+// ... inside channel.subscribe ...
+await channel.track({
+    user_id: user.id, // CRITICAL: So we know who to fetch
+    display_name: profile?.display_name || 'Anonymous',
+    online_at: new Date().toISOString(),
+});
+
+// Configure Marked to be safe (no raw HTML)
+marked.setOptions({
+    headerIds: false,
+    mangle: false,
+    sanitize: true, // This ensures users can't inject <script> tags
+    breaks: true    // Treats single line breaks as <br>
+});
+
+function renderContent(rawText) {
+    if (!rawText) return "";
+    // Marked returns HTML, so we just pass the text through it
+    return marked.parse(rawText);
+}
+
+// Function to toggle a live preview
+function togglePreview() {
+    const input = document.getElementById('message-text');
+    const previewArea = document.getElementById('preview-area');
+    const btn = document.getElementById('preview-toggle-btn');
+
+    if (previewArea.classList.contains('hidden')) {
+        previewArea.innerHTML = renderContent(input.value);
+        previewArea.classList.remove('hidden');
+        input.classList.add('hidden');
+        btn.innerText = "Edit Message";
+    } else {
+        previewArea.classList.add('hidden');
+        input.classList.remove('hidden');
+        btn.innerText = "Preview";
+    }
+}
+
+function appendMessage(msg) {
+    const container = document.getElementById('messages-container');
+    const msgHtml = `
+        <div class="message-row animate-pulse">
+            <div class="user-info">
+                <div class="w-12 h-12 steam-inset mx-auto mb-2 overflow-hidden">
+                    ${msg.profiles?.avatar_url ? `<img src="${msg.profiles.avatar_url}" class="w-full h-full object-cover">` : `<span class="opacity-20 text-xl">👤</span>`}
+                </div>
+                <div class="font-bold text-white truncate">${msg.profiles?.display_name || 'Unknown'}</div>
+                <div class="text-[8px] opacity-40 uppercase mt-1">Member</div>
+            </div>
+            <div class="message-body">
+                <div class="text-[9px] opacity-30 mb-2">${new Date(msg.created_at).toLocaleString()}</div>
+                <div>${msg.content}</div>
+            </div>
+        </div>
+    `;
+    
+    // Check if "Syncing..." placeholder exists and remove it
+    if (container.innerText.includes("Syncing")) container.innerHTML = '';
+    
+    container.insertAdjacentHTML('beforeend', msgHtml);
+    container.scrollTop = container.scrollHeight;
+}
+
+// Update your window listener
+window.addEventListener('load', initMessageBoard);
+        async function postMessage() {
+            const client = window.supabaseClient;
+            const content = document.getElementById('message-text').value.trim();
+            if (!content) return;
+
+            const { data: { user } } = await client.auth.getUser();
+            if (!user) {
+                alert("You must be logged in to post.");
+                window.location.href = "../auth/";
+                return;
+            }
+
+            const { error } = await client
+                .from('messages')
+                .insert([{ content, user_id: user.id }]);
+
+            if (error) alert("Error posting: " + error.message);
+            else {
+                document.getElementById('message-text').value = '';
+                loadMessages();
+            }
+        }
+    </script>
+</body>
+</html>

@@ -5,7 +5,7 @@
     <title>Jayraffe Complex | OS Shell</title>
     <script src="https://cdn.tailwindcss.com"></script>
      <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/global.js"></script> 
+    <script src="global.js"></script> 
     <style>
         :root {
             --steam-bg: #38413a;
@@ -72,18 +72,18 @@
 </head>
 <body>
 
-    <iframe src="/homepage" id="content-frame"></iframe>
+    <iframe src="homepage/" id="content-frame"></iframe>
 
     <audio id="bg-music" loop>
-        <source src="/assets/audio/BGM/CCT.mp3" type="audio/mpeg">
+        <source src="assets/audio/BGM/CCT.mp3" type="audio/mpeg">
     </audio> 
 
     <div class="universal-hotbar">
         
         <div class="flex items-center gap-4">
-            <button onclick="navigateFrame('/homepage')" class="steam-btn">ARCHIVES</button>
-            <button onclick="navigateFrame('/network/')" class="steam-btn">CITIZENS</button>
-            <button onclick="navigateFrame('/profile/')" class="steam-btn">PROFILE</button>
+            <button onclick="navigateFrame('homepage/')" class="steam-btn">ARCHIVES</button>
+            <button onclick="navigateFrame('network/')" class="steam-btn">CITIZENS</button>
+            <button onclick="navigateFrame('profile/')" class="steam-btn">PROFILE</button>
         </div>
 
         <div class="flex items-center gap-6 bg-black/20 px-4 h-full border-x border-black/20">
@@ -92,10 +92,10 @@
                 <div class="flex flex-col">
                     <span class="text-[8px] font-bold text-emerald-500 tracking-tighter">AUDIO UPLINK</span>
                     <select id="track-selector" onchange="changeTrack(this.value)" class="steam-input">
-                        <option value="assets/audio/bgm/CCT.mp3">HL1: CLOSING THEME</option>
-                        <option value="assets/audio/bgm/NMJ.mp3">HL1: NUCLEAR MISSION JAM</option>
-                        <option value="assets/audio/bgm/VT.mp3">HL1: VALVE THEME</option>
-                        <option value="assets/audio/bgm/KB.mp3">HL1: KLAXON BEAT</option>
+                        <option value="assets/audio/BGM/CCT.mp3">HL1: CLOSING THEME</option>
+                        <option value="assets/audio/BGM/NMJ.mp3">HL1: NUCLEAR MISSION JAM</option>
+                        <option value="assets/audio/BGM/VT.mp3">HL1: VALVE THEME</option>
+                        <option value="assets/audio/BGM/KB.mp3">HL1: KLAXON BEAT</option>
                     </select>
                 </div>
             </div>
@@ -110,10 +110,10 @@
 
     <nav class="steam-window mb-4 p-2 flex justify-between items-center">
     <div class="flex gap-4 items-center">
-        <button onclick="navigateFrame('/homepage')" class="font-bold text-white px-2">JAYRAFFE COMPLEX</button>
+        <button onclick="navigateFrame('homepage/')" class="font-bold text-white px-2">JAYRAFFE COMPLEX</button>
         <span class="opacity-30">|</span>
         <div class="flex gap-3 uppercase text-[9px] font-bold">
-            <button onclick="navigateFrame('/board')" class="hover:text-white transition">Message Board</button>
+            <button onclick="navigateFrame('board/')" class="hover:text-white transition">Message Board</button>
         </div>
     </div>
     

@@ -98,8 +98,10 @@
         </div>
 
         <div class="tab-bar">
-            <div class="tab active" onclick="showTab('account')">Account</div>
+            <div class="tab active" onclick="showTab('general')">General</div>
+            <div class="tab" onclick="showTab('account')">Account</div>
             <div class="tab" onclick="showTab('interface')">Interface</div>
+            
         </div>
 
         <div class="content-area">
@@ -118,12 +120,19 @@
                 </div>
             </div>
 
+            <div id="tab-general" class="tab-content space-y-4">
+                <div>
+                    <label class="label-yellow">Auto-Skip Intro?</label>
+                    <input type="text" id="skip-intro" class="steam-input">
+                </div>
+            </div>
+
             <div id="tab-interface" class="tab-content hidden space-y-4">
                 <label class="label-yellow">UI Accent Color</label>
                 <select id="ui-theme" class="steam-input bg-[#2a322c]">
-                    <option value="classic">Complex Green (Default)</option>
-                    <option value="blue">Blue Shift</option>
-                    <option value="orange">Hazardous Orange</option>
+                    <option value="classic">Classic Green (Default)</option>
+                    <option value="blue">2010s Blue</option>
+                    <option value="orange">Team Fortress Themed</option>
                 </select>
                 <p class="text-[10px] opacity-60 italic">Note: Some interface elements may require a restart to reflect theme changes.</p>
             </div>

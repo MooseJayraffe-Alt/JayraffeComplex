@@ -96,7 +96,7 @@
                         <option value="assets/audio/BGM/NMJ.mp3">HL1: NUCLEAR MISSION JAM</option>
                         <option value="assets/audio/BGM/VT.mp3">HL1: VALVE THEME</option>
                         <option value="assets/audio/BGM/KB.mp3">HL1: KLAXON BEAT</option>
-                        <option value="assets/audio/BGM/KB.mp3">TF2 (Random Encounters): YOU AND ME</option>
+                        <option value="assets/audio/BGM/YAM.flac">TF2 (Random Encounters): YOU AND ME</option>
                     </select>
                 </div>
             </div>
@@ -115,6 +115,10 @@
         <span class="opacity-30">|</span>
         <div class="flex gap-3 uppercase text-[9px] font-bold">
             <button onclick="navigateFrame('board/')" class="hover:text-white transition">Message Board</button>
+        </div>
+
+        <div class="flex gap-3 uppercase text-[9px] font-bold">
+            <button onclick="navigateFrame('codefinder/')" class="hover:text-white transition">JCX-Code Finder</button>
         </div>
     </div>
     
@@ -164,6 +168,8 @@
             }
         }
 
+
+
         function openSettings() {
        // Opens settings in a specific 480x550 window, centered
         const width = 480;
@@ -171,7 +177,7 @@
         const left = (screen.width / 2) - (width / 2);
         const top = (screen.height / 2) - (height / 2);
     
-        window.open('/settings/', 'JayraffeSettings', 
+        window.open('settings/', 'JayraffeSettings', 
             `width=${width},height=${height},top=${top},left=${left},resizable=no,scrollbars=no`
         );
 }

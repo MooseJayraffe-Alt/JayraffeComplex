@@ -1,7 +1,7 @@
 name: Deploy Jayraffe Complex
 on:
   push:
-    branches: ["main"] # Or whatever your branch is called
+    branches: ["pages"] # Or whatever your branch is called
 permissions:
   contents: read
   pages: write

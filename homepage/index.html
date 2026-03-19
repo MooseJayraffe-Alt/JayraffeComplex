@@ -304,6 +304,13 @@
         
         // 3. Restart the video so the user hears the beginning of the intro
         introVideo.currentTime = 0; 
+
+
+        // Event: Video ends naturally
+introVideo.onended = () => {
+    console.log("Cinematic complete. Transitioning to Archives...");
+    skipIntro();
+};
         
         // 4. Re-call play (this 'unlocks' the audio context)
         const playPromise = introVideo.play();

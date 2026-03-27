@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jayraffe Complex | GMod 10 Workshop</title>
+    <style>
+        :root {
+            --steam-bg: #38413a;
+            --steam-panel: #4b564d;
+            --steam-border-light: #5d6a60;
+            --steam-border-dark: #2a322c;
+            --steam-yellow: #c1c6ad;
+            --steam-text: #d1d1d1;
+        }
+
+        body {
+            background-color: var(--steam-bg);
+            color: var(--steam-text);
+            font-family: "Tahoma", sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 200px;
+            background: var(--steam-olive-dark);
+            border-right: 1px solid var(--steam-border-dark);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 10px;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-header {
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: var(--steam-yellow);
+            margin-bottom: 5px;
+            padding-left: 5px;
+        }
+
+        .category-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--steam-text);
+            text-align: left;
+            padding: 6px 10px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .category-btn:hover {
+            background: var(--steam-panel);
+            border-color: var(--steam-border-light);
+        }
+
+        .category-btn.active {
+            background: var(--steam-panel);
+            color: white;
+            border-color: var(--steam-yellow);
+        }
+
+        /* --- MAIN CONTENT --- */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .workshop-header {
+            border-bottom: 1px solid var(--steam-border-dark);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+        }
+
+        .workshop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        /* --- ADDON CARD --- */
+        .addon-card {
+            background: var(--steam-panel);
+            border: 1px solid var(--steam-border-dark);
+            border-top: 1px solid var(--steam-border-light);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .addon-thumb {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: #000;
+            object-fit: cover;
+        }
+
+        .addon-info {
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .addon-name { font-weight: bold; font-size: 12px; color: white; margin: 0; }
+        .addon-meta { font-size: 9px; opacity: 0.6; text-transform: uppercase; }
+
+        .btn-mount {
+            background: linear-gradient(to bottom, #a4ad8d 0%, #6b7754 100%);
+            border: 1px solid #1a201b;
+            color: white;
+            font-weight: bold;
+            padding: 5px;
+            font-size: 10px;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+
+        .btn-mount:hover { filter: brightness(1.1); }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-header">Browse Addons</div>
+        <button class="category-btn active">All Items</button>
+        <button class="category-btn">Tools</button>
+        <button class="category-btn">Maps</button>
+        <button class="category-btn">Entities</button>
+        <button class="category-btn">NPCs</button>
+        <button class="category-btn">Vehicles</button>
+    </div>
+
+    <div class="main-content">
+        <div class="workshop-header">
+            <h2 style="margin: 0; color: white; font-style: italic;">GMod 10 Workshop</h2>
+            <p style="font-size: 10px; margin: 5px 0 0 0; color: var(--steam-yellow);">Legacy Preservation Hub</p>
+        </div>
+
+        <div class="workshop-grid" id="workshop-grid">
+            </div>
+    </div>
+
+    <script>
+        const addons = [
+            { id: 1, name: 'Wiremod Classic', type: 'Tool', author: 'Wire Team', img: 'https://via.placeholder.com/180x180/2a322c/c1c6ad?text=WIREMOD' },
+            { id: 2, name: 'gm_construct_flat', type: 'Map', author: 'Jay', img: 'https://via.placeholder.com/180x180/2a322c/c1c6ad?text=MAP' },
+            { id: 3, name: 'Phoenix Storms 3', type: 'Entity', author: 'PHX', img: 'https://via.placeholder.com/180x180/2a322c/c1c6ad?text=PHX3' },
+            { id: 4, name: 'SBEP Parts', type: 'Entity', author: 'SBEP', img: 'https://via.placeholder.com/180x180/2a322c/c1c6ad?text=SBEP' }
+        ];
+
+        function renderWorkshop() {
+            const grid = document.getElementById('workshop-grid');
+            grid.innerHTML = addons.map(item => `
+                <div class="addon-card">
+                    <img src="${item.img}" class="addon-thumb">
+                    <div class="addon-info">
+                        <p class="addon-name">${item.name}</p>
+                        <span class="addon-meta">${item.type} | By ${item.author}</span>
+                        <button class="btn-mount" onclick="mount(this)">+ MOUNT ADDON</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function mount(btn, fileUrl) {
+    btn.innerText = "DOWNLOADING...";
+    
+    // Create an invisible link to trigger the download
+    const link = document.createElement('a');
+    link.href = fileUrl; // e.g., "../assets/workshop_files/wiremod.7z"
+    link.download = ""; 
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    setTimeout(() => {
+        btn.innerText = "DOWNLOADED";
+        btn.style.background = "#3d463f";
+    }, 2000);
+}
+
+        window.onload = renderWorkshop;
+    </script>
+</body>
+</html>

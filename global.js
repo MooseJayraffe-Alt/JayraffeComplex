@@ -38,9 +38,9 @@ window.activityLibrary = {
             creator: "Studio MDHR",
             tags: "2D Side-Scroller / Action",
             desc: "hey can someone play as mughead (no-one except me would get this reference)",
-            banner: "assets/images/BendyThumbnail.jpg",
+            banner: "assets/images/CupheadThumbnail.avif",
             engine: "HTML5",
-            screenshots: ["assets/images/BendyThumbnail.jpg"],
+            screenshots: ["assets/images/CupheadThumbnail.avif"],
             config: { url: "https://moosejayraffe-alt.github.io/cuphead/" }
         },
 

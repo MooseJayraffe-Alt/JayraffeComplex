@@ -1,0 +1,99 @@
+/* --- THEME DEFINITIONS --- */
+/* --- THEME DEFINITIONS --- */
+:root {
+    --bg-main: #38413a;
+    --bg-panel: #4b564d;
+    --border-light: #5d6a60;
+    --border-dark: #2a322c;
+    --text-main: #d1d1d1;
+    --accent-yellow: #c1c6ad;
+    --btn-grad: linear-gradient(to bottom, #75826b 0%, #5a6651 100%);
+}
+
+/* Force the override */
+html.theme-invincible {
+    --bg-main: #1a1a2e !important;
+    --bg-panel: #16213e !important;
+    --border-light: #3b82f6 !important;
+    --border-dark: #0f172a !important;
+    --text-main: #ffffff !important;
+    --accent-yellow: #f3d32c !important;
+    --btn-grad: linear-gradient(to bottom, #3b82f6 0%, #1e40af 100%) !important;
+}
+
+/* --- THE ELEMENTS (This brings back the Steam look) --- */
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#content-frame {
+    flex-grow: 1;
+    width: 100%;
+    border: none;
+}
+
+.steam-window {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-dark);
+    border-top: 1px solid var(--border-light);
+    border-left: 1px solid var(--border-light);
+}
+
+.steam-btn {
+    background: var(--btn-grad);
+    border: 1px solid var(--border-dark);
+    border-top: 1px solid var(--border-light);
+    border-left: 1px solid var(--border-light);
+    color: var(--text-main);
+    padding: 2px 10px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.universal-hotbar {
+    background: #000;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+/* --- THE MAIN NAVIGATION WINDOW --- */
+.steam-window {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-dark);
+    border-top: 1px solid var(--border-light);
+    border-left: 1px solid var(--border-light);
+    padding: 5px;
+    margin: 10px;
+}
+
+/* --- THE CONTENT FRAME --- */
+#content-frame {
+    width: 100%;
+    flex-grow: 1; /* Makes the iframe fill the remaining space */
+    border: none;
+    background: #000;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: var(--input-bg); }
+::-webkit-scrollbar-thumb { background: var(--bg-panel); border: 1px solid var(--border-dark); }
+
+/* --- ANIMATIONS --- */
+@keyframes flicker {
+    0%, 100% { opacity: 1; }
+    92% { opacity: 1; }
+    94% { opacity: 0.6; }
+    98% { opacity: 0.3; }
+}
+.terminal-text::after { content: "_"; animation: blink 0.8s infinite; margin-left: 5px; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }

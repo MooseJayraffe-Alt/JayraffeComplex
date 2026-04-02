@@ -178,6 +178,38 @@ function playClick() {
     uiClickSound1.play().catch(e => console.log("Audio play blocked by browser. Interaction required."));
 }
 
+function applyTheme() {
+        // 1. Get the saved choice (default to steam if empty)
+        const savedTheme = localStorage.getItem('jayraffe-theme') || 'steam';
+        
+        // 2. Clear all classes and add the correct one
+        document.body.classList.remove('theme-steam', 'theme-invincible');
+        document.body.classList.add(`theme-${savedTheme}`);
+        
+        console.log("Current Theme Applied:", savedTheme);
+    }
+
+    // Run this the moment the page is ready
+    document.addEventListener('DOMContentLoaded', applyTheme);
+
+// This function runs the MOMENT a page starts loading
+(function() {
+    const savedTheme = localStorage.getItem('jayraffe-theme') || 'steam';
+    document.documentElement.className = `theme-${savedTheme}`; 
+    // Pro-tip: Using documentElement (the <html> tag) instead of <body> 
+    // prevents that "white flash" before the theme loads.
+})();
+
+function toggleTheme(name) {
+    // 1. Save it to memory so other pages can see it
+    localStorage.setItem('jayraffe-theme', name);
+
+    // 2. Send a "Message" to the parent page (the one holding the iframe)
+    window.parent.postMessage({ type: 'SET_THEME', theme: name }, '*');
+}
+// Initialize on every page
+document.addEventListener('DOMContentLoaded', applyTheme);
+
 // Global Listener for all button/link interactions
 document.addEventListener('click', (event) => {
     const target = event.target;

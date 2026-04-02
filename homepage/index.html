@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <script src="../global.js"></script>
+    <link rel="stylesheet" href="../themes.css">
+    
     <title>Jayraffe Complex | Archives</title>
 
     <style>
@@ -228,7 +231,7 @@
 
     <div id="intro-overlay">
         <video id="intro-video" style="width: 100%; height: 100%; object-fit: cover;">
-            <source src="../assets/videos/Opening.mp4" type="video/mp4">
+            <source src="../assets/videos/JayraffeComplexInvincible.mp4" type="video/mp4">
         </video>
         
         <button onclick="skipIntro()" class="steam-btn-classic" style="position: absolute; bottom: 40px; right: 40px; z-index: 10000;">
@@ -265,9 +268,10 @@
         //    { title: 'DOOM', status: 'Ready to Play', img: '../assets/images/DoomThumbnail.webp', url: 'experience/?id=doom' },
         //    { title: "Garry's Mod (10)", status: 'Update Required (Windows only.)', img: '../assets/images/GMOD.jpg', url: 'https://archive.org/download/mjayraffecomplexdirect/GMod10.7z' },
         //    { title: 'Half-Life 1', status: 'Update Required (Windows only.)', img: '../assets/images/HL1Thumbnail.jpg', url: 'https://archive.org/download/mjayraffecomplexdirect/Half-Life.7z' },
-            { title: 'Half-Life 1 (Cloud)', status: 'Ready to Play', img: '../assets/images/HL1Thumbnail.jpg', url: 'experience?id=hl1' },
+            { title: 'Half-Life 1', status: 'Update Required (Windows only)', img: '../assets/images/HL1Thumbnail.jpg', url: 'https://github.com/MooseJayraffe-Alt/JayraffeComplex/releases/download/Games/Half-Life.7z' },
             { title: 'Henry Stickmin: Escaping the Complex', status: 'Ready to Play', img: '../assets/images/HenryStickminETCThumbnail.avif', url: 'experience?id=etc' },
         //    { title: 'Hello Neighbor (Alpha 1)', status: 'Update Required (Windows only.)', img: '../assets/images/HL1Thumbnail.jpg', url: 'https://archive.org/download/hello-neighbor-pre-alpha.-7z/Hello%20Neighbor%20Alpha%201.7z' },
+            { title: 'Hello Neighbor (Alpha 1)', status: 'Update Required (Windows only.)', img: '../assets/images/HL1Thumbnail.jpg', url: 'https://s3.amazonaws.com/ghst/g/index.html' },
             { title: 'Hollow Knight', status: 'Ready to Play', img: '../assets/images/HollowKnightThumbnail.png', url: 'experience/?id=hk' },
         //    { title: 'Team Fortress 2', status: 'Update Required (Windows only.)', img: '../assets/images/tf2.jpg', url: 'https://archive.org/download/mjayraffecomplexdirect/Team%20Fortress%202.7z' },
         //    { title: 'ULTRAKILL', status: 'Ready to Play', img: '../assets/images/UltrakillThumbnail.jpg', url: 'experience/?id=ultrakill' },
@@ -390,6 +394,25 @@ introVideo.onended = () => {
                 entries[i].style.display = title.includes(input) ? "flex" : "none";
             }
         }
+        
+
+        window.addEventListener('message', function(event) {
+    if (event.data.type === 'SET_THEME') {
+        const newTheme = event.data.theme;
+        
+        // Remove old and add new
+        document.documentElement.className = ''; 
+        document.documentElement.classList.add(`theme-${newTheme}`);
+        
+        console.log("Communication received! Theme swapped to: " + newTheme);
+    }
+});
+
+// Also run this on load so the page starts with the right theme
+(function() {
+    const saved = localStorage.getItem('jayraffe-theme') || 'steam';
+    document.documentElement.className = `theme-${saved}`;
+})();
     </script>
 </body>
 </html>

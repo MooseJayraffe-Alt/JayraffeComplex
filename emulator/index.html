@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JCX Engine | DOOM</title>
+    <script src="https://js-dos.com/v7/build/releases/latest/js-dos.js"></script>
+    <style>
+        body, html, #dos {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        /* Custom Loading Text to match Jayraffe CSS */
+        .dosbox-loader {
+            font-family: "Tahoma", sans-serif;
+            color: #c1c6ad; /* Your Steam Yellow */
+            text-transform: uppercase;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="dos"></div>
+
+    <script>
+        // Initialize the hardware
+        Dos(document.getElementById("dos"), {
+            style: "hidden", // We hide their default UI to use yours later
+        }).then((runtime) => {
+            // Load the DOOM bundle
+            // This can be a local path or a Supabase URL
+            runtime.run("assets/games/doom.jsdos");
+        });
+    </script>
+</body>
+</html>

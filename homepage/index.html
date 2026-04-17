@@ -274,7 +274,7 @@
             { title: 'ghst', status: 'Update Required (Windows only.)', img: '../assets/images/HL1Thumbnail.jpg', url: 'https://s3.amazonaws.com/ghst/g/index.html' },
             { title: 'Hollow Knight', status: 'Ready to Play', img: '../assets/images/HollowKnightThumbnail.png', url: 'experience/?id=hk' },
             { title: 'Friday Night Funkin: SHUCKS', status: 'Coming Soon..', img: '../assets/images/Shucks.jpg', url: '' },
-        //    { title: 'Team Fortress 2', status: 'Update Required (Windows only.)', img: '../assets/images/tf2.jpg', url: 'https://archive.org/download/mjayraffecomplexdirect/Team%20Fortress%202.7z' },
+        //    { title: 'Team Fortress 2', status: 'Update Required (Windows only.)', img: '../assets/images/tf2.jpg', url: 'https://archive.org/download/mjayraffecomplexdirect/Team%20Fortress%202.7z' }, https://fnf.kdata1.com/2024/shucks-v2-reconstruction/1/
         //    { title: 'ULTRAKILL', status: 'Ready to Play', img: '../assets/images/UltrakillThumbnail.jpg', url: 'experience/?id=ultrakill' },
         ];
 
@@ -347,7 +347,7 @@ introVideo.onended = () => {
                         <p class="entry-title">${item.title}</p>
                         <p class="entry-status">${item.status}</p>
                     </div>
-                    <button onclick="window.location.href='../${item.url}'" class="btn-play">PLAY</button>
+                    <button onclick="window.location.href='${item.url}'" class="btn-play">PLAY</button>
                 </div>
             `).join('');
         }

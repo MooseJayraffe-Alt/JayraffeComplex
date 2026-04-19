@@ -17,6 +17,33 @@
             --steam-yellow: #c1c6ad;
         }
 
+        /* GDA & VOID THEMES */
+        [data-theme="invincible"] {
+            --steam-bg: #d7d949;
+            --steam-panel: #00b8f5;
+            --steam-border-light: #3f73e4;
+            --steam-border-dark: #000000;
+            --steam-input: #000000;
+            --steam-text: #ffffff;
+            --steam-yellow: #ffffff;
+        }
+
+        [data-theme="shucks"] {
+            --steam-bg: #0d0b0b;
+            --steam-panel: #1a1515;
+            --steam-border-light: #4a0000;
+            --steam-border-dark: #000000;
+            --steam-input: #050000;
+            --steam-accent: #ff0000;
+            --steam-text: #8c8c8c;
+            --steam-yellow: #ff0000;
+        }
+
+        [data-theme="shucks"] .settings-window {
+            background-image: url('assets/images/textures/Texture.jpg');
+            background-blend-mode: multiply;
+        }
+
         body { 
             background-color: var(--steam-bg); 
             color: var(--steam-text);
@@ -34,20 +61,21 @@
             margin: auto;
         }
 
-        /* Tab Navigation */
         .tab-bar {
             display: flex;
             padding: 10px 10px 0 10px;
             gap: 2px;
         }
+
         .tab {
             padding: 4px 12px;
-            background: #3d463f;
+            background: rgba(0,0,0,0.2);
             border: 1px solid var(--steam-border-dark);
             border-bottom: none;
             cursor: pointer;
             color: #888;
         }
+
         .tab.active {
             background: var(--steam-panel);
             color: white;
@@ -55,6 +83,13 @@
             border-left: 1px solid var(--steam-border-light);
             margin-bottom: -1px;
             z-index: 10;
+        }
+
+        /* Account Lock Style */
+        .tab.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            filter: grayscale(1);
         }
 
         .content-area {
@@ -98,14 +133,20 @@
         </div>
 
         <div class="tab-bar">
-            <div class="tab active" onclick="showTab('general')">General</div>
-            <div class="tab" onclick="showTab('account')">Account</div>
-            <div class="tab" onclick="showTab('interface')">Interface</div>
-            
+            <div id="btn-general" class="tab active" onclick="showTab('general')">General</div>
+            <div id="btn-account" class="tab" onclick="showTab('account')">Account</div>
+            <div id="btn-interface" class="tab" onclick="showTab('interface')">Interface</div>
         </div>
 
         <div class="content-area">
-            <div id="tab-account" class="tab-content space-y-4">
+            <div id="tab-general" class="tab-content space-y-4">
+                <div>
+                    <label class="label-yellow">Auto-Skip Intro?</label>
+                    <input type="text" id="skip-intro" class="steam-input" placeholder="Off">
+                </div>
+            </div>
+
+            <div id="tab-account" class="tab-content hidden space-y-4">
                 <div>
                     <label class="label-yellow">Display Name</label>
                     <input type="text" id="set-username" class="steam-input">
@@ -115,46 +156,66 @@
                     <input type="text" id="set-avatar" class="steam-input">
                 </div>
                 <div class="pt-4 border-t border-black/20">
-                    <p class="text-[9px] opacity-50 mb-2">Changing your email requires verification.</p>
                     <button class="steam-btn opacity-50" disabled>Change Email...</button>
                 </div>
             </div>
 
-            <div id="tab-general" class="tab-content space-y-4">
-                <div>
-                    <label class="label-yellow">Auto-Skip Intro?</label>
-                    <input type="text" id="skip-intro" class="steam-input">
-                </div>
-            </div>
-
             <div id="tab-interface" class="tab-content hidden space-y-4">
-                <label class="label-yellow">UI Accent Color</label>
-                <select id="ui-theme" class="steam-input bg-[#2a322c]">
-                    <option value="classic">Classic Green (Default)</option>
+                <label class="label-yellow">UI Uplink Mode</label>
+                <select id="ui-theme-select" onchange="updateTheme(this.value)" class="steam-input bg-[#2a322c]">
+                    <option value="steam">Classic Green</option>
+                    <option value="invincible">Invincible Yellow</option>
+                    <option value="shucks">Shucks Red</option>
                 </select>
-                <p class="text-[10px] opacity-60 italic">Note: Some interface elements may require a restart to reflect theme changes.</p>
+                <p class="text-[10px] opacity-60 italic">Theme changes sync instantly with the main console.</p>
             </div>
         </div>
 
         <div class="p-3 bg-black/10 flex justify-end gap-2">
             <button onclick="saveSettings()" class="steam-btn">OK</button>
-            <button onclick="window.location.href='../homepage'" class="steam-btn">Cancel</button>
+            <button onclick="window.close()" class="steam-btn">Cancel</button>
         </div>
     </div>
 
     <script>
         function showTab(tabName) {
+            const btn = document.getElementById('btn-' + tabName);
+            if (btn.classList.contains('disabled')) return;
+
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
             
             document.getElementById('tab-' + tabName).classList.remove('hidden');
-            event.currentTarget.classList.add('active');
+            btn.classList.add('active');
         }
 
-        async function loadCurrentSettings() {
-            const client = window.supabaseClient;
-            const { data: { user } } = await client.auth.getUser();
+        function updateTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('jayraffe-theme', theme);
             
+            // Send to parent window
+            if (window.opener) {
+                window.opener.postMessage({ type: 'THEME_UPDATE', theme: theme }, '*');
+            }
+        }
+
+        async function checkAuth() {
+            const client = window.supabaseClient;
+            if (!client) return;
+
+            const { data: { user } } = await client.auth.getUser();
+            const accountBtn = document.getElementById('btn-account');
+
+            if (!user) {
+                accountBtn.classList.add('disabled');
+                accountBtn.title = "Account tab requires login";
+            } else {
+                loadCurrentSettings(user);
+            }
+        }
+
+        async function loadCurrentSettings(user) {
+            const client = window.supabaseClient;
             const { data: profile } = await client
                 .from('profiles')
                 .select('*')
@@ -168,24 +229,37 @@
         }
 
         async function saveSettings() {
-            const client = window.supabaseClient;
-            const { data: { user } } = await client.auth.getUser();
+    const client = window.supabaseClient;
+    
+    // Save the Auto-Skip preference locally
+    const skipValue = document.getElementById('skip-intro').value.toLowerCase();
+    if (skipValue === 'on' || skipValue === 'yes' || skipValue === 'true') {
+        localStorage.setItem('auto-skip-intro', 'true');
+    } else {
+        localStorage.setItem('auto-skip-intro', 'false');
+    }
 
-            const updates = {
-                display_name: document.getElementById('set-username').value,
-                avatar_url: document.getElementById('set-avatar').value,
-            };
-
-            const { error } = await client
-                .from('profiles')
-                .update(updates)
-                .eq('id', user.id);
-
-            if (error) alert("Error: " + error.message);
-            else window.location.href = '../profile/';
-        }
-
-        window.addEventListener('load', loadCurrentSettings);
+    // Existing Supabase Profile logic
+    const { data: { user } } = await client.auth.getUser();
+    if(user) {
+        const updates = {
+            display_name: document.getElementById('set-username').value,
+            avatar_url: document.getElementById('set-avatar').value,
+        };
+        await client.from('profiles').update(updates).eq('id', user.id);
+    }
+    
+    window.close();
+}
+        // Init
+        (function() {
+            const saved = localStorage.getItem('jayraffe-theme') || 'steam';
+            document.documentElement.setAttribute('data-theme', saved);
+            document.getElementById('ui-theme-select').value = saved;
+            const isSkipping = localStorage.getItem('auto-skip-intro') === 'true';
+    document.getElementById('skip-intro').value = isSkipping ? 'On' : 'Off';
+            checkAuth();
+        })();
     </script>
 </body>
 </html>

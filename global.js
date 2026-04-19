@@ -64,6 +64,36 @@ window.activityLibrary = {
             screenshots: ["assets/images/DanganronpaThumbnail.webp"],
             config: { url: "https://selenite.cc/resources/semag/danganronpa/g.html" }
         },
+        "fnf": {
+            title: "Friday Night Funkin",
+            creator: "Ninjamuffin99 and the Funkin Crew",
+            tags: "Rhythm / Action",
+            desc: "getting ###### on a friday night, my name is coryxkenshin aka the samurai",
+            banner: "assets/images/FridayNightFunkinThumbnail.jpg",
+            engine: "HTML5",
+            screenshots: ["assets/images/FridayNightFunkinThumbnail.jpg"],
+            config: { url: "https://moosejayraffe-alt.github.io/JCXEngine/" }
+        },
+        "twiddlefingers": {
+            title: "Friday Night Funkin: TWIDDLEFINGERS!",
+            creator: "Ninjamuffin99 and the Funkin Crew and maxprolover988",
+            tags: "Rhythm / Action",
+            desc: "getting ###### on a friday night, my name is coryxkenshin aka the samurai",
+            banner: "assets/images/TwiddlefingersThumbnail.jpg",
+            engine: "HTML5",
+            screenshots: ["assets/images/TwiddlefingersThumbnail.jpg"],
+            config: { url: "https://fnf.kdata1.com/2024/twiddlefinger-fanmade/5/" }
+        }, //
+        "irida": {
+            title: "Friday Night Funkin: SHUCKS!",
+            creator: "Ninjamuffin99 and the Funkin Crew as well as VacantVal.",
+            tags: "Rhythm / Action",
+            desc: "SO I'LL WATCH AS YOU BLEED! FOR I WARNED YOU AND WARNED YOU, YOU DID NOT HEED.",
+            banner: "assets/images/Shucks.jpg",
+            engine: "HTML5",
+            screenshots: ["assets/images/Shucks.jpg"],
+            config: { url: "https://moosejayraffe-alt.github.io/ShucksJCX/" }
+        },
         "ultrakill": {
             title: "Ultrakill",
             creator: "New Blood Interactive",
@@ -84,8 +114,18 @@ window.activityLibrary = {
             screenshots: ["assets/images/HollowKnightThumbnail.png"],
             config: { url: "https://moosejayraffe-alt.github.io/hollow-knight/" }
         },
+        "faketsb": {
+            title: "TSB for Larpers",
+            creator: "Genuinely unknown bro what",
+            tags: "Combat / Action",
+            desc: "tsb but fake version, only sonic and naoya mains would play this bro",
+            banner: "assets/images/tsbforlarpersthumbnail.jpg",
+            engine: "HTML5",
+            screenshots: ["assets/images/tsbforlarpersthumbnail.jpg"],
+            config: { url: "https://app-423312.games.s3.yandex.net/423312/b2rilj3xzenwusikhr4jng7rpes3i7hd_brotli/index.html?sdk=%2Fsdk%2F_%2Fv2.c9dd7fdd48522a0f7d44.js#origin=https%3A%2F%2Fyandex.com&app-id=423312&device-type=desktop" }
+        }, //
         "etc": {
-            title: "Escaping the Complex",
+            title: "Fleeing the Complex",
             creator: "Puffballs United",
             tags: "Flash / THIS IS THE GREATEST PLANNNN",
             desc: "Relive the absolute peak that is Henry Stickmin. Powered by the Ruffle emulator.",
@@ -93,6 +133,76 @@ window.activityLibrary = {
             engine: "Flash",
             screenshots: ["assets/images/HenryStickminETCThumbnail.avif"],
             config: { filename: "fleeingthecomplexng" }
+        },
+        "etp": {
+            title: "Escaping the Prison",
+            creator: "Puffballs United",
+            tags: "Flash / THIS IS THE GREATEST PLANNNN",
+            desc: "Relive the absolute peak that is Henry Stickmin. Powered by the Ruffle emulator.",
+            banner: "assets/images/ETP.jpg",
+            engine: "Flash",
+            screenshots: ["assets/images/ETP.jpg"],
+            config: { filename: "escapingtheprisongame" }
+        },
+        "btb": {
+            title: "Breaking the Bank",
+            creator: "Puffballs United",
+            tags: "Flash / THIS IS THE GREATEST PLANNNN",
+            desc: "Relive the absolute peak that is Henry Stickmin. Powered by the Ruffle emulator.",
+            banner: "assets/images/BtBRTitle.webp",
+            engine: "Flash",
+            screenshots: ["assets/images/BtBRTitle.webp"],
+            config: { filename: "breakingthebank" }
+        },
+        "ita": {
+            title: "Infiltrating the Airship",
+            creator: "Puffballs United",
+            tags: "Flash / THIS IS THE GREATEST PLANNNN",
+            desc: "Relive the absolute peak that is Henry Stickmin. Powered by the Ruffle emulator.",
+            banner: "assets/images/ItARTitle.webp",
+            engine: "Flash",
+            screenshots: ["assets/images/ItARTitle.webp"],
+            config: { filename: "infiltratingtheairshipgame" }
+        }, //
+         "baldibasics": {
+            title: "Baldi's Basics in Education and Learning",
+            creator: "Mystman12",
+            tags: "Horror / Educational",
+            desc: "basics in behavior (i should NOT have mentioned that) ",
+            banner: "assets/images/HenryStickminETCThumbnail.avif",
+            engine: "HTML5",
+            screenshots: ["assets/images/HenryStickminETCThumbnail.avif"],
+            config: { url: "https://kdata1.com/5000/2025/baldi-remaster/" }
+        },
+        "hsdiamond": {
+            title: "Stealing the Diamond",
+            creator: "Puffballs United",
+            tags: "Flash / THIS IS THE GREATEST PLANNNN",
+            desc: "Relive the absolute peak that is Henry Stickmin. Powered by the Ruffle emulator.",
+            banner: "assets/images/StDRTitle.webp",
+            engine: "Flash",
+            screenshots: ["assets/images/StDRTitle.webp"],
+            config: { filename: "stealingthediamondgame" }
+        },
+        "doorsfake": {
+            title: "Doors for Larpers",
+            creator: "broski yet again who made this 💔",
+            tags: "Horror / Action",
+            desc: "seek chase ooh scary (for naoya mains and larpers)",
+            banner: "assets/images/doorsforlarpers.webp",
+            engine: "HTML5",
+            screenshots: ["assets/images/doorsforlarpers.webp"],
+            config: { url: "https://app-431552.games.s3.yandex.net/431552/8s8snjem1itmjlfeyc0llioy4sxcxsit_brotli/index.html?sdk=%2Fsdk%2F_%2Fv2.c9dd7fdd48522a0f7d44.js#origin=https%3A%2F%2Fyandex.com&app-id=431552&device-type=desktop" }
+        },
+        "airivals": {
+            title: "Rivals for Larpers",
+            creator: "broski who is making these games 💔",
+            tags: "Action / Shooter",
+            desc: "guys let's spam rpgs and chainsaws (for naoya mains and larpers)",
+            banner: "assets/images/doorsforlarpers.webp",
+            engine: "HTML5",
+            screenshots: ["assets/images/doorsforlarpers.webp"],
+            config: { url: "https://app-380901.games.s3.yandex.net/380901/1slplot4of7m0503jgmf5xum6agfxl0t_brotli/index.html?sdk=%2Fsdk%2F_%2Fv2.c9dd7fdd48522a0f7d44.js#origin=https%3A%2F%2Fyandex.com&app-id=380901&device-type=desktop" }
         }
  };
 
@@ -178,37 +288,25 @@ function playClick() {
     uiClickSound1.play().catch(e => console.log("Audio play blocked by browser. Interaction required."));
 }
 
-function applyTheme() {
-        // 1. Get the saved choice (default to steam if empty)
-        const savedTheme = localStorage.getItem('jayraffe-theme') || 'steam';
-        
-        // 2. Clear all classes and add the correct one
-        document.body.classList.remove('theme-steam', 'theme-invincible');
-        document.body.classList.add(`theme-${savedTheme}`);
-        
-        console.log("Current Theme Applied:", savedTheme);
-    }
+// Function to update the page theme
+function applyTheme(theme) {
+    // This adds [data-theme="name"] to the <html> tag
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('jayraffe-theme', theme);
+}
 
-    // Run this the moment the page is ready
-    document.addEventListener('DOMContentLoaded', applyTheme);
-
-// This function runs the MOMENT a page starts loading
+// Check for saved theme as soon as the script loads
 (function() {
-    const savedTheme = localStorage.getItem('jayraffe-theme') || 'steam';
-    document.documentElement.className = `theme-${savedTheme}`; 
-    // Pro-tip: Using documentElement (the <html> tag) instead of <body> 
-    // prevents that "white flash" before the theme loads.
+    const saved = localStorage.getItem('jayraffe-theme') || 'steam';
+    applyTheme(saved);
 })();
 
-function toggleTheme(name) {
-    // 1. Save it to memory so other pages can see it
-    localStorage.setItem('jayraffe-theme', name);
-
-    // 2. Send a "Message" to the parent page (the one holding the iframe)
-    window.parent.postMessage({ type: 'SET_THEME', theme: name }, '*');
-}
-// Initialize on every page
-document.addEventListener('DOMContentLoaded', applyTheme);
+// Listen for messages from the "Main" page (for Iframes)
+window.addEventListener('message', (event) => {
+    if (event.data.type === 'THEME_UPDATE') {
+        applyTheme(event.data.theme);
+    }
+});
 
 // Global Listener for all button/link interactions
 document.addEventListener('click', (event) => {

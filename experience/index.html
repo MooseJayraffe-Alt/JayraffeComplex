@@ -13,76 +13,117 @@
 
     <style>
         :root {
-            --steam-bg: #38413a;
-            --steam-panel: #4b564d;
-            --steam-border-light: #5d6a60;
-            --steam-border-dark: #2a322c;
-            --steam-input: #2a322c;
-            --steam-text: #d1d1d1;
-            --steam-yellow: #c1c6ad;
+            /* STEAM CLASSIC */
+            --ui-bg: #38413a;
+            --ui-panel: #4b564d;
+            --ui-border-light: #5d6a60;
+            --ui-border-dark: #2a322c;
+            --ui-input: #2a322c;
+            --ui-accent: #c1c6ad;
+            --ui-text: #d1d1d1;
+            --btn-grad-top: #758276;
         }
+
+        [data-theme="invincible"] {
+            /* GDA MODE */
+            --ui-bg: #ccab25;           /* Deep Black base */
+        --ui-panel: #17a4f6;        /* Dark Grey panels */
+        --ui-border-light: #2563eb; /* Suit Blue Piping */
+        --ui-border-dark: #000000;  
+        --ui-input: #000000;        
+        --ui-accent: #ffffff;       /* Electric Yellow (Gloves/Logo) */
+        --ui-text: #ffffff;
+        --ui-olive-dark: #101827;
+        --btn-grad: linear-gradient(to bottom, #1e3a8a 0%, #16213e 100%);
+        --btn-play-grad: linear-gradient(to bottom, #3b82f6 0%, #1e3a8a 100%);
+        }
+
+            [data-theme="shucks"] {
+    /* SHUCKS / VOID CORRUPTION MODE */
+    --ui-bg: #0d0b0b;           /* Darker, almost reddish-black */
+    --ui-panel: #1a1515;        /* Dark wood/rust panel */
+    --ui-border-light: #4a0000; /* Dried blood border */
+    --ui-border-dark: #000000;  
+    --ui-input: #050000;        /* Deep void pits */
+    --ui-accent: #ff0000;       /* Glitch Red / Blood */
+    --ui-text: #8c8c8c;         /* Ash grey text */
+    --btn-grad-top: #3d0000;    /* Crimson gradient top */
+    }
+
+    [data-theme="shucks"] .steam-window {
+        background-image: url('assets/images/textures/Texture.jpg'); /* If you have a wood texture */
+       background-blend-mode: multiply;
+    }
 
         body { 
-            background-color: var(--steam-bg); 
+            background-color: var(--ui-bg); 
             font-family: "Tahoma", "Verdana", sans-serif; 
-            color: var(--steam-text);
+            color: var(--ui-text);
             font-size: 11px;
+            transition: background-color 0.2s ease;
         }
 
-        /* HARD BORDERS (The 2004 Signature) */
+        /* HARD BORDERS */
         .steam-window {
-            background: var(--steam-panel);
-            border: 1px solid var(--steam-border-dark);
-            border-top: 1px solid var(--steam-border-light);
-            border-left: 1px solid var(--steam-border-light);
+            background: var(--ui-panel);
+            border: 1px solid var(--ui-border-dark);
+            border-top: 1px solid var(--ui-border-light);
+            border-left: 1px solid var(--ui-border-light);
             padding: 2px;
         }
 
         .steam-inset {
-            background: var(--steam-input);
-            border: 1px solid var(--steam-border-dark);
+            background: var(--ui-input);
+            border: 1px solid var(--ui-border-dark);
             box-shadow: inset 1px 1px 3px rgba(0,0,0,0.5);
         }
 
-        /* 2004 BUTTONS */
+        /* DYNAMIC BUTTONS */
         .steam-btn {
-            background: linear-gradient(to bottom, #758276 0%, #4b564d 100%);
-            border: 1px solid #1a201b;
-            border-top: 1px solid #5d6a60;
+            background: linear-gradient(to bottom, var(--btn-grad-top) 0%, var(--ui-panel) 100%);
+            border: 1px solid var(--ui-border-dark);
+            border-top: 1px solid var(--ui-border-light);
+            border-left: 1px solid var(--ui-border-light);
             color: white;
             padding: 4px 12px;
             font-weight: bold;
             cursor: pointer;
             text-transform: uppercase;
             font-size: 11px;
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.5);
         }
 
         .steam-btn:active {
-            background: #323933;
-            border: 1px solid #5d6a60;
-            border-top: 1px solid #1a201b;
+            background: var(--ui-input);
+            border: 1px solid var(--ui-border-light);
+            border-top: 1px solid var(--ui-border-dark);
         }
 
+        /* Large Launch Button - Uses Accent Color for Suit/GDA */
         .steam-btn-large {
-            background: linear-gradient(to bottom, #a4ad8d 0%, #6b7754 100%);
-            border: 1px solid #000;
+            background: linear-gradient(to bottom, var(--ui-accent) 0%, var(--ui-panel) 100%);
+            border: 1px solid var(--ui-border-dark);
+            color: #000; /* Dark text on bright launch button */
             padding: 10px 40px;
             font-size: 18px;
             font-weight: 900;
             font-style: italic;
         }
+        
+        [data-theme="steam"] .steam-btn-large { color: white; }
 
         h1 { color: #fff; text-shadow: 1px 1px 0px #000; }
 
-        /* TAB STYLE */
         .steam-tab {
             padding: 5px 15px;
-            background: var(--steam-panel);
-            border: 1px solid var(--steam-border-dark);
+            background: var(--ui-panel);
+            border: 1px solid var(--ui-border-dark);
+            border-top: 1px solid var(--ui-border-light);
+            border-left: 1px solid var(--ui-border-light);
             border-bottom: none;
             display: inline-block;
             margin-right: 2px;
-            color: var(--steam-yellow);
+            color: var(--ui-accent);
         }
     </style>
 </head>
@@ -231,6 +272,23 @@
                 updatePresence(data.title); 
             }
         }
+
+        window.addEventListener('message', (event) => {
+    // Only accept messages that look like our theme updates
+    if (event.data.type === 'THEME_UPDATE') {
+        // This applies the theme to the <html> tag of the sub-page
+        document.documentElement.setAttribute('data-theme', event.data.theme);
+        
+        // Also save it locally so if the iframe refreshes, it stays correct
+        localStorage.setItem('jayraffe-theme', event.data.theme);
+    }
+});
+
+// Check on initial load
+(function() {
+    const saved = localStorage.getItem('jayraffe-theme') || 'steam';
+    document.documentElement.setAttribute('data-theme', saved);
+})();
 
         window.addEventListener('load', () => {
             initPage();

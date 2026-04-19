@@ -4,73 +4,185 @@
     <meta charset="UTF-8">
     <title>Jayraffe Complex | Home</title>
     <script src="https://cdn.tailwindcss.com"></script>
-     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="styles.css">
     <script src="global.js"></script> 
+
     <style>
-        :root {
-            --steam-bg: #38413a;
-            --steam-panel: #4b564d;
-            --steam-border-light: #5d6a60;
-            --steam-border-dark: #2a322c;
-            --steam-input: #2a322c;
-            --steam-yellow: #c1c6ad;
-            --steam-green: #a4ad8d;
-        }
+    /* 1. THE DUAL-THEME ENGINE */
+    :root {
+        /* STEAM CLASSIC (Default) */
+        --ui-bg: #38413a;
+        --ui-panel: #4b564d;
+        --ui-border-light: #5d6a60;
+        --ui-border-dark: #2a322c;
+        --ui-input: #2a322c;
+        --ui-accent: #c1c6ad;
+        --ui-text: #ffffff;
+        --btn-grad-top: #758276;
+    }
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden; 
-            background-color: var(--steam-bg);
-            font-family: "Tahoma", sans-serif;
-            display: flex;
-            flex-direction: column; /* Stack frame on top of hotbar */
-        }
+    [data-theme="invincible"] {
+        /* GDA / INVINCIBLE MODE */
+--ui-bg: #ccab25;           /* Deep Black base */
+        --ui-panel: #ccab25;        /* Dark Grey panels */
+        --ui-border-light: #2563eb; /* Suit Blue Piping */
+        --ui-border-dark: #000000;  
+        --ui-input: #000000;        
+        --ui-accent: #46b2ff;       /* Electric Yellow (Gloves/Logo) */
+        --ui-text: #ffffff;
+        --btn-grad-top: #0091f2;    /* Blue nav buttons */
+    }
 
-        /* THE VIEWPORT (Where your site lives) */
-        #content-frame {
-            flex-grow: 1; /* Take up all available space */
-            width: 100%;
-            border: none;
-            background: #000;
-        }
+    [data-theme="shucks"] {
+    /* SHUCKS / VOID CORRUPTION MODE */
+    --ui-bg: #0d0b0b;           /* Darker, almost reddish-black */
+    --ui-panel: #1a1515;        /* Dark wood/rust panel */
+    --ui-border-light: #4a0000; /* Dried blood border */
+    --ui-border-dark: #000000;  
+    --ui-input: #050000;        /* Deep void pits */
+    --ui-accent: #ff0000;       /* Glitch Red / Blood */
+    --ui-text: #8c8c8c;         /* Ash grey text */
+    --btn-grad-top: #3d0000;    /* Crimson gradient top */
+}
 
-        .universal-hotbar {
-            height: 45px;
-            background: var(--steam-panel);
-            border-top: 1px solid var(--steam-border-light);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 15px;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
-            flex-shrink: 0; /* Don't let the hotbar squash */
-        }
+    [data-theme="shucks"] .universal-hotbar,
+    [data-theme="shucks"] .steam-window {
+        background-image: url('assets/images/textures/Texture.jpg'); /* If you have a wood texture */
+       background-blend-mode: multiply;
+    }
 
-        .steam-btn {
-            background: linear-gradient(to bottom, #758276 0%, #4b564d 100%);
-            border: 1px solid var(--steam-border-dark);
-            border-top: 1px solid var(--steam-border-light);
-            color: white;
-            padding: 2px 12px;
-            font-size: 11px;
-            font-weight: bold;
-            cursor: pointer;
-        }
 
-        .steam-btn:active { background: var(--steam-input); }
+    /* 2. THE LAYOUT */
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden; 
+        background-color: var(--ui-bg);
+        font-family: "Tahoma", sans-serif;
+        display: flex;
+        flex-direction: column;
+        transition: background-color 0.2s ease;
+    }
 
-        .steam-input {
-            background: var(--steam-input);
-            border: 1px solid var(--steam-border-dark);
-            color: var(--steam-yellow);
-            font-size: 10px;
-            outline: none;
-        }
+    #content-frame {
+        flex-grow: 1;
+        width: 100%;
+        border: none;
+        background: #000;
+    }
+    
+    .universal-hotbar {
+        height: 45px;
+        background: var(--ui-panel);
+        border-top: 1px solid var(--ui-border-light);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 15px;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+        flex-shrink: 0;
+        z-index: 100;
+    }
+
+    .steam-window-nav {
+        background: var(--ui-bg);
+        border-bottom: 1px solid var(--ui-border-dark);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 4px 10px;
+        flex-shrink: 0;
+    }
+
+    /* 3. THE COMPONENTS */
+    .steam-btn {
+        background: linear-gradient(to bottom, var(--btn-grad-top) 0%, var(--ui-panel) 100%);
+        border: 1px solid var(--ui-border-dark);
+        border-top: 1px solid var(--ui-border-light);
+        border-left: 1px solid var(--ui-border-light);
+        color: var(--ui-text);
+        padding: 2px 12px;
+        font-size: 11px;
+        font-weight: bold;
+        cursor: pointer;
+        text-shadow: 1px 1px 0px rgba(0,0,0,0.5);
+    }
+
+    .steam-btn:active { 
+        background: var(--ui-input); 
+    }
+
+    .steam-input {
+        background: var(--ui-input);
+        border: 1px solid var(--ui-border-dark);
+        color: var(--ui-accent);
+        font-size: 10px;
+        outline: none;
+        padding: 2px 4px;
+    }
+
+    .hotbar-ad-slot {
+        width: 234px;
+        height: 28px;
+        background: #000;
+        border: 1px solid var(--ui-border-dark);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        margin: 0 10px;
+    }
+
+    .ad-container {
+        position: relative;
+        display: flex;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ad-spoiler {
+        display: none;
+        position: absolute;
+        inset: 0;
+        background-color: #000;
+        color: #f3d32c;
+        align-items: center;
+        justify-content: center;
+        font-size: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 10;
+        border: 1px solid var(--ui-border-light);
+        text-transform: uppercase;
+    }
+
+    [data-theme="invincible"] .ad-spoiler { display: flex; }
+    .ad-spoiler.revealed { display: none !important; }
+
+    /* Custom range styling for the volume slider */
+    input[type=range] {
+        -webkit-appearance: none;
+        background: var(--ui-input);
+        height: 4px;
+        border: 1px solid var(--ui-border-dark);
+    }
+    input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 12px;
+        width: 8px;
+        background: var(--ui-accent);
+        cursor: pointer;
+        border: 1px solid var(--ui-border-dark);
+    }
     </style>
+
 </head>
-<body>
+
+    <body>
 
     <iframe src="homepage/" id="content-frame"></iframe>
 
@@ -97,17 +209,32 @@
                         <option value="assets/audio/BGM/VT.mp3">HL1: VALVE THEME</option>
                         <option value="assets/audio/BGM/KB.mp3">HL1: KLAXON BEAT</option>
                         <option value="assets/audio/BGM/YAM.flac">TF2 (Random Encounters): YOU AND ME</option>
+                        <option value="assets/audio/BGM/ShucksRetold.mp3">FNF: Shucks lyrics</option>
+                        <option value="assets/audio/BGM/AIZO.mp3">JJS/JJK: AIZO</option>
+                        <option value="assets/audio/BGM/BuildOurMachine.mp3">BATIM (DAGames): Build Our Machine</option>
                     </select>
                 </div>
             </div>
             <input type="range" min="0" max="1" step="0.01" value="0.5" class="w-16 accent-emerald-500" oninput="updateVolume(this.value)">
         </div>
+    
+        
+    <div class="hotbar-ad-slot" id="ad-right">
+    <div class="ad-container" onclick="revealAd(this)">
+        <div class="ad-spoiler">⚠️ SPOILER FOR: Invincible S4: E7 ⚠️</div>
+        <img src="assets/images/ads/UltrakillUpdate.png" alt="Ad Image">
+    </div>
+</div>
+        
+        <button id="theme-cycle-btn" onclick="cycleTheme()" class="steam-btn">
+            MODE: CLASSIC
+        </button>
 
         <div class="flex items-center gap-3">
-            <span class="text-[9px] font-bold text-slate-400">SESSION: <span class="text-emerald-500">ENCRYPTED</span></span>
-            <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_5px_#10b981]"></div>
         </div>
     </div>
+
+
 
     <nav class="steam-window mb-4 p-2 flex justify-between items-center">
     <div class="flex gap-4 items-center">
@@ -116,11 +243,6 @@
         <div class="flex gap-3 uppercase text-[9px] font-bold">
             <button onclick="navigateFrame('board/')" class="hover:text-white transition">Message Board</button>
         </div>
-
-        <div class="flex gap-3 uppercase text-[9px] font-bold">
-            <button onclick="navigateFrame('codefinder/')" class="hover:text-white transition">JCX-Code Finder</button>
-        </div>
-    </div>
     
     <div class="flex items-center gap-4 px-2">
         <button onclick="openSettings()" class="flex items-center gap-1 hover:text-white transition group">
@@ -133,9 +255,9 @@
 </nav>
 
     
-</body>
+    </body>
 
-<script>
+    <script>
         const music = document.getElementById('bg-music');
         const musicBtn = document.getElementById('music-btn');
         const frame = document.getElementById('content-frame');
@@ -160,6 +282,21 @@
             if (wasPlaying) music.play();
         }
 
+      function revealAd(container) {
+    // Check if we are actually in an Invincible mode
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const isInvincible = (currentTheme === 'invincible' || currentTheme === 'suit');
+
+    // Only allow revealing if the theme is correct
+    if (isInvincible) {
+        const spoiler = container.querySelector('.ad-spoiler');
+        if (spoiler) {
+            spoiler.classList.add('revealed');
+        }
+    } else {
+        console.log("Spoiler reveal blocked: Not in Invincible mode.");
+    }
+}
         function navigateFrame(url) {
             if (frame) {
                 frame.src = url;
@@ -168,6 +305,79 @@
             }
         }
 
+        // Function to apply the theme to the <html> tag
+        function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('jayraffe-theme', theme);
+
+     const adImg = document.querySelector('#ad-right img');
+        if (theme === 'invincible') {
+    adImg.src = 'assets/images/ads/ThraggAd.gif'; // A secret GDA ad
+} else {
+            adImg.src = 'assets/images/ads/UltrakillUpdate.png';
+        }
+}
+
+        // Run this immediately on load
+        (function() {
+    const saved = localStorage.getItem('jayraffe-theme') || 'steam';
+    applyTheme(saved);
+    updateThemeButtonText(saved);
+})();
+
+        function switchTheme(themeName) {
+            // 1. Update the main page
+            applyTheme(themeName); 
+
+            // 2. Tell the Iframe to update its colors
+            const frame = document.getElementById('content-frame');
+            if (frame && frame.contentWindow) {
+                frame.contentWindow.postMessage({ type: 'THEME_UPDATE', theme: themeName }, '*');
+            }
+        }
+
+    const themeRotation = ['steam', 'invincible', 'shucks']; 
+
+    function cycleTheme() {
+        // Get the current theme from the HTML attribute
+        let currentTheme = document.documentElement.getAttribute('data-theme') || 'steam';
+    
+        // Find the index of the next theme
+        let currentIndex = themeRotation.indexOf(currentTheme);
+        let nextIndex = (currentIndex + 1) % themeRotation.length;
+        let nextTheme = themeRotation[nextIndex];
+
+        // Apply it to the main page
+        applyTheme(nextTheme);
+
+        // Broadcast to the Iframe
+        const frame = document.getElementById('content-frame');
+        if (frame && frame.contentWindow) {
+            frame.contentWindow.postMessage({ type: 'THEME_UPDATE', theme: nextTheme }, '*');
+        }
+
+        const adImg = document.querySelector('#ad-right img');
+        if (nextTheme === 'invincible') {
+    adImg.src = 'assets/images/ads/ThraggAd.gif'; // A secret GDA ad
+} else {
+            adImg.src = 'assets/images/ads/UltrakillUpdate.png';
+        }
+    
+        // Update button text (optional)
+        updateThemeButtonText(nextTheme);
+    }
+
+    function updateThemeButtonText(theme) {
+    const btn = document.getElementById('theme-cycle-btn');
+    if (btn) {
+        const labels = {
+            'steam': 'THEME: CLASSIC',
+            'invincible': 'THEME: INVINCIBLE',
+            'shucks': 'THEME: SHUCKS' // Label for the Shucks theme
+        };
+        btn.innerText = labels[theme] || 'THEME: UNKNOWN';
+    }
+}   
 
 
         function openSettings() {

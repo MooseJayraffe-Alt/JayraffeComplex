@@ -133,7 +133,7 @@
                     </p>
 
                     <div id="server-preview" class="hidden mt-6 p-3 steam-inset bg-[#2a322c]">
-                        <p class="text-[10px] font-bold text-emerald-500 uppercase">Multiplayer detected: 12 Players Online</p>
+                        <p class="text-[10px] font-bold text-emerald-500 uppercase">Multiplayer detected: 0 Players Online</p>
                     </div>
                 </div>
             </div>
@@ -168,7 +168,7 @@
             data = library[activityId];
 
             if (data) {
-                document.title = `Steam | ${data.title}`;
+                document.title = `Jayraffe Complex | ${data.title}`;
                 document.getElementById('activity-title').innerText = data.title;
                 document.getElementById('activity-creator').innerText = `DEVELOPER: ${data.creator.toUpperCase()}`;
                 document.getElementById('activity-desc').innerText = data.desc;

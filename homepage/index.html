@@ -357,25 +357,39 @@ introVideo.onended = () => {
             setTimeout(() => introOverlay.remove(), 800);
         }
 
-        (function() {
-        const autoSkip = localStorage.getItem('auto-skip-intro') === 'true';
-        const video = document.getElementById('intro-video');
-
-        if (autoSkip) {
-            // Setting is ON: Kill the overlay immediately
-            skipIntro();
-            console.log("Jayraffe Complex // Intro bypassed by user preference.");
-        } else {
-            // Setting is OFF: Play normally
-            if (video) {
-                video.play().catch(e => console.log("Autoplay blocked: User must click first."));
-                
-                // Hide overlay automatically when video ends
-                video.onended = skipIntro;
-            }
+       (function() {
+    const autoSkip = localStorage.getItem('auto-skip-intro') === 'true';
+    const video = document.getElementById('intro-video');
+    const videoSource = video.querySelector('source');
+                                                                                                                         
+    if (autoSkip) {
+        // Setting is ON: Kill the overlay immediately
+        skipIntro();
+        console.log("Jayraffe Complex // Intro bypassed by user preference.");
+    } else {
+        // --- 1 IN 20 RARE INTRO LOGIC ---
+        const roll = Math.floor(Math.random() * 20) + 1; // Roll 1 to 20
+        
+        if (roll === 1) {
+            console.log("RARE EVENT: Initializing Alternate Intro Sequence...");
+            // Update the source to your rare video file
+            videoSource.src = "../assets/videos/HungryForKarma.mp4"; 
+            video.load(); // Reload the video element to register the new source
         }
-    })();
+        // --------------------------------
 
+        // Setting is OFF: Play normally
+        if (video) {
+            video.play().catch(e => {
+                console.log("Autoplay blocked: Triggering Uplink Prompt.");
+                showUplinkPrompt(); // Fallback if browser blocks audio
+            });
+            
+            // Hide overlay automatically when video ends
+            video.onended = skipIntro;
+        }
+    }
+})();
         // Standard helpers
         function renderArchives() {
             const list = document.getElementById('archive-list');

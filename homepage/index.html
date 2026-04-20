@@ -301,53 +301,45 @@
         const introOverlay = document.getElementById('intro-overlay');
         const introVideo = document.getElementById('intro-video');
 
-        function startIntro() {
-            // Attempt to play (usually starts muted/fails first)
-            introVideo.play().catch(() => showUplinkPrompt());
-        }
+        // Replace your current startIntro and showUplinkPrompt with this:
 
-        function showUplinkPrompt() {
+function startIntro() {
+    const video = document.getElementById('intro-video');
+    const overlay = document.getElementById('intro-overlay');
+
+    if (!video) return;
+
+    // Force it to try and play
+    const playPromise = video.play();
+
+    if (playPromise !== undefined) {
+        playPromise.catch(() => {
+            console.log("Autoplay blocked. Showing prompt...");
+            showUplinkPrompt(overlay, video);
+        });
+    }
+}
+
+function showUplinkPrompt(overlay, video) {
     if (document.getElementById('play-prompt')) return;
 
-    introOverlay.insertAdjacentHTML('afterbegin', `
-        <div id="play-prompt">
-            <div class="terminal-text">[ ACCESS RESTRICTED ]</div>
-            <p class="terminal-text" style="font-size: 11px; margin-top: 15px; opacity: 0.8;">
+    // Inject the HTML
+    overlay.insertAdjacentHTML('beforeend', `
+        <div id="play-prompt" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10001; text-align: center; cursor: pointer; width: 100%;">
+            <div class="terminal-text" style="font-size: 24px; color: var(--ui-accent); font-family: 'Courier New', monospace;">[ ACCESS RESTRICTED ]</div>
+            <p class="terminal-text" style="font-size: 11px; margin-top: 15px; opacity: 0.8; color: var(--ui-accent); font-family: 'Courier New', monospace;">
                 Click to Initialize Uplink
             </p>
         </div>
     `);
 
-    document.getElementById('play-prompt').onclick = function() {
-        console.log("Uplink Engaged: Unmuting Audio...");
-        
-        // 1. Remove the prompt
-        this.remove(); 
-        
-        // 2. THE CRITICAL FIX: Toggle muted and volume together
-        introVideo.muted = false;
-        introVideo.volume = 1.0; 
-        
-        // 3. Restart the video so the user hears the beginning of the intro
-        introVideo.currentTime = 0; 
-
-
-        // Event: Video ends naturally
-introVideo.onended = () => {
-    console.log("Cinematic complete. Transitioning to Archives...");
-    skipIntro();
-};
-        
-        // 4. Re-call play (this 'unlocks' the audio context)
-        const playPromise = introVideo.play();
-        
-        if (playPromise !== undefined) {
-            playPromise.then(_ => {
-                console.log("Audio successful.");
-            }).catch(error => {
-                console.error("Playback failed:", error);
-            });
-        }
+    const prompt = document.getElementById('play-prompt');
+    prompt.onclick = function() {
+        this.remove();
+        video.muted = false;
+        video.volume = 1.0;
+        video.play();
+        video.onended = skipIntro;
     };
 }
         function skipIntro() {

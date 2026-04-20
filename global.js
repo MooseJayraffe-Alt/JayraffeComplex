@@ -78,7 +78,7 @@ window.activityLibrary = {
             title: "Friday Night Funkin: TWIDDLEFINGERS!",
             creator: "Ninjamuffin99 and the Funkin Crew and maxprolover988",
             tags: "Rhythm / Action",
-            desc: "getting ###### on a friday night, my name is coryxkenshin aka the samurai",
+            desc: "After all, of the wasted years! Need a little bit of your fear, a little bit of your blood! Then we can finally be oneeee!",
             banner: "assets/images/TwiddlefingersThumbnail.jpg",
             engine: "HTML5",
             screenshots: ["assets/images/TwiddlefingersThumbnail.jpg"],
@@ -124,6 +124,16 @@ window.activityLibrary = {
             screenshots: ["assets/images/tsbforlarpersthumbnail.jpg"],
             config: { url: "https://app-423312.games.s3.yandex.net/423312/b2rilj3xzenwusikhr4jng7rpes3i7hd_brotli/index.html?sdk=%2Fsdk%2F_%2Fv2.c9dd7fdd48522a0f7d44.js#origin=https%3A%2F%2Fyandex.com&app-id=423312&device-type=desktop" }
         }, //
+        "lgtwiddlefingers": {
+            title: "Friday Night Funkin': TWIDDLEFINGERS! (Lyrics version)",
+            creator: "Luke Goji, and the Twiddlefingers team as well as FNF's.",
+            tags: "Rhythm / Action",
+            desc: "'I'll flush everything right down the toilet!' that line is a skibidi toilet reference i get it cuz maxdesignpro does skibidi toilet videos",
+            banner: "assets/images/TwiddlefingersThumbnail.jpg",
+            engine: "HTML5",
+            screenshots: ["assets/images/TwiddlefingersThumbnail.jpg"],
+            config: { url: "https://fnf.kdata1.com/2024/twiddlefinger-but-full-lyrics/1/" }
+        },
         "etc": {
             title: "Fleeing the Complex",
             creator: "Puffballs United",
@@ -143,7 +153,7 @@ window.activityLibrary = {
             engine: "Flash",
             screenshots: ["assets/images/ETP.jpg"],
             config: { filename: "escapingtheprisongame" }
-        },
+        }, //
         "btb": {
             title: "Breaking the Bank",
             creator: "Puffballs United",

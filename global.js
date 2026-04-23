@@ -88,7 +88,7 @@ window.activityLibrary = {
             title: "Friday Night Funkin: SHUCKS!",
             creator: "Ninjamuffin99 and the Funkin Crew as well as VacantVal.",
             tags: "Rhythm / Action",
-            desc: "SO I'LL WATCH AS YOU BLEED! FOR I WARNED YOU AND WARNED YOU, YOU DID NOT HEED.",
+            desc: "SO I'LL WATCH AS YOU BLEED! FOR I WARNED YOU AND WARNED YOU, YOU DID NOT HEED. also squcks doesn't work, pretty sure. only shucks does.",
             banner: "assets/images/Shucks.jpg",
             engine: "HTML5",
             screenshots: ["assets/images/Shucks.jpg"],
@@ -133,6 +133,16 @@ window.activityLibrary = {
             engine: "HTML5",
             screenshots: ["assets/images/TwiddlefingersThumbnail.jpg"],
             config: { url: "https://fnf.kdata1.com/2024/twiddlefinger-but-full-lyrics/1/" }
+        },
+        "vsyourself": {
+            title: "Friday Night Funkin': Silly Billy",
+            creator: "KBHGames, and the Silly Billy team as well as FNF's.",
+            tags: "Rhythm / Action",
+            desc: "I.. CHOOSE DEATH! ",
+            banner: "assets/images/TwiddlefingersThumbnail.jpg",
+            engine: "HTML5",
+            screenshots: ["assets/images/TwiddlefingersThumbnail.jpg"],
+            config: { url: "https://fnf.kdata1.com/2024/silly-billy-vs-yourself/1/" }
         },
         "etc": {
             title: "Fleeing the Complex",

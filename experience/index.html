@@ -51,7 +51,7 @@
     }
 
     [data-theme="shucks"] .steam-window {
-        background-image: url('assets/images/textures/Texture.jpg'); /* If you have a wood texture */
+        background-image: url('../assets/images/textures/Texture.jpg'); /* If you have a wood texture */
        background-blend-mode: multiply;
     }
 
@@ -125,6 +125,22 @@
             margin-right: 2px;
             color: var(--ui-accent);
         }
+
+        /* This ensures the container looks good when it's the only thing on screen */
+#activity-container:fullscreen {
+    width: 100vw;
+    height: 100vh;
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Fixes for Webkit browsers */
+#activity-container:-webkit-full-screen {
+    width: 100%;
+    height: 100%;
+}
     </style>
 </head>
 <body class="p-4">
@@ -159,6 +175,10 @@
             </div>
         </div>
 
+        <div class="bg-[#323933] p-1 mb-1 text-[10px] font-bold uppercase px-2 text-slate-400 flex justify-between items-center">
+        <button onclick="toggleFullscreen()" class="hover:text-white cursor-pointer">[ CLICK HERE TO PLAY IN FULLSCREEN ]</button>
+</div>
+        
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
             
             <div class="lg:col-span-2">
@@ -245,6 +265,26 @@
                 container.appendChild(activityFrame);
             }
         });
+
+        function toggleFullscreen() {
+    const container = document.getElementById('activity-container');
+
+    if (!document.fullscreenElement) {
+        // Enter Fullscreen
+        if (container.requestFullscreen) {
+            container.requestFullscreen();
+        } else if (container.webkitRequestFullscreen) { /* Safari */
+            container.webkitRequestFullscreen();
+        } else if (container.msRequestFullscreen) { /* IE11 */
+            container.msRequestFullscreen();
+        }
+    } else {
+        // Exit Fullscreen
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+    }
+}
 
         async function updatePresence(gameTitle) {
             const client = window.supabaseClient;

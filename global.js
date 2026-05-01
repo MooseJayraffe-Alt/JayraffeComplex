@@ -189,10 +189,20 @@ window.activityLibrary = {
             creator: "Mystman12",
             tags: "Horror / Educational",
             desc: "basics in behavior (i should NOT have mentioned that) ",
-            banner: "assets/images/HenryStickminETCThumbnail.avif",
+            banner: "assets/images/Baldi.webp",
             engine: "HTML5",
-            screenshots: ["assets/images/HenryStickminETCThumbnail.avif"],
+            screenshots: ["assets/images/Baldi.webp"],
             config: { url: "https://kdata1.com/5000/2025/baldi-remaster/" }
+        },
+         "minusb": {
+            title: "Baldi's Basics in Education and Learning: -B",
+            creator: "Mystman12 and Boolonx",
+            tags: "Horror / Educational",
+            desc: "bang bang bang bang bang til i take you down down down down i want you in the ground) ",
+            banner: "assets/images/Baldi.webp",
+            engine: "HTML5",
+            screenshots: ["assets/images/Baldi.webp"],
+            config: { url: "https://storage.boolonx.com/minusbweb/index.html" }
         },
         "hsdiamond": {
             title: "Stealing the Diamond",

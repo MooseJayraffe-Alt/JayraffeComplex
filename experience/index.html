@@ -55,6 +55,41 @@
        background-blend-mode: multiply;
     }
 
+    [data-theme="atrain"] {
+    --ui-bg: #0b162a;           /* Deep midnight blue base */
+    --ui-panel: #3280fd;        /* Vought-tech navy panels */
+    --ui-border-light: #006aff; /* Electric blue piping */
+    --ui-border-dark: #000000;  
+    --ui-input: #02050a;        
+    --ui-accent: #00f2ff;       /* Compound-V Cyan Glow */
+    --ui-text: #ffffff;
+    --ui-olive-dark: #1d6ef8;
+    --btn-grad: linear-gradient(to bottom, #254a7d 0%, #0a1a33 100%);
+    --btn-play-grad: linear-gradient(to bottom, #00f2ff 0%, #0077ff 100%);
+}
+
+/* Speed-blur effect for specific A-Train elements */
+[data-theme="atrain"] #activity-title {
+    color: var(--ui-accent);
+    text-shadow: 3px 0px 5px rgba(0, 242, 255, 0.4), -3px 0px 5px rgba(23, 105, 198, 0.4);
+    letter-spacing: 2px;
+    font-style: italic;
+}
+
+[data-theme="atrain"] .steam-btn-large {
+    color: #000;
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
+    transition: transform 0.1s ease;
+}
+
+[data-theme="atrain"] .steam-btn-large:hover {
+    transform: skewX(-10deg); /* Gives it a "moving fast" look */
+}
+
+[data-theme="atrain"] .steam-window {
+    background-image: radial-gradient(circle at 50% 50%, rgba(22, 57, 107, 0.1) 0%, transparent 80%);
+}
+
         body { 
             background-color: var(--ui-bg); 
             font-family: "Tahoma", "Verdana", sans-serif; 

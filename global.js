@@ -6,7 +6,7 @@ window.activityLibrary = {
             title: "Half-Life",
             creator: "Valve Software",
             tags: "FPS / GoldSrc",
-            desc: "Run, think, shoot.. live. Experience the original 1998 masterpiece directly in your browser. Since I can't host the data, find it on Internet Archive!",
+            desc: "Run, think, shoot.. live. Experience the original 1998 masterpiece directly in your browser.",
             banner: "assets/images/HL1Thumbnail.jpg",
             engine: "xash3d",
             screenshots: ["assets/images/HL1Thumbnail.jpg"],
@@ -73,6 +73,16 @@ window.activityLibrary = {
             engine: "HTML5",
             screenshots: ["assets/images/FridayNightFunkinThumbnail.jpg"],
             config: { url: "https://moosejayraffe-alt.github.io/JCXEngine/" }
+        },
+        "indiecross": {
+            title: "Friday Night Funkin: Indie Cross",
+            creator: "The Funkin' Crew and the Indie Cross team.",
+            tags: "Rhythm / Action",
+            desc: "don't get parried or skipped and swayed or dunked on in this epic battle.",
+            banner: "assets/images/FridayNightFunkinThumbnail.jpg",
+            engine: "HTML5",
+            screenshots: ["assets/images/FridayNightFunkinThumbnail.jpg"],
+            config: { url: "https://fnf.kdata1.com/2026/indie-cross/3/" }
         },
         "twiddlefingers": {
             title: "Friday Night Funkin: TWIDDLEFINGERS!",
@@ -222,7 +232,7 @@ window.activityLibrary = {
             banner: "assets/images/doorsforlarpers.webp",
             engine: "HTML5",
             screenshots: ["assets/images/doorsforlarpers.webp"],
-            config: { url: "https://app-431552.games.s3.yandex.net/431552/8s8snjem1itmjlfeyc0llioy4sxcxsit_brotli/index.html?sdk=%2Fsdk%2F_%2Fv2.c9dd7fdd48522a0f7d44.js#origin=https%3A%2F%2Fyandex.com&app-id=431552&device-type=desktop" }
+            config: { url: "https://yandex.com/games/app/431552?utm_source=distrib&amp;is-united-page=1&amp;skip-guard=1&amp;header=no&amp;utm_medium=moosejayraffe-alt.github.io/JayraffeComplex/&amp;clid=10575041&amp;flags=%7B%22adv_sticky_banner_disabled%22%3Atrue%7D" }
         },
         "airivals": {
             title: "Rivals for Larpers",

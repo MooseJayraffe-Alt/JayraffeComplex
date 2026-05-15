@@ -22,6 +22,16 @@ window.activityLibrary = {
             screenshots: ["assets/images/DeltaruneThumbnail.webp"],
             config: { url: "https://jimmyqrg.github.io/loader/?content=https%3A%2F%2Fjimmyqrg.github.io%2Fjqrg-activitys%2Factivitys%2Fdeltarune%2F" }
         },
+        "donuteria": {
+            title: "Papa's Donuteria",
+            creator: "Flipline Studios",
+            tags: "2D/Cooking",
+            desc: "homer drops his donuts, d'oh!",
+            banner: "assets/images/PapasDonuteria.jpg",
+            engine: "Flash",
+            screenshots: ["assets/images/PapasDonuteria.jpg"],
+            config: { filename: "papasdonuteria" }
+        },
         "bendy": {
             title: "Bendy and the Ink Machine",
             creator: "TheMeatly",
@@ -42,6 +52,17 @@ window.activityLibrary = {
             engine: "HTML5",
             screenshots: ["assets/images/CupheadThumbnail.avif"],
             config: { url: "https://moosejayraffe-alt.github.io/cuphead/" }
+        }, //
+
+        "pizzatower": {
+            title: "Pizza Tower",
+            creator: "Studio MDHR",
+            tags: "2D Side-Scroller / Action",
+            desc: "pizza guy from pizza time",
+            banner: "assets/images/PT.jpg",
+            engine: "HTML5",
+            screenshots: ["assets/images/PT.jpg"],
+            config: { url: "https://www.autistici.org/burnedprojects/NoiseUpdate/" }
         },
 
         "doom": {
@@ -96,13 +117,23 @@ window.activityLibrary = {
         }, //
         "irida": {
             title: "Friday Night Funkin: SHUCKS!",
-            creator: "Ninjamuffin99 and the Funkin Crew as well as VacantVal.",
+            creator: "Ninjamuffin99 and the Funkin Crew as well as the Shucks V2 team.",
             tags: "Rhythm / Action",
             desc: "SO I'LL WATCH AS YOU BLEED! FOR I WARNED YOU AND WARNED YOU, YOU DID NOT HEED. also squcks doesn't work, pretty sure. only shucks does.",
             banner: "assets/images/Shucks.jpg",
             engine: "HTML5",
             screenshots: ["assets/images/Shucks.jpg"],
-            config: { url: "https://moosejayraffe-alt.github.io/ShucksJCX/" }
+            config: { url: "https://fnf.kdata1.com/2024/shucks-v2-reconstruction/1/" }
+        },
+        "mc": {
+            title: "Minecraft",
+            creator: "Mojang and the Eaglercraft team.",
+            tags: "3D / Adventure",
+            desc: "buddy you think you look strong? you're just a cheap flipping knockoff. Oh no no no, I'm the upgrade. (if yk peak yk)",
+            banner: "assets/images/mc.avif",
+            engine: "HTML5",
+            screenshots: ["assets/images/mc.avif"],
+            config: { url: "https://irv77.github.io/AmplerLauncher/mc/1.12.2/" }
         },
         "ultrakill": {
             title: "Ultrakill",
@@ -224,26 +255,6 @@ window.activityLibrary = {
             screenshots: ["assets/images/StDRTitle.webp"],
             config: { filename: "stealingthediamondgame" }
         },
-        "doorsfake": {
-            title: "Doors for Larpers",
-            creator: "broski yet again who made this 💔",
-            tags: "Horror / Action",
-            desc: "seek chase ooh scary (for naoya mains and larpers)",
-            banner: "assets/images/doorsforlarpers.webp",
-            engine: "HTML5",
-            screenshots: ["assets/images/doorsforlarpers.webp"],
-            config: { url: "https://yandex.com/games/app/431552?utm_source=distrib&amp;is-united-page=1&amp;skip-guard=1&amp;header=no&amp;utm_medium=moosejayraffe-alt.github.io/JayraffeComplex/&amp;clid=10575041&amp;flags=%7B%22adv_sticky_banner_disabled%22%3Atrue%7D" }
-        },
-        "airivals": {
-            title: "Rivals for Larpers",
-            creator: "broski who is making these games 💔",
-            tags: "Action / Shooter",
-            desc: "guys let's spam rpgs and chainsaws (for naoya mains and larpers)",
-            banner: "assets/images/doorsforlarpers.webp",
-            engine: "HTML5",
-            screenshots: ["assets/images/doorsforlarpers.webp"],
-            config: { url: "https://app-380901.games.s3.yandex.net/380901/1slplot4of7m0503jgmf5xum6agfxl0t_brotli/index.html?sdk=%2Fsdk%2F_%2Fv2.c9dd7fdd48522a0f7d44.js#origin=https%3A%2F%2Fyandex.com&app-id=380901&device-type=desktop" }
-        }
  };
 
 // This is the ONLY place 'supabase' is declared

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jayraffe Complex</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../global.js"></script>
+
+    <style>
+        :root {
+            /* STEAM CLASSIC */
+            --ui-bg: #38413a;
+            --ui-panel: #4b564d;
+            --ui-border-light: #5d6a60;
+            --ui-border-dark: #2a322c;
+            --ui-input: #2a322c;
+            --ui-accent: #c1c6ad;
+            --ui-text: #d1d1d1;
+            --btn-grad-top: #758276;
+        }
+
+        [data-theme="invincible"] {
+            --ui-bg: #ccab25;
+            --ui-panel: #17a4f6;
+            --ui-border-light: #2563eb;
+            --ui-border-dark: #000000;  
+            --ui-input: #000000;        
+            --ui-accent: #ffffff;
+            --ui-text: #ffffff;
+            --ui-olive-dark: #101827;
+            --btn-grad: linear-gradient(to bottom, #1e3a8a 0%, #16213e 100%);
+        }
+
+        [data-theme="shucks"] {
+            --ui-bg: #0d0b0b;
+            --ui-panel: #1a1515;
+            --ui-border-light: #4a0000;
+            --ui-border-dark: #000000;  
+            --ui-input: #050000;
+            --ui-accent: #ff0000;
+            --ui-text: #8c8c8c;
+            --btn-grad-top: #3d0000;
+        }
+
+        [data-theme="atrain"] {
+            --ui-bg: #0b162a;
+            --ui-panel: #3280fd;
+            --ui-border-light: #006aff;
+            --ui-border-dark: #000000;  
+            --ui-input: #02050a;
+            --ui-accent: #00f2ff;
+            --ui-text: #ffffff;
+            --ui-olive-dark: #1d6ef8;
+        }
+
+        body { 
+            background-color: var(--ui-bg); 
+            font-family: "Tahoma", "Verdana", sans-serif; 
+            color: var(--ui-text);
+            font-size: 11px;
+            transition: background-color 0.2s ease;
+        }
+
+        .steam-window {
+            background: var(--ui-panel);
+            border: 1px solid var(--ui-border-dark);
+            border-top: 1px solid var(--ui-border-light);
+            border-left: 1px solid var(--ui-border-light);
+            padding: 2px;
+        }
+
+        .steam-inset {
+            background: var(--ui-input);
+            border: 1px solid var(--ui-border-dark);
+            box-shadow: inset 1px 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .steam-btn {
+            background: linear-gradient(to bottom, var(--btn-grad-top) 0%, var(--ui-panel) 100%);
+            border: 1px solid var(--ui-border-dark);
+            border-top: 1px solid var(--ui-border-light);
+            border-left: 1px solid var(--ui-border-light);
+            color: white;
+            padding: 4px 12px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 11px;
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.5);
+        }
+
+        .steam-btn-large {
+            background: linear-gradient(to bottom, var(--ui-accent) 0%, var(--ui-panel) 100%);
+            border: 1px solid var(--ui-border-dark);
+            color: #000;
+            padding: 10px 40px;
+            font-size: 18px;
+            font-weight: 900;
+            font-style: italic;
+        }
+        
+        [data-theme="steam"] .steam-btn-large { color: white; }
+
+        .steam-tab {
+            padding: 5px 15px;
+            background: var(--ui-panel);
+            border: 1px solid var(--ui-border-dark);
+            border-top: 1px solid var(--ui-border-light);
+            border-left: 1px solid var(--ui-border-light);
+            border-bottom: none;
+            display: inline-block;
+            margin-right: 2px;
+            color: var(--ui-accent);
+        }
+
+        #activity-container:fullscreen { width: 100vw; height: 100vh; background: black; }
+    </style>
+</head>
+<body class="p-4">
+
+    <nav class="flex justify-between items-center mb-4 pb-2 border-b border-white/10">
+        <a href="../homepage" class="font-bold text-white tracking-tight text-lg">
+            JAYRAFFE COMPLEX <span class="text-xs opacity-50 font-normal"></span>
+        </a>
+        <div class="flex items-center gap-4">
+            <div class="text-right">
+                <span id="user-name" class="font-bold text-white">Guest User</span>
+                <p id="user-rank" class="text-[9px] uppercase opacity-50">Not Connected</p>
+            </div>
+            <div id="user-avatar" class="w-8 h-8 steam-inset flex items-center justify-center">👤</div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto">
+        
+        <div class="steam-window mb-6">
+            <div class="relative bg-black aspect-video w-full steam-inset overflow-hidden">
+                <div id="activity-container" class="w-full h-full flex items-center justify-center">
+                    <div id="loading-ui" class="text-center">
+                        <button id="start-btn" class="steam-btn steam-btn-large">
+                            ESTABLISH UPLINK
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-[#323933] p-1 mb-1 text-[10px] font-bold uppercase px-2 text-slate-400 flex justify-between items-center">
+            <button onclick="toggleFullscreen()" class="hover:text-white cursor-pointer">[ FULLSCREEN ]</button>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div class="lg:col-span-2">
+                <div class="steam-tab uppercase font-bold">Description</div>
+                <div class="steam-window p-6 min-h-[200px]">
+                    <h1 id="movie-name" class="text-4xl font-black italic uppercase mb-1">LOADING METADATA...</h1>
+                    <div class="h-px w-full bg-black/20 mb-4"></div>
+                    <p id="movie-plot" class="text-sm leading-relaxed text-slate-300">
+                        Connecting to TMDb database... please stand by.
+                    </p>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="steam-tab uppercase font-bold">Options</div>
+                <div class="steam-window p-4 flex flex-col gap-2">
+                    <button onclick="window.history.back()" class="steam-btn w-full text-center">BACK TO ARCHIVES</button>
+                    <button class="steam-btn w-full">SHARE FEED</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const TMDB_KEY = '7903604122024e0b7efb57b94fa08ea7';
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id') || '756999'; 
+        const type = params.get('type') || 'movie';
+        
+        let movieTitle = "Cinema Feed";
+
+        async function fetchMetadata() {
+            try {
+                const response = await fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${TMDB_KEY}`);
+                const data = await response.json();
+                movieTitle = data.title || data.name;
+                document.getElementById('movie-name').innerText = movieTitle;
+                document.getElementById('movie-plot').innerText = data.overview;
+                document.getElementById('display-id').innerText = `ID_${id}`;
+                document.title = `Jayraffe Complex | ${movieTitle}`;
+            } catch (err) {
+                console.error("Metadata fetch failed", err);
+            }
+        }
+
+        document.getElementById('start-btn').addEventListener('click', function () {
+            const container = document.getElementById('activity-container');
+            container.innerHTML = ''; 
+
+            const uiAccent = getComputedStyle(document.documentElement).getPropertyValue('--ui-accent').trim().replace('#', '');
+            const vidkingBase = "https://www.vidking.net/embed";
+            let embedUrl = "";
+
+            if (type === 'tv') {
+                const season = params.get('s') || 1;
+                const episode = params.get('e') || 1;
+                embedUrl = `${vidkingBase}/tv/${id}/${season}/${episode}?color=${uiAccent}&nextEpisode=true&episodeSelector=true`;
+            } else {
+                const savedProgress = localStorage.getItem(`progress_${id}`);
+                const progressParam = savedProgress ? `&progress=${Math.floor(savedProgress)}` : '';
+                embedUrl = `${vidkingBase}/movie/${id}?color=${uiAccent}&autoPlay=true${progressParam}`;
+            }
+
+            const frame = document.createElement('iframe');
+            frame.src = embedUrl;
+            frame.className = "w-full h-full border-0";
+            frame.allowFullscreen = true;
+            container.appendChild(frame);
+
+            updatePresence(movieTitle);
+            setInterval(() => { updatePresence(movieTitle); }, 30000);
+        });
+
+        function toggleFullscreen() {
+            const container = document.getElementById('activity-container');
+            if (!document.fullscreenElement) {
+                container.requestFullscreen?.() || container.webkitRequestFullscreen?.();
+            } else {
+                document.exitFullscreen?.();
+            }
+        }
+
+        async function updatePresence(title) {
+            const client = window.supabaseClient;
+            if(!client) return;
+            const { data: { user } } = await client.auth.getUser();
+            if (user) {
+                await client.from('presence').upsert({ 
+                    user_id: user.id, 
+                    last_seen: new Date().toISOString(),
+                    current_activity: `Watching ${title}` 
+                });
+            }
+        }
+
+        async function syncUserStatus() {
+            const client = window.supabaseClient;
+            if(!client) return;
+            const { data: { user } } = await client.auth.getUser();
+            if (user) {
+                document.getElementById('user-name').innerText = user.user_metadata?.display_name || user.email.split('@')[0];
+                document.getElementById('user-rank').innerText = "Verified Citizen";
+                if (user.user_metadata?.avatar_url) {
+                    document.getElementById('user-avatar').innerHTML = `<img src="${user.user_metadata.avatar_url}" class="w-full h-full object-cover">`;
+                }
+            }
+        }
+
+        // Theme and Progress Listeners
+        window.addEventListener("message", function (event) {
+            if (event.origin.includes("vidking.net")) {
+                try {
+                    const playerData = JSON.parse(event.data);
+                    if (playerData.type === "PLAYER_EVENT" && playerData.data.event === "timeupdate") {
+                        localStorage.setItem(`progress_${playerData.data.id}`, playerData.data.currentTime);
+                    }
+                } catch (err) {}
+            }
+            if (event.data.type === 'THEME_UPDATE') {
+                document.documentElement.setAttribute('data-theme', event.data.theme);
+                localStorage.setItem('jayraffe-theme', event.data.theme);
+            }
+        });
+
+        window.addEventListener('load', () => {
+            const saved = localStorage.getItem('jayraffe-theme') || 'steam';
+            document.documentElement.setAttribute('data-theme', saved);
+            fetchMetadata();
+            syncUserStatus();
+        });
+    </script>
+</body>
+</html>

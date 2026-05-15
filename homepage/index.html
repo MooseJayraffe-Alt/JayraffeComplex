@@ -27,12 +27,12 @@
 
     /* THEME: INVINCIBLE (GDA Colors) */
     [data-theme="invincible"] {
-       --ui-bg: #17a8f6;           /* Deep Black base */
-        --ui-panel: #ccab25;        /* Dark Grey panels */
+       --ui-bg: #ffd325;           /* Deep Black base */
+        --ui-panel: #17a8f6;        /* Dark Grey panels */
         --ui-border-light: #2563eb; /* Suit Blue Piping */
         --ui-border-dark: #000000;  
         --ui-input: #000000;        
-        --ui-accent: #46b2ff;       /* Electric Yellow (Gloves/Logo) */
+        --ui-accent: #ffffff;       /* Electric Yellow (Gloves/Logo) */
         --ui-text: #ffffff;
         --ui-olive-dark: #101827;
         --btn-grad: linear-gradient(to bottom, #1e3a8a 0%, #16213e 100%);
@@ -50,51 +50,51 @@
     --ui-olive-dark: #1d6ef8;
     --btn-grad: linear-gradient(to bottom, #254a7d 0%, #0a1a33 100%);
     --btn-play-grad: linear-gradient(to bottom, #00f2ff 0%, #0077ff 100%);
-}
+    }
 
-/* Speed-blur effect for specific A-Train elements */
-[data-theme="atrain"] #activity-title {
-    color: var(--ui-accent);
-    text-shadow: 3px 0px 5px rgba(0, 242, 255, 0.4), -3px 0px 5px rgba(23, 105, 198, 0.4);
-    letter-spacing: 2px;
-    font-style: italic;
-}
+    /* Speed-blur effect for specific A-Train elements */
+    [data-theme="atrain"] #activity-title {
+        color: var(--ui-accent);
+        text-shadow: 3px 0px 5px rgba(0, 242, 255, 0.4), -3px 0px 5px rgba(23, 105, 198, 0.4);
+        letter-spacing: 2px;
+        font-style: italic;
+    }
 
-[data-theme="atrain"] .steam-btn-large {
-    color: #000;
-    box-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
-    transition: transform 0.1s ease;
-}
+    [data-theme="atrain"] .steam-btn-large {
+        color: #000;
+        box-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
+        transition: transform 0.1s ease;
+    }
 
-[data-theme="atrain"] .steam-btn-large:hover {
-    transform: skewX(-10deg); /* Gives it a "moving fast" look */
-}
+    [data-theme="atrain"] .steam-btn-large:hover {
+        transform: skewX(-10deg); /* Gives it a "moving fast" look */
+    }
 
-[data-theme="atrain"] .steam-window {
-    background-image: radial-gradient(circle at 50% 50%, rgba(22, 57, 107, 0.1) 0%, transparent 80%);
-}
+    [data-theme="atrain"] .steam-window {
+        background-image: radial-gradient(circle at 50% 50%, rgba(22, 57, 107, 0.1) 0%, transparent 80%);
+    }
 
     [data-theme="shucks"] {
-    /* SHUCKS / VOID CORRUPTION MODE */
-    --ui-bg: #0d0b0b;           /* Darker, almost reddish-black */
-    --ui-panel: #1a1515;        /* Dark wood/rust panel */
-    --ui-border-light: #4a0000; /* Dried blood border */
-    --ui-border-dark: #000000;  
-    --ui-input: #050000;        /* Deep void pits */
-    --ui-accent: #ff0000;       /* Glitch Red / Blood */
-    --ui-text: rgb(255, 255, 255);
-    --ui-olive-dark: #ff00004b;       /* Ash grey text */
-    --btn-grad-top: #3d0000;    /* Crimson gradient top */
-    --btn-grad: linear-gradient(to bottom, #ff0000 0%, #4a0000 100%);
+        /* SHUCKS / VOID CORRUPTION MODE */
+        --ui-bg: #0d0b0b;           /* Darker, almost reddish-black */
+        --ui-panel: #1a1515;        /* Dark wood/rust panel */
+        --ui-border-light: #4a0000; /* Dried blood border */
+        --ui-border-dark: #000000;  
+        --ui-input: #050000;        /* Deep void pits */
+        --ui-accent: #ff0000;       /* Glitch Red / Blood */
+        --ui-text: rgb(255, 255, 255);
+        --ui-olive-dark: #ff00004b;       /* Ash grey text */
+        --btn-grad-top: #3d0000;    /* Crimson gradient top */
+        --btn-grad: linear-gradient(to bottom, #ff0000 0%, #4a0000 100%);
         --btn-play-grad: linear-gradient(to bottom, #ff0000 0%, #4a0000 100%);
-}
+    }
 
-/* Specific Shucks Flare: Adding a blood-red glow to the accent text */
-[data-theme="shucks"] #activity-tags, 
-[data-theme="shucks"] #activity-title {
-    color: #ff0000;
-    text-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
-}
+    /* Specific Shucks Flare: Adding a blood-red glow to the accent text */
+    [data-theme="shucks"] #activity-tags, 
+    [data-theme="shucks"] #activity-title {
+        color: #ff0000;
+        text-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
+    }
 
     body {
         background-color: var(--ui-bg);
@@ -310,18 +310,20 @@
     <script>
         // ... (Your existing archive array and simulation functions stay the same) ...
         const archives = [
+            { title: "Archive.org", status: 'Ready to Enter', img: '../assets/images/ArchiveOrgThumbnail.png', url: 'https://archive.org/' },
             { title: "Baldi's Basics", status: 'Ready to Play', img: '../assets/images/Baldi.webp', url: '../experience/?id=baldibasics' },
             { title: "Baldi's Basics: -B", status: 'Ready to Play', img: '../assets/images/Baldi.webp', url: '../experience/?id=minusb' },//
             { title: 'Bendy and the Ink Machine', status: 'Ready to Play', img: '../assets/images/BendyThumbnail.jpg', url: '../experience/?id=bendy' },
         //    { title: 'Cuphead', status: 'Ready to Play', img: '../assets/images/CupheadThumbnail.avif', url: '../experience/?id=cuphead' },
-        //    { title: 'DOOM', status: 'Ready to Play', img: '../assets/images/DoomThumbnail.webp', url: '../experience/?id=doom' },
-            { title: 'Doors for Larpers', status: 'Ready to Play (for larpers btw)', img: '../assets/images/doorsforlarpers.webp', url: '../experience/?id=doorsfake' },
+        //   { title: 'DOOM', status: 'Ready to Play', img: '../assets/images/DoomThumbnail.webp', url: '../experience/?id=doom' },
+            { title: 'Friday Night Funkin: Indie Cross', status: 'Ready to Play', img: '../assets/images/FridayNightFunkinThumbnail.jpg', url: '../experience/?id=indiecross' },
             { title: 'Friday Night Funkin: JCX Engine', status: 'Ready to Play', img: '../assets/images/FridayNightFunkinThumbnail.jpg', url: '../experience/?id=fnf' },
-            { title: 'Friday Night Funkin: Silly Billy', status: 'Ready to Play', img: '../assets/images/SillyBilly.jpg', url: '../experience/?id=vsyourself' },
             { title: 'Friday Night Funkin: SHUCKS', status: 'Ready to Play', img: '../assets/images/Shucks.jpg', url: '../experience/?id=irida' },
+        // https://fnf.kdata1.com/2024/shucks-v2-reconstruction/1/    { title: 'Friday Night Funkin: SHUCKS V2', status: 'Ready to Play', img: '../assets/images/Shucks.jpg', url: '../experience/?id=irida' },
+            { title: 'Friday Night Funkin: Silly Billy', status: 'Ready to Play', img: '../assets/images/SillyBilly.jpg', url: '../experience/?id=vsyourself' },
             { title: 'Friday Night Funkin: Twiddlefingers!', status: 'Ready to Play', img: '../assets/images/TwiddlefingersThumbnail.jpg', url: '../experience/?id=twiddlefingers' },
             { title: 'Friday Night Funkin: Twiddlefingers! with Lyrics (Luke Goji version)', status: 'Ready to Play', img: '../assets/images/TwiddlefingersThumbnail.jpg', url: '../experience/?id=lgtwiddlefingers' },
-        //    { title: "Garry's Mod (10)", status: 'Update Required (Windows only.)', img: '../assets/images/GMOD.jpg', url: 'https://archive.org/download/mjayraffecomplexdirect/GMod10.7z' },
+            { title: "Garry's Mod (10)", status: 'Update Required (Windows only.)', img: '../assets/images/GMOD.jpg', url: 'https://archive.org/download/mjayraffecomplexdirect/GMod10.7z' },
         //    { title: 'Half-Life 1', status: 'Update Required (Windows only.)', img: '../assets/images/HL1Thumbnail.jpg', url: 'https://archive.org/download/mjayraffecomplexdirect/Half-Life.7z' },
             { title: 'Half-Life 1', status: 'Update Required (Windows only)', img: '../assets/images/HL1Thumbnail.jpg', url: 'https://github.com/MooseJayraffe-Alt/JayraffeComplex/releases/download/Games/Half-Life.7z' },
             { title: 'Henry Stickmin: Breaking the Bank', status: 'Ready to Play', img: '../assets/images/BtBRTitle.webp', url: '../experience?id=btb' },
@@ -329,12 +331,15 @@
             { title: 'Henry Stickmin: Fleeing the Complex', status: 'Ready to Play', img: '../assets/images/HenryStickminETCThumbnail.avif', url: '../experience?id=etc' },
             { title: 'Henry Stickmin: Infiltrating the Airship', status: 'Ready to Play', img: '../assets/images/ItARTitle.webp', url: '../experience?id=ita' },
             { title: 'Henry Stickmin: Stealing the Diamond', status: 'Ready to Play', img: '../assets/images/StDRTitle.webp', url: '../experience?id=hsdiamond' },
-        //    { title: 'Hello Neighbor (Alpha 1)', status: 'Update Required (Windows only.)', img: '../assets/images/HL1Thumbnail.jpg', url: 'https://archive.org/download/hello-neighbor-pre-alpha.-7z/Hello%20Neighbor%20Alpha%201.7z' },
-        //    { title: 'ghst', status: 'Update Required (Windows only.)', img: '../assets/images/HL1Thumbnail.jpg', url: 'https://s3.amazonaws.com/ghst/g/index.html' },
+            { title: 'Hello Neighbor (Alpha 1)', status: 'Update Required (Windows only.)', img: '../assets/images/HL1Thumbnail.jpg', url: 'https://archive.org/download/hello-neighbor-pre-alpha.-7z/Hello%20Neighbor%20Alpha%201.7z' }, 
             { title: 'Hollow Knight', status: 'Ready to Play', img: '../assets/images/HollowKnightThumbnail.png', url: '../experience/?id=hk' },
-            { title: 'Rivals for Larpers', status: 'Ready to Play (for ez noobs btw)', img: '../assets/images/tsbforlarpersthumbnail.jpg', url: '../experience/?id=airivals' },
-            { title: 'TSB for Larpers', status: 'Ready to Play (for frauds btw)', img: '../assets/images/tsbforlarpersthumbnail.jpg', url: '../experience/?id=faketsb' },
-        //    { title: 'Team Fortress 2', status: 'Update Required (Windows only.)', img: '../assets/images/tf2.jpg', url: 'https://archive.org/download/mjayraffecomplexdirect/Team%20Fortress%202.7z' }, https://fnf.kdata1.com/2024/shucks-v2-reconstruction/1/
+            { title: 'Minecraft', status: 'Ready to Play', img: '../assets/images/mc.avif', url: '../experience/?id=mc' },
+            { title: 'Minecraft Skin Library', status: 'Ready to Play', img: '../assets/images/mc.avif', url: 'https://minecraft.novaskin.me/menu' },
+            { title: 'Moonpie (You need to sign up at home to use this.)', status: 'Ready to Play', img: '../assets/images/HL1Thumbnail.jpg', url: 'https://sites.google.com/view/moonpie/home' },
+            { title: "Papa's Donuteria", status: 'Ready to Play', img: '../assets/images/PapasDonuteria.jpg', url: '../experience?id=donuteria' },
+            { title: "Pizza Tower", status: 'Ready to Play', img: '../assets/images/PT.jpg', url: '../experience?id=pizzatower' },
+            { title: 'Roblox', status: 'Ready to Play (Experimental, could be blocked.)', img: '../assets/images/HL1Thumbnail.jpg', url: 'https://nowgg.lol/apps/a/19900/b.html' },
+            { title: 'Team Fortress 2', status: 'Update Required (Windows only.)', img: '../assets/images/tf2.jpg', url: 'https://archive.org/download/mjayraffecomplexdirect/Team%20Fortress%202.7z' }, 
             { title: 'ULTRAKILL', status: 'Coming Soon..', img: '../assets/images/UltrakillThumbnail.jpg', url: '' },
         ];
 
@@ -389,35 +394,44 @@ function showUplinkPrompt(overlay, video) {
             setTimeout(() => introOverlay.remove(), 800);
         }
 
-       (function() {
+    (function() {
     const autoSkip = localStorage.getItem('auto-skip-intro') === 'true';
     const video = document.getElementById('intro-video');
     const videoSource = video.querySelector('source');
-                                                                                                                         
+                                                                                                                        
     if (autoSkip) {
-        // Setting is ON: Kill the overlay immediately
         skipIntro();
         console.log("Jayraffe Complex // Intro bypassed by user preference.");
     } else {
-        // --- 1 IN 20 RARE INTRO LOGIC ---
-        const roll = Math.floor(Math.random() * 20) + 1; // Roll 1 to 20
+        // --- MULTI-CHANCE RARE INTRO LOGIC ---
+        // Roll 1 to 100 for more granular control (1% chances)
+        const roll = Math.floor(Math.random() * 100) + 1; 
         
-        if (roll === 1) {
-            console.log("RARE EVENT: Initializing Alternate Intro Sequence...");
-            // Update the source to your rare video file
-            videoSource.src = "../assets/videos/HungryForKarma.mp4"; 
-            video.load(); // Reload the video element to register the new source
-        }
-        // --------------------------------
+        let rareVideo = null;
 
-        // Setting is OFF: Play normally
+        if (roll <= 5) { 
+            // 5% chance (Rolls 1-5)
+            rareVideo = "../assets/videos/HungryForKarma.mp4";
+        } else if (roll === 6) { 
+            // 1% chance (The "Ultra Rare" roll)
+            rareVideo = "../assets/videos/Starlight.mp4";
+        } else if (roll > 95) {
+            // 5% chance (Rolls 96-100)
+            rareVideo = "../assets/videos/Karol.mp4";
+        }
+
+        if (rareVideo) {
+            console.log(`RARE EVENT: Loading ${rareVideo}`);
+            videoSource.src = rareVideo;
+            video.load(); 
+        }
+        // -------------------------------------
+
         if (video) {
             video.play().catch(e => {
                 console.log("Autoplay blocked: Triggering Uplink Prompt.");
-                showUplinkPrompt(); // Fallback if browser blocks audio
+                showUplinkPrompt(document.getElementById('intro-overlay'), video);
             });
-            
-            // Hide overlay automatically when video ends
             video.onended = skipIntro;
         }
     }

@@ -249,6 +249,11 @@
                         <option value="assets/audio/BGM/AIZO.mp3">JJS/JJK: AIZO</option>
                         <option value="assets/audio/BGM/BuildOurMachine.mp3">BATIM (DAGames): Build Our Machine</option>
                         <option value="assets/audio/BGM/SOU.mp3">FNaF (TLT): Step on Up!</option>
+                        <option value="assets/audio/BGM/DA.mp3">D'oh Anthem (AI-Free)</option>
+                        <option value="assets/audio/BGM/DA2.mp3">D'oh Anthem Vol. 2</option>
+                        <option value="assets/audio/BGM/MD.mp3">Midnight D'oh!</option>
+                        <option value="assets/audio/BGM/DS.mp3">The D'ohnut Song!</option>
+                        <option value="assets/audio/BGM/GetOut.mp3">Hello, Neighbor! (DAGames): Get Out!</option>
                     </select>
                 </div>
             </div>
@@ -258,7 +263,7 @@
         
     <div class="hotbar-ad-slot" id="ad-right">
     <div class="ad-container" onclick="revealAd(this)">
-        <div class="ad-spoiler">⚠️ SPOILER FOR: Invincible S4: E7 ⚠️</div>
+        <div class="ad-spoiler">⚠️ SPOILER FOR: Invincible S4: E7 ⚠️ Click here to reveal.</div>
         <img src="assets/images/ads/UltrakillUpdate.png" alt="Ad Image">
     </div>
 </div>
@@ -347,12 +352,22 @@
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('jayraffe-theme', theme);
 
-     const adImg = document.querySelector('#ad-right img');
-        if (theme === 'invincible') {
-    adImg.src = 'assets/images/ads/ThraggAd.gif'; // A secret GDA ad
-} else {
-            adImg.src = 'assets/images/ads/UltrakillUpdate.png';
-        }
+    const adImg = document.querySelector('#ad-right img');
+    if (!adImg) return; // Safety check in case the element isn't on the page
+
+    if (theme === 'invincible') {
+        adImg.src = 'assets/images/ads/ThraggAd.gif';
+    } 
+    else if (theme === 'atrain') {
+        adImg.src = 'assets/images/ads/atrain.gif'; // New A-Train themed ad
+    } 
+    else if (theme === 'shucks') {
+        adImg.src = 'assets/images/ads/dbtg.gif'; // New Shucks themed ad
+    } 
+    else {
+        // Default image for Steam Classic or any other theme
+        adImg.src = 'assets/images/ads/UltrakillUpdate.png';
+    }
 }
 
         // Run this immediately on load
@@ -373,7 +388,7 @@
             }
         }
 
-    const themeRotation = ['steam', 'invincible', 'shucks', 'a-train']; 
+    const themeRotation = ['steam', 'invincible', 'shucks', 'atrain']; 
 
     function cycleTheme() {
         // Get the current theme from the HTML attribute
@@ -411,7 +426,7 @@
             'steam': 'THEME: CLASSIC',
             'invincible': 'THEME: INVINCIBLE',
             'shucks': 'THEME: SHUCKS', // Label for the Shucks theme
-            'a-train': 'THEME: A-TRAIN',
+            'atrain': 'THEME: A-TRAIN',
         };
         btn.innerText = labels[theme] || 'THEME: UNKNOWN';
     }

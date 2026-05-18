@@ -338,6 +338,7 @@
             { title: 'Moonpie (You need to sign up at home to use this.)', status: 'Ready to Play', img: '../assets/images/HL1Thumbnail.jpg', url: 'https://sites.google.com/view/moonpie/home' },
             { title: "Papa's Donuteria", status: 'Ready to Play', img: '../assets/images/PapasDonuteria.jpg', url: '../experience?id=donuteria' },
             { title: "Pizza Tower", status: 'Ready to Play', img: '../assets/images/PT.jpg', url: '../experience?id=pizzatower' },
+            { title: "Scooby Doo: Creepy Run", status: 'Ready to Play', img: '../assets/images/PT.jpg', url: '../experience?id=doo' },
             { title: 'Roblox', status: 'Ready to Play (Experimental, could be blocked.)', img: '../assets/images/HL1Thumbnail.jpg', url: 'https://nowgg.lol/apps/a/19900/b.html' },
             { title: 'Team Fortress 2', status: 'Update Required (Windows only.)', img: '../assets/images/tf2.jpg', url: 'https://archive.org/download/mjayraffecomplexdirect/Team%20Fortress%202.7z' }, 
             { title: 'ULTRAKILL', status: 'Coming Soon..', img: '../assets/images/UltrakillThumbnail.jpg', url: '' },
@@ -409,12 +410,12 @@ function showUplinkPrompt(overlay, video) {
         
         let rareVideo = null;
 
-        if (roll <= 5) { 
+        if (roll <= 2) { 
             // 5% chance (Rolls 1-5)
             rareVideo = "../assets/videos/HungryForKarma.mp4";
         } else if (roll === 6) { 
             // 1% chance (The "Ultra Rare" roll)
-            rareVideo = "../assets/videos/Starlight.mp4";
+            rareVideo = "../assets/videos/StarlightThing.mp4";
         } else if (roll > 95) {
             // 5% chance (Rolls 96-100)
             rareVideo = "../assets/videos/Karol.mp4";

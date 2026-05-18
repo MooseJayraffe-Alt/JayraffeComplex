@@ -133,7 +133,17 @@ window.activityLibrary = {
             banner: "assets/images/mc.avif",
             engine: "HTML5",
             screenshots: ["assets/images/mc.avif"],
-            config: { url: "https://irv77.github.io/AmplerLauncher/mc/1.12.2/" }
+            config: { url: "https://freedombrowser.org/static/mc/1.12.2/js/" }
+        },
+        "doo": {
+            title: "Scooby-Doo: Creepy Run",
+            creator: "123Chase",
+            tags: "2D / Runner",
+            desc: "scooby doo scooby doo scooby doo scooby doo scooby scooby scooby dooby dooby dooby dooby scooby doo",
+            banner: "assets/images/mc.avif",
+            engine: "Flash",
+            screenshots: ["assets/images/mc.avif"],
+            config: { filename: "scooby-doo-creepy-run" }
         },
         "ultrakill": {
             title: "Ultrakill",

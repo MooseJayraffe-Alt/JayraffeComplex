@@ -254,6 +254,7 @@
                         <option value="assets/audio/BGM/MD.mp3">Midnight D'oh!</option>
                         <option value="assets/audio/BGM/DS.mp3">The D'ohnut Song!</option>
                         <option value="assets/audio/BGM/GetOut.mp3">Hello, Neighbor! (DAGames): Get Out!</option>
+                        <option value="assets/audio/BGM/Ultrakillman.mp3">Jayraffe Complex: ULTRAKILLMAN</option>
                     </select>
                 </div>
             </div>
@@ -348,26 +349,23 @@
         }
 
         // Function to apply the theme to the <html> tag
-        function applyTheme(theme) {
+    function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('jayraffe-theme', theme);
 
     const adImg = document.querySelector('#ad-right img');
-    if (!adImg) return; // Safety check in case the element isn't on the page
+    if (!adImg) return;
 
-    if (theme === 'invincible') {
-        adImg.src = 'assets/images/ads/ThraggAd.gif';
-    } 
-    else if (theme === 'atrain') {
-        adImg.src = 'assets/images/ads/atrain.gif'; // New A-Train themed ad
-    } 
-    else if (theme === 'shucks') {
-        adImg.src = 'assets/images/ads/dbtg.gif'; // New Shucks themed ad
-    } 
-    else {
-        // Default image for Steam Classic or any other theme
-        adImg.src = 'assets/images/ads/UltrakillUpdate.png';
-    }
+    // Map your themes to their specific assets
+    const themeAds = {
+        'invincible': 'assets/images/ads/ThraggAd.gif',
+        'atrain': 'assets/images/ads/atrain.gif',
+        'shucks': 'assets/images/ads/dbtg.gif',
+        'steam': 'assets/images/ads/UltrakillUpdate.png'
+    };
+
+    // Use the theme's ad, or fallback to the default if the theme isn't in the list
+    adImg.src = themeAds[theme] || 'assets/images/ads/UltrakillUpdate.png';
 }
 
         // Run this immediately on load

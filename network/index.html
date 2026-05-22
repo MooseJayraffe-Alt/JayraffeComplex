@@ -9,6 +9,7 @@
     <script src="../global.js"></script>
     <style>
         :root {
+            /* STEAM CLASSIC (Default Colors) */
             --steam-bg: #38413a;
             --steam-panel: #4b564d;
             --steam-border-light: #5d6a60;
@@ -16,6 +17,43 @@
             --steam-input: #2a322c;
             --steam-text: #d1d1d1;
             --steam-yellow: #c1c6ad;
+            --steam-header: #3d463f;
+        }
+
+        /* THEME: INVINCIBLE (GDA Colors) */
+        [data-theme="invincible"] {
+            --steam-bg: #17a8f6;
+            --steam-panel: #ccab25;
+            --steam-border-light: #fbe068;
+            --steam-border-dark: #8c730e;  
+            --steam-input: #111827;        
+            --steam-yellow: #17a8f6;
+            --steam-text: #ffffff;
+            --steam-header: #b5951d;
+        }
+
+        /* THEME: A-TRAIN */
+        [data-theme="atrain"] {
+            --steam-bg: #0b162a;
+            --steam-panel: #1d6ef8;
+            --steam-border-light: #5ba2ff;
+            --steam-border-dark: #003fa3;  
+            --steam-input: #02050a;        
+            --steam-yellow: #32f5ff;
+            --steam-text: #ffffff;
+            --steam-header: #1052c7;
+        }
+
+        /* THEME: SHUCKS */
+        [data-theme="shucks"] {
+            --steam-bg: #0d0b0b;
+            --steam-panel: #1a1515;
+            --steam-border-light: #5c0a0a;
+            --steam-border-dark: #000000;  
+            --steam-input: #050000;        
+            --steam-yellow: #ff0000;
+            --steam-text: rgb(255, 255, 255);
+            --steam-header: #2b0505;
         }
 
         body { 
@@ -25,15 +63,22 @@
             font-size: 11px;
             margin: 0;
             padding: 0;
+            transition: background-color 0.3s ease;
         }
 
-        /* 2004 Window Bevels */
+        /* Tactical 2004 Window Bevels */
         .steam-window {
             background: var(--steam-panel);
             border: 1px solid var(--steam-border-dark);
             border-top: 1px solid var(--steam-border-light);
             border-left: 1px solid var(--steam-border-light);
-            padding: 2px;
+            box-shadow: inset 1px 1px 0px rgba(255,255,255,0.1), 0px 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .steam-window-header {
+            background: var(--steam-header);
+            border-bottom: 1px solid var(--steam-border-dark);
+            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.4);
         }
 
         .steam-inset {
@@ -43,94 +88,139 @@
             border-bottom: 1px solid var(--steam-border-light);
         }
 
-        /* Standard Buttons */
+        /* Engine/Steam Buttons */
         .steam-btn {
-            background: linear-gradient(to bottom, #758276 0%, #4b564d 100%);
-            border: 1px solid #1a201b;
-            border-top: 1px solid #5d6a60;
+            background: linear-gradient(to bottom, var(--steam-border-light) 0%, var(--steam-panel) 100%);
+            border: 1px solid var(--steam-border-dark);
+            border-top: 1px solid var(--steam-border-light);
+            border-left: 1px solid var(--steam-border-light);
             color: white;
-            padding: 4px 12px;
+            padding: 4px 16px;
             font-weight: bold;
             cursor: pointer;
             text-transform: uppercase;
             font-size: 10px;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.5);
+            transition: filter 0.1s ease;
+        }
+
+        .steam-btn:hover {
+            filter: brightness(1.1);
         }
 
         .steam-btn:active {
-            background: #323933;
-            border: 1px solid #5d6a60;
-            border-top: 1px solid #1a201b;
+            background: var(--steam-input);
+            border: 1px solid var(--steam-border-light);
+            border-top: 1px solid var(--steam-border-dark);
+            border-left: 1px solid var(--steam-border-dark);
+            box-shadow: none;
         }
 
         .steam-input {
             background: var(--steam-input);
             border: 1px solid var(--steam-border-dark);
-            color: white;
-            padding: 4px 8px;
+            border-top: 1px solid rgba(0,0,0,0.4);
+            border-left: 1px solid rgba(0,0,0,0.4);
+            color: #ffffff;
+            padding: 6px 10px;
             outline: none;
             font-family: monospace;
+            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.5);
         }
 
+        .steam-input:focus {
+            border: 1px solid var(--steam-yellow);
+        }
+
+        /* Modern List Rows with Classic UI Feel */
         .result-entry {
             background: var(--steam-panel);
             border-bottom: 1px solid var(--steam-border-dark);
-            padding: 6px;
+            padding: 8px 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 14px;
             cursor: pointer;
+            transition: background-color 0.1s ease, transform 0.05s ease;
         }
 
         .result-entry:hover {
-            background-color: #5d6a60;
+            background-color: var(--steam-border-light);
+            color: #ffffff;
+        }
+
+        .result-entry:active {
+            transform: scale(0.995);
         }
 
         .result-entry:nth-child(even) {
-            background-color: rgba(0,0,0,0.05);
+            background-color: rgba(0, 0, 0, 0.12);
+        }
+        
+        .result-entry:nth-child(even):hover {
+            background-color: var(--steam-border-light);
         }
 
         .status-label {
             color: var(--steam-yellow);
-            font-size: 9px;
-            text-transform: uppercase;
+            font-size: 10px;
+            font-family: sans-serif;
         }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: var(--steam-input); }
+        ::-webkit-scrollbar-thumb { 
+            background: var(--steam-panel); 
+            border: 1px solid var(--steam-border-dark); 
+        }
+        ::-webkit-scrollbar-thumb:hover { filter: brightness(1.2); }
     </style>
 </head>
-<body class="p-4">
+<body class="p-6">
 
-    <nav class="flex justify-between items-center mb-4 pb-2 border-b border-white/10">
-        <a href="../homepage" class="font-bold text-white tracking-tight text-lg">
-            JAYRAFFE COMPLEX <span class="text-[9px] opacity-50 font-normal ml-2">SEARCH_PROTO v2.1</span>
+    <nav class="max-w-4xl mx-auto flex justify-between items-center mb-6 pb-3 border-b border-white/10">
+        <a href="../homepage" class="font-bold text-white tracking-tight text-base hover:opacity-80 transition-opacity">
+            JAYRAFFE COMPLEX <span class="text-[9px] opacity-40 font-mono ml-2">SEARCH_PROTO v2.1</span>
         </a>
+        <div class="flex items-center gap-2">
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="text-[9px] font-mono opacity-50 uppercase tracking-wider">UPLINK SECURE</span>
+        </div>
     </nav>
 
     <main class="max-w-4xl mx-auto">
         <header class="mb-6">
-            <h1 class="text-3xl font-black italic tracking-tighter text-white uppercase mb-1">Citizen Search</h1>
-            <p class="text-yellow-600 font-bold text-[10px] uppercase">Querying Central Mainframe Directory</p>
+            <h1 class="text-4xl font-black italic tracking-tighter text-white uppercase leading-none mb-1">Citizen Search</h1>
+            <p id="directory-subtitle" class="text-amber-500 font-mono font-bold text-[10px] uppercase tracking-wider opacity-80">Querying Central Mainframe Directory</p>
         </header>
 
-        <div class="steam-window p-4 mb-6">
-            <div class="flex flex-col sm:flex-row gap-3 items-end">
+        <div class="steam-window p-1 mb-6">
+            <div class="steam-window-header px-3 py-1.5 text-[10px] font-bold text-white/80 uppercase tracking-wide">
+                Filter Configurations
+            </div>
+            <div class="p-4 flex flex-col sm:flex-row gap-3 items-end bg-black/5">
                 <div class="flex-grow w-full">
-                    <label class="block text-[9px] uppercase font-bold text-white/50 mb-1">Input Alias or Keyword</label>
+                    <label class="block text-[9px] uppercase font-bold text-white/40 mb-1.5 tracking-wider">Input Alias or Keyword</label>
                     <input type="text" id="citizen-query" 
                            placeholder="SEARCHING FOR..." 
-                           class="steam-input w-full uppercase">
+                           class="steam-input w-full uppercase text-xs tracking-wide">
                 </div>
-                <button onclick="searchCitizens()" class="steam-btn h-[28px] whitespace-nowrap">
+                <button onclick="searchCitizens()" class="steam-btn h-[32px] px-6 whitespace-nowrap shadow-sm">
                     Execute Query
                 </button>
             </div>
         </div>
 
-        <div class="steam-window min-h-[300px]">
-            <div class="bg-[#323933] p-1 px-2 border-b border-black/40 text-[9px] font-bold text-white/60">
-                DIRECTORY MATCHES
+        <div class="steam-window p-1 min-h-[360px] flex flex-col">
+            <div id="directory-header" class="steam-window-header px-3 py-1.5 text-[10px] font-bold text-white/80 uppercase tracking-wide">
+                RECENTLY SIGNED UP CITIZENS
             </div>
-            <div id="search-results" class="steam-inset min-h-[280px]">
-                <div class="flex flex-col items-center justify-center h-[280px] opacity-30 italic">
-                    <p>Enter criteria to begin uplink...</p>
+            <div id="search-results" class="steam-inset flex-grow overflow-y-auto max-h-[500px] min-h-[320px]">
+                <div class="flex flex-col items-center justify-center h-[320px] opacity-30 italic font-mono gap-2">
+                    <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <p class="text-[10px] uppercase tracking-widest mt-1">Loading global registry data...</p>
                 </div>
             </div>
         </div>
@@ -138,16 +228,89 @@
     </main>
 
     <script>
-        async function searchCitizens() {
-            const query = document.getElementById('citizen-query').value.trim();
-            const resultsContainer = document.getElementById('search-results');
+        // --- THEME IMPLEMENTATION ---
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'THEME_UPDATE') {
+                document.documentElement.setAttribute('data-theme', event.data.theme);
+                localStorage.setItem('jayraffe-theme', event.data.theme);
+            }
+        });
 
-            if (query.length < 2) {
-                resultsContainer.innerHTML = `<div class="p-10 text-center text-red-400">Error: Input too short.</div>`;
+        (function() {
+            const saved = localStorage.getItem('jayraffe-theme') || 'steam';
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+
+
+        // --- HELP RENDERING ROUTINE ---
+        function displayUsers(users, container) {
+            container.innerHTML = users.map(user => `
+                <div onclick="window.location.href='../profile/?id=${user.id}'" class="result-entry">
+                    <div class="w-9 h-9 steam-inset overflow-hidden flex-shrink-0 p-[1px] bg-black/40">
+                        ${user.avatar_url ? 
+                            `<img src="${user.avatar_url}" class="w-full h-full object-cover">` : 
+                            `<div class="flex items-center justify-center h-full text-base bg-white/5 opacity-30">👤</div>`
+                        }
+                    </div>
+                    <div class="flex-grow min-w-0">
+                        <div class="font-bold text-white uppercase text-xs tracking-wide truncate">${user.display_name}</div>
+                        <div class="status-label mt-0.5 truncate opacity-90">${user.bio ? user.bio : 'Offline / No Status'}</div>
+                    </div>
+                    <div class="text-[9px] opacity-30 font-mono font-bold tracking-wider border border-white/10 px-2 py-1 bg-black/20 rounded-sm hover:opacity-100 hover:border-white/30 transition-all whitespace-nowrap">
+                        VIEW PROFILE
+                    </div>
+                </div>
+            `).join('');
+        }
+
+
+        // --- INITIAL RECENT USERS LOAD ---
+        async function loadRecentCitizens() {
+            const resultsContainer = document.getElementById('search-results');
+            
+            const { data: users, error } = await window.supabaseClient
+                .from('profiles')
+                .select('id, display_name, avatar_url, bio')
+                .order('id', { ascending: false }) 
+                .limit(12);
+
+            if (error) {
+                resultsContainer.innerHTML = `<div class="p-10 font-mono text-[10px] text-center text-red-400 uppercase tracking-wider">ERROR FETCHING REGISTRY: ${error.message}</div>`;
                 return;
             }
 
-            resultsContainer.innerHTML = `<div class="p-10 text-center animate-pulse text-yellow-600 font-bold uppercase">Syncing with directory...</div>`;
+            if (users.length === 0) {
+                resultsContainer.innerHTML = `<div class="p-10 text-center font-mono text-[10px] opacity-40 uppercase tracking-widest">The mainframe database is currently empty.</div>`;
+                return;
+            }
+
+            displayUsers(users, resultsContainer);
+        }
+
+
+        // --- ACTIVE KEYWORD FILTERING ---
+        async function searchCitizens() {
+            const query = document.getElementById('citizen-query').value.trim();
+            const resultsContainer = document.getElementById('search-results');
+            const dirHeader = document.getElementById('directory-header');
+
+            if (query.length === 0) {
+                dirHeader.innerText = "RECENTLY SIGNED UP CITIZENS";
+                loadRecentCitizens();
+                return;
+            }
+
+            if (query.length < 2) {
+                resultsContainer.innerHTML = `<div class="p-10 font-mono text-[10px] text-center text-red-400 uppercase tracking-wider">Error: Input parameter too short.</div>`;
+                return;
+            }
+
+            dirHeader.innerText = "DIRECTORY MATCHES";
+            resultsContainer.innerHTML = `
+                <div class="flex flex-col items-center justify-center h-[320px] font-mono text-amber-500 gap-2">
+                    <div class="w-4 h-4 border-2 border-amber-500/30 border-t-amber-500 rounded-full animate-spin"></div>
+                    <p class="text-[10px] font-bold uppercase tracking-widest animate-pulse">Syncing with directory...</p>
+                </div>`;
 
             const { data: users, error } = await window.supabaseClient
                 .from('profiles')
@@ -156,30 +319,21 @@
                 .limit(12);
 
             if (error) {
-                resultsContainer.innerHTML = `<div class="p-10 text-center text-red-500">ERROR: ${error.message}</div>`;
+                resultsContainer.innerHTML = `<div class="p-10 font-mono text-[10px] text-center text-red-500 uppercase tracking-wider">ERROR: ${error.message}</div>`;
                 return;
             }
 
             if (users.length === 0) {
-                resultsContainer.innerHTML = `<div class="p-10 text-center opacity-50 italic">No citizens found matching that signature.</div>`;
+                resultsContainer.innerHTML = `<div class="p-10 text-center font-mono text-[10px] opacity-40 uppercase tracking-widest">No citizens found matching that description.</div>`;
                 return;
             }
 
-            resultsContainer.innerHTML = users.map(user => `
-                <div onclick="window.location.href='../profile/?id=${user.id}'" class="result-entry">
-                    <div class="w-10 h-10 steam-inset overflow-hidden flex-shrink-0">
-                        ${user.avatar_url ? `<img src="${user.avatar_url}" class="w-full h-full object-cover">` : `<div class="flex items-center justify-center h-full text-lg opacity-20">👤</div>`}
-                    </div>
-                    <div class="flex-grow min-w-0">
-                        <div class="font-bold text-white uppercase leading-none">${user.display_name}</div>
-                        <div class="status-label mt-1">${user.bio ? user.bio : 'Offline / No Status'}</div>
-                    </div>
-                    <div class="text-[9px] opacity-40 font-mono">
-                        VIEW_DATA
-                    </div>
-                </div>
-            `).join('');
+            displayUsers(users, resultsContainer);
         }
+
+        window.onload = () => {
+            loadRecentCitizens();
+        };
 
         document.getElementById('citizen-query').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') searchCitizens();

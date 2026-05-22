@@ -32,6 +32,26 @@ window.activityLibrary = {
             screenshots: ["assets/images/PapasDonuteria.jpg"],
             config: { filename: "papasdonuteria" }
         },
+        "hw": {
+            title: "Happy Wheels",
+            creator: "PLACEHOLDER",
+            tags: "2D/Side-Scroller",
+            desc: "this brings back memories lol",
+            banner: "assets/images/Placeholder.png",
+            engine: "Flash",
+            screenshots: ["assets/images/Placeholder.png"],
+            config: { filename: "HappyWheels" }
+        },
+        "iq": {
+            title: "The Impossible Quiz",
+            creator: "PLACEHOLDER",
+            tags: "Flash/Difficult",
+            desc: "IQ",
+            banner: "assets/images/Placeholder.png",
+            engine: "Flash",
+            screenshots: ["assets/images/Placeholder.png"],
+            config: { filename: "IQ" }
+        },
         "bendy": {
             title: "Bendy and the Ink Machine",
             creator: "TheMeatly",
@@ -133,16 +153,16 @@ window.activityLibrary = {
             banner: "assets/images/mc.avif",
             engine: "HTML5",
             screenshots: ["assets/images/mc.avif"],
-            config: { url: "https://freedombrowser.org/static/mc/1.12.2/js/" }
+            config: { url: "https://l.freetls.fastly.net/games/eag12.html" }
         },
         "doo": {
             title: "Scooby-Doo: Creepy Run",
             creator: "123Chase",
             tags: "2D / Runner",
             desc: "scooby doo scooby doo scooby doo scooby doo scooby scooby scooby dooby dooby dooby dooby scooby doo",
-            banner: "assets/images/mc.avif",
+            banner: "assets/images/Placeholder.png",
             engine: "Flash",
-            screenshots: ["assets/images/mc.avif"],
+            screenshots: ["assets/images/Placeholder.png"],
             config: { filename: "scooby-doo-creepy-run" }
         },
         "ultrakill": {
@@ -170,9 +190,9 @@ window.activityLibrary = {
             creator: "Genuinely unknown bro what",
             tags: "Combat / Action",
             desc: "tsb but fake version, only sonic and naoya mains would play this bro",
-            banner: "assets/images/tsbforlarpersthumbnail.jpg",
+            banner: "assets/images/Placeholder.png",
             engine: "HTML5",
-            screenshots: ["assets/images/tsbforlarpersthumbnail.jpg"],
+            screenshots: ["assets/images/Placeholder.png"],
             config: { url: "https://app-423312.games.s3.yandex.net/423312/b2rilj3xzenwusikhr4jng7rpes3i7hd_brotli/index.html?sdk=%2Fsdk%2F_%2Fv2.c9dd7fdd48522a0f7d44.js#origin=https%3A%2F%2Fyandex.com&app-id=423312&device-type=desktop" }
         }, //
         "lgtwiddlefingers": {
@@ -190,9 +210,9 @@ window.activityLibrary = {
             creator: "KBHGames, and the Silly Billy team as well as FNF's.",
             tags: "Rhythm / Action",
             desc: "I.. CHOOSE DEATH! ",
-            banner: "assets/images/TwiddlefingersThumbnail.jpg",
+            banner: "assets/images/SillyBilly.jpg",
             engine: "HTML5",
-            screenshots: ["assets/images/TwiddlefingersThumbnail.jpg"],
+            screenshots: ["assets/images/SillyBilly.jpg"],
             config: { url: "https://fnf.kdata1.com/2024/silly-billy-vs-yourself/1/" }
         },
         "etc": {

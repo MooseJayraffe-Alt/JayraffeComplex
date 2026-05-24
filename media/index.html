@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Juno Player</title>
+</head>
+<body style="background: #121212; color: white; font-family: sans-serif; padding: 40px;">
+
+    <h2>Sabrina Stream Test (Firewall Proof) ☕</h2>
+    <button onclick="playSong()">Play Espresso</button>
+    
+    <div id="track-info" style="margin-top: 20px;"></div>
+    <audio id="audio-player" controls style="margin-top: 20px; display: block;"></audio>
+
+    <script>
+        // REPLACE THIS URL WITH YOUR ACTUAL RENDER WEB LINK
+        const BACKEND_URL = "https://juno-stream-api.onrender.com"; 
+
+        async function playSong() {
+            const player = document.getElementById('audio-player');
+            const infoDiv = document.getElementById('track-info');
+            infoDiv.innerText = "Querying your cloud backend...";
+
+            try {
+                // 1. Search via your unblocked cloud domain
+                const response = await fetch(`${BACKEND_URL}/api/search?q=Sabrina+Carpenter+Espresso`);
+                const data = await response.json();
+                
+                if (data.length > 0) {
+                    const track = data[0];
+                    infoDiv.innerHTML = `Now Playing: <b>${track.name}</b>`;
+                    
+                    // 2. Set the audio source directly to your cloud proxy route
+                    player.src = `${BACKEND_URL}/api/stream?id=${track.videoId}`;
+                    player.play();
+                } else {
+                    infoDiv.innerText = "Track not found.";
+                }
+            } catch (err) {
+                console.error(err);
+                infoDiv.innerText = "Connection failed.";
+            }
+        }
+    </script>
+</body>
+</html>

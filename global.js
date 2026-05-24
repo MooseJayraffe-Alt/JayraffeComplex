@@ -153,7 +153,7 @@ window.activityLibrary = {
             banner: "assets/images/mc.avif",
             engine: "HTML5",
             screenshots: ["assets/images/mc.avif"],
-            config: { url: "https://l.freetls.fastly.net/games/eag12.html" }
+            config: { url: "https://www.autistici.org/eaglercraft/play/EaglercraftX_1.8/JavaScript/" }
         },
         "doo": {
             title: "Scooby-Doo: Creepy Run",

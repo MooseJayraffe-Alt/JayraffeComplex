@@ -11,7 +11,6 @@
     <style>
     /* 1. THE DUAL-THEME ENGINE */
     :root {
-        /* STEAM CLASSIC (Default) */
         --ui-bg: #38413a;
         --ui-panel: #4b564d;
         --ui-border-light: #5d6a60;
@@ -23,71 +22,67 @@
     }
 
     [data-theme="invincible"] {
-        /* GDA / INVINCIBLE MODE */
---ui-bg: #ccab25;           /* Deep Black base */
-        --ui-panel: #ccab25;        /* Dark Grey panels */
-        --ui-border-light: #2563eb; /* Suit Blue Piping */
+        --ui-bg: #ccab25;
+        --ui-panel: #ccab25;
+        --ui-border-light: #2563eb;
         --ui-border-dark: #000000;  
         --ui-input: #000000;        
-        --ui-accent: #46b2ff;       /* Electric Yellow (Gloves/Logo) */
+        --ui-accent: #46b2ff;
         --ui-text: #ffffff;
-        --btn-grad-top: #0091f2;    /* Blue nav buttons */
+        --btn-grad-top: #0091f2;
     }
 
     [data-theme="shucks"] {
-    /* SHUCKS / VOID CORRUPTION MODE */
-    --ui-bg: #0d0b0b;           /* Darker, almost reddish-black */
-    --ui-panel: #1a1515;        /* Dark wood/rust panel */
-    --ui-border-light: #4a0000; /* Dried blood border */
-    --ui-border-dark: #000000;  
-    --ui-input: #050000;        /* Deep void pits */
-    --ui-accent: #ff0000;       /* Glitch Red / Blood */
-    --ui-text: #8c8c8c;         /* Ash grey text */
-    --btn-grad-top: #3d0000;    /* Crimson gradient top */
-}
-
-    [data-theme="shucks"] .universal-hotbar,
-    [data-theme="shucks"] .steam-window {
-        background-image: url('assets/images/textures/Texture.jpg'); /* If you have a wood texture */
-       background-blend-mode: multiply;
+        --ui-bg: #0d0b0b;
+        --ui-panel: #1a1515;
+        --ui-border-light: #4a0000;
+        --ui-border-dark: #000000;  
+        --ui-input: #050000;
+        --ui-accent: #ff0000;
+        --ui-text: #8c8c8c;
+        --btn-grad-top: #3d0000;
     }
 
-    /* THEME: A-TRAIN (Vought International) */
-[data-theme="atrain"] {
-    --ui-bg: #0b162a;           /* Deep midnight blue base */
-    --ui-panel: #3280fd;        /* Vought-tech navy panels */
-    --ui-border-light: #006aff; /* Electric blue piping */
-    --ui-border-dark: #000000;  
-    --ui-input: #02050a;        
-    --ui-accent: #00f2ff;       /* Compound-V Cyan Glow */
-    --ui-text: #ffffff;
-    --ui-olive-dark: #1d6ef8;
-    --btn-grad: linear-gradient(to bottom, #254a7d 0%, #0a1a33 100%);
-    --btn-play-grad: linear-gradient(to bottom, #00f2ff 0%, #0077ff 100%);
-}
+    [data-theme="shucks"] .universal-hotbar,
+    [data-theme="shucks"] .steam-window,
+    [data-theme="shucks"] #media-deck-flyout {
+        background-image: url('assets/images/textures/Texture.jpg');
+        background-blend-mode: multiply;
+    }
 
-/* Speed-blur effect for specific A-Train elements */
-[data-theme="atrain"] #activity-title {
-    color: var(--ui-accent);
-    text-shadow: 3px 0px 5px rgba(0, 242, 255, 0.4), -3px 0px 5px rgba(23, 105, 198, 0.4);
-    letter-spacing: 2px;
-    font-style: italic;
-}
+    [data-theme="atrain"] {
+        --ui-bg: #0b162a;
+        --ui-panel: #3280fd;
+        --ui-border-light: #006aff;
+        --ui-border-dark: #000000;  
+        --ui-input: #02050a;        
+        --ui-accent: #00f2ff;
+        --ui-text: #ffffff;
+        --ui-olive-dark: #1d6ef8;
+        --btn-grad: linear-gradient(to bottom, #254a7d 0%, #0a1a33 100%);
+        --btn-play-grad: linear-gradient(to bottom, #00f2ff 0%, #0077ff 100%);
+    }
 
-[data-theme="atrain"] .steam-btn-large {
-    color: #000;
-    box-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
-    transition: transform 0.1s ease;
-}
+    [data-theme="atrain"] #activity-title {
+        color: var(--ui-accent);
+        text-shadow: 3px 0px 5px rgba(0, 242, 255, 0.4), -3px 0px 5px rgba(23, 105, 198, 0.4);
+        letter-spacing: 2px;
+        font-style: italic;
+    }
 
-[data-theme="atrain"] .steam-btn-large:hover {
-    transform: skewX(-10deg); /* Gives it a "moving fast" look */
-}
+    [data-theme="atrain"] .steam-btn-large {
+        color: #000;
+        box-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
+        transition: transform 0.1s ease;
+    }
 
-[data-theme="atrain"] .steam-window {
-    background-image: radial-gradient(circle at 50% 50%, rgba(22, 57, 107, 0.1) 0%, transparent 80%);
-}
+    [data-theme="atrain"] .steam-btn-large:hover {
+        transform: skewX(-10deg);
+    }
 
+    [data-theme="atrain"] .steam-window {
+        background-image: radial-gradient(circle at 50% 50%, rgba(22, 57, 107, 0.1) 0%, transparent 80%);
+    }
 
     /* 2. THE LAYOUT */
     body, html {
@@ -199,7 +194,7 @@
     [data-theme="invincible"] .ad-spoiler { display: flex; }
     .ad-spoiler.revealed { display: none !important; }
 
-    /* Custom range styling for the volume slider */
+    /* Volume range track custom style */
     input[type=range] {
         -webkit-appearance: none;
         background: var(--ui-input);
@@ -214,20 +209,55 @@
         cursor: pointer;
         border: 1px solid var(--ui-border-dark);
     }
+
+    /* Track Row Highlighting */
+    .track-selection-row {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        cursor: pointer;
+    }
+    .track-selection-row:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+    .track-selection-row.active-track {
+        border-left: 2px solid var(--ui-accent);
+        background: rgba(255, 255, 255, 0.1);
+    }
     </style>
-
 </head>
+<body>
 
-    <body>
+    <nav class="steam-window-nav mb-0 p-2 flex justify-between items-center">
+        <div class="flex gap-4 items-center">
+            <button onclick="navigateFrame('homepage/')" class="font-bold text-white px-2">JAYRAFFE COMPLEX</button>
+            <span class="opacity-30">|</span>
+            <div class="flex gap-3 uppercase text-[9px] font-bold">
+                <button onclick="navigateFrame('board/')" class="hover:text-white transition">Message Board</button>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-4 px-2">
+            <button onclick="navigateFrame('profile/')" class="flex items-center gap-1 hover:text-white transition group">
+                <span class="text-[10px] uppercase font-bold opacity-60 group-hover:opacity-100">Settings</span>
+            </button>
+            <span class="opacity-30">|</span>
+            <div id="nav-user-display" class="text-[10px] uppercase font-bold text-white/40"></div>
+        </div>
+    </nav>
 
     <iframe src="homepage/" id="content-frame"></iframe>
 
-    <audio id="bg-music" loop>
-        <source src="assets/audio/BGM/CCT.mp3" type="audio/mpeg">
-    </audio> 
+    <audio id="bg-music" loop></audio> 
+
+    <div id="media-deck-flyout" class="hidden absolute bottom-[45px] left-[180px] w-80 bg-[#2b322c] border border-stone-900 p-2 shadow-2xl z-50 rounded-t-sm" style="background-color: var(--ui-input); border-color: var(--ui-border-dark);">
+        <div class="flex justify-between items-center border-b pb-1 mb-2 border-white/10 text-[9px] font-mono tracking-wide text-emerald-400">
+            <span>// MAINFRAME_AUDIO_DECK</span>
+            <button onclick="toggleMediaDeck()" class="opacity-60 hover:opacity-100 text-white font-bold">[ X ]</button>
+        </div>
+        <div class="max-h-48 overflow-y-auto space-y-1 pr-1 font-sans text-[10px]" id="track-injection-target">
+            </div>
+    </div>
 
     <div class="universal-hotbar">
-        
         <div class="flex items-center gap-4">
             <button onclick="navigateFrame('homepage/')" class="steam-btn">HOME</button>
             <button onclick="navigateFrame('network/')" class="steam-btn">CITIZENS</button>
@@ -237,81 +267,96 @@
         <div class="flex items-center gap-6 bg-black/20 px-4 h-full border-x border-black/20">
             <div class="flex items-center gap-2">
                 <button id="music-btn" onclick="toggleMusic()" class="steam-btn w-8">▶</button>
-                <div class="flex flex-col">
+                <div class="flex flex-col cursor-pointer" onclick="toggleMediaDeck()">
                     <span class="text-[8px] font-bold text-emerald-500 tracking-tighter">BGM UPLINK:</span>
-                    <select id="track-selector" onchange="changeTrack(this.value)" class="steam-input">
-                        <option value="assets/audio/BGM/CCT.mp3">HL1: CLOSING THEME</option>
-                        <option value="assets/audio/BGM/NMJ.mp3">HL1: NUCLEAR MISSION JAM</option>
-                        <option value="assets/audio/BGM/VT.mp3">HL1: VALVE THEME</option>
-                        <option value="assets/audio/BGM/KB.mp3">HL1: KLAXON BEAT</option>
-                        <option value="assets/audio/BGM/YAM.flac">TF2 (Random Encounters): YOU AND ME</option>
-                        <option value="assets/audio/BGM/ShucksRetold.mp3">FNF: Shucks lyrics</option>
-                        <option value="assets/audio/BGM/AIZO.mp3">JJS/JJK: AIZO</option>
-                        <option value="assets/audio/BGM/BuildOurMachine.mp3">BATIM (DAGames): Build Our Machine</option>
-                        <option value="assets/audio/BGM/SOU.mp3">FNaF (TLT): Step on Up!</option>
-                        <option value="assets/audio/BGM/DA.mp3">D'oh Anthem (AI-Free)</option>
-                        <option value="assets/audio/BGM/DA2.mp3">D'oh Anthem Vol. 2</option>
-                        <option value="assets/audio/BGM/MD.mp3">Midnight D'oh!</option>
-                        <option value="assets/audio/BGM/DS.mp3">The D'ohnut Song!</option>
-                        <option value="assets/audio/BGM/GetOut.mp3">Hello, Neighbor! (DAGames): Get Out!</option>
-                        <option value="assets/audio/BGM/Ultrakillman.mp3">Jayraffe Complex: ULTRAKILLMAN</option>
-                    </select>
+                    <span id="active-track-display-label" class="text-[10px] font-bold uppercase truncate max-w-[140px] text-white/80 border-b border-dashed border-white/20">SELECT TRANSMISSION</span>
                 </div>
             </div>
             <input type="range" min="0" max="1" step="0.01" value="0.5" class="w-16 accent-emerald-500" oninput="updateVolume(this.value)">
         </div>
     
-        
-    <div class="hotbar-ad-slot" id="ad-right">
-    <div class="ad-container" onclick="revealAd(this)">
-        <div class="ad-spoiler">⚠️ SPOILER FOR: Invincible S4: E7 ⚠️ Click here to reveal.</div>
-        <img src="assets/images/ads/UltrakillUpdate.png" alt="Ad Image">
-    </div>
-</div>
+        <div class="hotbar-ad-slot" id="ad-right">
+            <div class="ad-container" onclick="revealAd(this)">
+                <div class="ad-spoiler">⚠️ SPOILER FOR: Invincible S4: E7 ⚠️ Click here to reveal.</div>
+                <img src="assets/images/ads/UltrakillUpdate.png" alt="Ad Image">
+            </div>
+        </div>
         
         <button id="theme-cycle-btn" onclick="cycleTheme()" class="steam-btn">
             MODE: CLASSIC
         </button>
-
-        <div class="flex items-center gap-3">
-        </div>
     </div>
-
-
-
-    <nav class="steam-window mb-4 p-2 flex justify-between items-center">
-    <div class="flex gap-4 items-center">
-        <button onclick="navigateFrame('homepage/')" class="font-bold text-white px-2">JAYRAFFE COMPLEX</button>
-        <span class="opacity-30">|</span>
-        <div class="flex gap-3 uppercase text-[9px] font-bold">
-            <button onclick="navigateFrame('board/')" class="hover:text-white transition">Message Board</button>
-        </div>
-    
-    <div class="flex items-center gap-4 px-2">
-        <button onclick="openSettings()" class="flex items-center gap-1 hover:text-white transition group">
-            <span class="text-[10px] uppercase font-bold opacity-60 group-hover:opacity-100">Settings</span>
-        </button>
-        <span class="opacity-30">|</span>
-        <div id="nav-user-display" class="text-[10px] uppercase font-bold text-white/40">
-            </div>
-    </div>
-</nav>
-
-    
-    </body>
 
     <script>
         const music = document.getElementById('bg-music');
         const musicBtn = document.getElementById('music-btn');
         const frame = document.getElementById('content-frame');
+        
+        // Internal soundtrack inventory array mapping
+        const INTERNAL_TRACKS = [
+            { path: "assets/audio/BGM/CCT.mp3", name: "HL1: CLOSING THEME" },
+            { path: "assets/audio/BGM/NMJ.mp3", name: "HL1: NUCLEAR MISSION JAM" },
+            { path: "assets/audio/BGM/VT.mp3", name: "HL1: VALVE THEME" },
+            { path: "assets/audio/BGM/KB.mp3", name: "HL1: KLAXON BEAT" },
+            { path: "assets/audio/BGM/YAM.flac", name: "TF2: YOU AND ME" },
+            { path: "assets/audio/BGM/ShucksRetold.mp3", name: "FNF: SHUCKS LYRICS" },
+            { path: "assets/audio/BGM/AIZO.mp3", name: "JJS/JJK: AIZO" },
+            { path: "assets/audio/BGM/BuildOurMachine.mp3", name: "BATIM: BUILD OUR MACHINE" },
+            { path: "assets/audio/BGM/SOU.mp3", name: "FNAF: STEP ON UP!" },
+            { path: "assets/audio/BGM/DA.mp3", name: "D'OH ANTHEM (AI-FREE)" },
+            { path: "assets/audio/BGM/DA2.mp3", name: "D'OH ANTHEM VOL. 2" },
+            { path: "assets/audio/BGM/MD.mp3", name: "MIDNIGHT D'OH!" },
+            { path: "assets/audio/BGM/DS.mp3", name: "THE D'OHNUT SONG!" },
+            { path: "assets/audio/BGM/GetOut.mp3", name: "HELLO NEIGHBOR: GET OUT!" },
+            { path: "assets/audio/BGM/Ultrakillman.mp3", name: "JCX: ULTRAKILLMAN" }
+        ];
+
+        let activeTrackIndex = 0;
+        let presenceInterval = null;
+
+        function buildMediaDeckUI() {
+            const container = document.getElementById('track-injection-target');
+            container.innerHTML = '';
+
+            INTERNAL_TRACKS.forEach((track, idx) => {
+                const div = document.createElement('div');
+                div.id = `deck-track-${idx}`;
+                div.className = "track-selection-row p-1.5 flex items-center justify-between text-white uppercase font-mono tracking-tight";
+                div.onclick = () => selectDeckTrack(idx);
+                div.innerHTML = `
+                    <span class="opacity-40 text-[8px] mr-2">0${idx+1}</span>
+                    <span class="flex-grow truncate font-bold text-stone-300">${track.name}</span>
+                `;
+                container.appendChild(div);
+            });
+
+            // Seed initial loading position configurations
+            changeTrack(INTERNAL_TRACKS[activeTrackIndex].path, false);
+        }
+
+        function toggleMediaDeck() {
+            const panel = document.getElementById('media-deck-flyout');
+            panel.classList.toggle('hidden');
+        }
+
+        function selectDeckTrack(idx) {
+            document.querySelectorAll('.track-selection-row').forEach(el => el.classList.remove('active-track'));
+            document.getElementById(`deck-track-${idx}`)?.classList.add('active-track');
+            
+            activeTrackIndex = idx;
+            changeTrack(INTERNAL_TRACKS[idx].path, true);
+            toggleMediaDeck();
+        }
 
         function toggleMusic() {
             if (music.paused) {
                 music.play();
                 musicBtn.innerText = "II";
+                syncMusicPresence(INTERNAL_TRACKS[activeTrackIndex].name);
             } else {
                 music.pause();
                 musicBtn.innerText = "▶";
+                clearMusicPresence();
             }
         }
 
@@ -319,128 +364,113 @@
             music.volume = val;
         }
 
-        function changeTrack(src) {
-            const wasPlaying = !music.paused;
+        function changeTrack(src, shouldForcePlay = true) {
+            const wasPlaying = !music.paused || shouldForcePlay;
             music.src = src;
-            if (wasPlaying) music.play();
+            
+            const currentTrack = INTERNAL_TRACKS.find(t => t.path === src);
+            if (currentTrack) {
+                document.getElementById('active-track-display-label').innerText = currentTrack.name;
+            }
+
+            if (wasPlaying) {
+                music.play();
+                musicBtn.innerText = "II";
+                syncMusicPresence(currentTrack?.name || "Soundtrack Track");
+            }
         }
 
-      function revealAd(container) {
-    // Check if we are actually in an Invincible mode
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const isInvincible = (currentTheme === 'invincible' || currentTheme === 'suit');
+        async function syncMusicPresence(trackName) {
+            const client = window.supabaseClient;
+            if(!client) return;
+            const { data: { user } } = await client.auth.getUser();
+            if (user) {
+                const statusString = `Listening to ${trackName}`;
+                await client.from('presence').upsert({ 
+                    user_id: user.id, 
+                    last_seen: new Date().toISOString(),
+                    current_activity: statusString
+                });
 
-    // Only allow revealing if the theme is correct
-    if (isInvincible) {
-        const spoiler = container.querySelector('.ad-spoiler');
-        if (spoiler) {
-            spoiler.classList.add('revealed');
+                if(presenceInterval) clearInterval(presenceInterval);
+                presenceInterval = setInterval(async () => {
+                    await client.from('presence').upsert({ 
+                        user_id: user.id, 
+                        last_seen: new Date().toISOString(),
+                        current_activity: statusString
+                    });
+                }, 30000);
+            }
         }
-    } else {
-        console.log("Spoiler reveal blocked: Not in Invincible mode.");
-    }
-}
+
+        async function clearMusicPresence() {
+            if(presenceInterval) clearInterval(presenceInterval);
+            const client = window.supabaseClient;
+            if(!client) return;
+            const { data: { user } } = await client.auth.getUser();
+            if (user) {
+                await client.from('presence').delete().eq('user_id', user.id);
+            }
+        }
+
+        function revealAd(container) {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const isInvincible = (currentTheme === 'invincible' || currentTheme === 'suit');
+            if (isInvincible) {
+                const spoiler = container.querySelector('.ad-spoiler');
+                if (spoiler) spoiler.classList.add('revealed');
+            }
+        }
+
         function navigateFrame(url) {
             if (frame) {
                 frame.src = url;
-            } else {
-                console.error("Critical Error: content-frame not found in DOM.");
             }
         }
 
-        // Function to apply the theme to the <html> tag
-    function applyTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('jayraffe-theme', theme);
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('jayraffe-theme', theme);
 
-    const adImg = document.querySelector('#ad-right img');
-    if (!adImg) return;
+            const adImg = document.querySelector('#ad-right img');
+            if (!adImg) return;
 
-    // Map your themes to their specific assets
-    const themeAds = {
-        'invincible': 'assets/images/ads/ThraggAd.gif',
-        'atrain': 'assets/images/ads/atrain.gif',
-        'shucks': 'assets/images/ads/dbtg.gif',
-        'steam': 'assets/images/ads/UltrakillUpdate.png'
-    };
+            const themeAds = {
+                'invincible': 'assets/images/ads/ThraggAd.gif',
+                'atrain': 'assets/images/ads/atrain.gif',
+                'shucks': 'assets/images/ads/dbtg.gif',
+                'steam': 'assets/images/ads/UltrakillUpdate.png'
+            };
+            adImg.src = themeAds[theme] || 'assets/images/ads/UltrakillUpdate.png';
+        }
 
-    // Use the theme's ad, or fallback to the default if the theme isn't in the list
-    adImg.src = themeAds[theme] || 'assets/images/ads/UltrakillUpdate.png';
-}
+        const themeRotation = ['steam', 'invincible', 'shucks', 'atrain'];
+        
+        function cycleTheme() {
+            const current = localStorage.getItem('jayraffe-theme') || 'steam';
+            let nextIndex = themeRotation.indexOf(current) + 1;
+            if (nextIndex >= themeRotation.length) nextIndex = 0;
+            
+            const nextTheme = themeRotation[nextIndex];
+            applyTheme(nextTheme);
+            
+            const btn = document.getElementById('theme-cycle-btn');
+            if(btn) btn.innerText = `MODE: ${nextTheme.toUpperCase()}`;
 
-        // Run this immediately on load
-        (function() {
-    const saved = localStorage.getItem('jayraffe-theme') || 'steam';
-    applyTheme(saved);
-    updateThemeButtonText(saved);
-})();
-
-        function switchTheme(themeName) {
-            // 1. Update the main page
-            applyTheme(themeName); 
-
-            // 2. Tell the Iframe to update its colors
-            const frame = document.getElementById('content-frame');
             if (frame && frame.contentWindow) {
-                frame.contentWindow.postMessage({ type: 'THEME_UPDATE', theme: themeName }, '*');
+                frame.contentWindow.postMessage({ type: 'THEME_UPDATE', theme: nextTheme }, '*');
             }
         }
 
-    const themeRotation = ['steam', 'invincible', 'shucks', 'atrain']; 
+        window.addEventListener('beforeunload', () => { clearMusicPresence(); });
 
-    function cycleTheme() {
-        // Get the current theme from the HTML attribute
-        let currentTheme = document.documentElement.getAttribute('data-theme') || 'steam';
-    
-        // Find the index of the next theme
-        let currentIndex = themeRotation.indexOf(currentTheme);
-        let nextIndex = (currentIndex + 1) % themeRotation.length;
-        let nextTheme = themeRotation[nextIndex];
-
-        // Apply it to the main page
-        applyTheme(nextTheme);
-
-        // Broadcast to the Iframe
-        const frame = document.getElementById('content-frame');
-        if (frame && frame.contentWindow) {
-            frame.contentWindow.postMessage({ type: 'THEME_UPDATE', theme: nextTheme }, '*');
-        }
-
-        const adImg = document.querySelector('#ad-right img');
-        if (nextTheme === 'invincible') {
-    adImg.src = 'assets/images/ads/ThraggAd.gif'; // A secret GDA ad
-} else {
-            adImg.src = 'assets/images/ads/UltrakillUpdate.png';
-        }
-    
-        // Update button text (optional)
-        updateThemeButtonText(nextTheme);
-    }
-
-    function updateThemeButtonText(theme) {
-    const btn = document.getElementById('theme-cycle-btn');
-    if (btn) {
-        const labels = {
-            'steam': 'THEME: CLASSIC',
-            'invincible': 'THEME: INVINCIBLE',
-            'shucks': 'THEME: SHUCKS', // Label for the Shucks theme
-            'atrain': 'THEME: A-TRAIN',
-        };
-        btn.innerText = labels[theme] || 'THEME: UNKNOWN';
-    }
-}   
-
-
-        function openSettings() {
-       // Opens settings in a specific 480x550 window, centered
-        const width = 480;
-        const height = 550;
-        const left = (screen.width / 2) - (width / 2);
-        const top = (screen.height / 2) - (height / 2);
-    
-        window.open('settings/', 'JayraffeSettings', 
-            `width=${width},height=${height},top=${top},left=${left},resizable=no,scrollbars=no`
-        );
-}
+        window.addEventListener('load', () => {
+            const saved = localStorage.getItem('jayraffe-theme') || 'steam';
+            applyTheme(saved);
+            const btn = document.getElementById('theme-cycle-btn');
+            if(btn) btn.innerText = `MODE: ${saved.toUpperCase()}`;
+            buildMediaDeckUI();
+        });
     </script>
+</body>
 </html>

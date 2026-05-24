@@ -6,41 +6,62 @@
 </head>
 <body style="background: #121212; color: white; font-family: sans-serif; padding: 40px;">
 
-    <h2>Sabrina Stream Test (Firewall Proof) ☕</h2>
+    <h2>Sabrina Stream Test (Cobalt Engine) ☕</h2>
     <button onclick="playSong()">Play Espresso</button>
     
     <div id="track-info" style="margin-top: 20px;"></div>
     <audio id="audio-player" controls style="margin-top: 20px; display: block;"></audio>
 
-<script>
-    // Update this line to use your live operational Render backend link
-    const BACKEND_URL = "https://junostreaming-api.onrender.com"; 
+    <script>
+        const BACKEND_URL = "https://junostreaming-api.onrender.com"; 
 
-    async function playSong() {
-        const player = document.getElementById('audio-player');
-        const infoDiv = document.getElementById('track-info');
-        infoDiv.innerText = "Querying your live cloud backend... ☕";
+        async function playSong() {
+            const player = document.getElementById('audio-player');
+            const infoDiv = document.getElementById('track-info');
+            infoDiv.innerText = "Searching YouTube Music database...";
 
-        try {
-            // 1. Search via your unblocked cloud domain
-            const response = await fetch(`${BACKEND_URL}/api/search?q=Sabrina+Carpenter+Espresso`);
-            const data = await response.json();
-            
-            if (data.length > 0) {
-                const track = data[0];
-                infoDiv.innerHTML = `Now Playing: <b>${track.name}</b>`;
+            try {
+                // 1. Get the track details from your unblocked Render Search API
+                const response = await fetch(`${BACKEND_URL}/api/search?q=Sabrina+Carpenter+Espresso`);
+                const tracks = await response.json();
                 
-                // 2. Stream the bytes disguised directly through your server pipeline
-                player.src = `${BACKEND_URL}/api/stream?id=${track.videoId}`;
-                player.play();
-            } else {
-                infoDiv.innerText = "Track matching failed.";
+                if (!tracks || tracks.length === 0) {
+                    infoDiv.innerText = "Track not found.";
+                    return;
+                }
+
+                const track = tracks[0];
+                infoDiv.innerHTML = `Extracting audio for: <b>${track.name}</b> by ${track.artist}`;
+
+                // 2. Fetch an unblocked, direct stream link from the Cobalt API network
+                const cobaltResponse = await fetch("https://api.cobalt.tools/api/json", {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        url: track.url,    // The full YouTube link
+                        audioModeOnly: true // Tells Cobalt we only want the audio track
+                    })
+                });
+
+                const cobaltData = await cobaltResponse.json();
+
+                if (cobaltData.status === "stream" || cobaltData.url) {
+                    // 3. Play the clean stream asset natively in the browser
+                    player.src = cobaltData.url;
+                    player.play();
+                    infoDiv.innerHTML = `🎵 Now Playing: <b>${track.name}</b>`;
+                } else {
+                    infoDiv.innerText = "Cobalt extraction throttle limit reached. Try again.";
+                }
+
+            } catch (err) {
+                console.error(err);
+                infoDiv.innerText = "System routing mismatch or network block.";
             }
-        } catch (err) {
-            console.error(err);
-            infoDiv.innerText = "Could not connect to the cloud server engine.";
         }
-    }
-</script>
+    </script>
 </body>
 </html>

@@ -12,35 +12,35 @@
     <div id="track-info" style="margin-top: 20px;"></div>
     <audio id="audio-player" controls style="margin-top: 20px; display: block;"></audio>
 
-    <script>
-        // REPLACE THIS URL WITH YOUR ACTUAL RENDER WEB LINK
-        const BACKEND_URL = "https://juno-stream-api.onrender.com"; 
+<script>
+    // Update this line to use your live operational Render backend link
+    const BACKEND_URL = "https://junostreaming-api.onrender.com"; 
 
-        async function playSong() {
-            const player = document.getElementById('audio-player');
-            const infoDiv = document.getElementById('track-info');
-            infoDiv.innerText = "Querying your cloud backend...";
+    async function playSong() {
+        const player = document.getElementById('audio-player');
+        const infoDiv = document.getElementById('track-info');
+        infoDiv.innerText = "Querying your live cloud backend... ☕";
 
-            try {
-                // 1. Search via your unblocked cloud domain
-                const response = await fetch(`${BACKEND_URL}/api/search?q=Sabrina+Carpenter+Espresso`);
-                const data = await response.json();
+        try {
+            // 1. Search via your unblocked cloud domain
+            const response = await fetch(`${BACKEND_URL}/api/search?q=Sabrina+Carpenter+Espresso`);
+            const data = await response.json();
+            
+            if (data.length > 0) {
+                const track = data[0];
+                infoDiv.innerHTML = `Now Playing: <b>${track.name}</b>`;
                 
-                if (data.length > 0) {
-                    const track = data[0];
-                    infoDiv.innerHTML = `Now Playing: <b>${track.name}</b>`;
-                    
-                    // 2. Set the audio source directly to your cloud proxy route
-                    player.src = `${BACKEND_URL}/api/stream?id=${track.videoId}`;
-                    player.play();
-                } else {
-                    infoDiv.innerText = "Track not found.";
-                }
-            } catch (err) {
-                console.error(err);
-                infoDiv.innerText = "Connection failed.";
+                // 2. Stream the bytes disguised directly through your server pipeline
+                player.src = `${BACKEND_URL}/api/stream?id=${track.videoId}`;
+                player.play();
+            } else {
+                infoDiv.innerText = "Track matching failed.";
             }
+        } catch (err) {
+            console.error(err);
+            infoDiv.innerText = "Could not connect to the cloud server engine.";
         }
-    </script>
+    }
+</script>
 </body>
 </html>

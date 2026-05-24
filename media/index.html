@@ -13,55 +13,57 @@
     <audio id="audio-player" controls style="margin-top: 20px; display: block;"></audio>
 
     <script>
-        const BACKEND_URL = "https://junostreaming-api.onrender.com"; 
+    const BACKEND_URL = "https://junostreaming-api.onrender.com"; 
 
-        async function playSong() {
-            const player = document.getElementById('audio-player');
-            const infoDiv = document.getElementById('track-info');
-            infoDiv.innerText = "Searching YouTube Music database...";
+    async function playSong() {
+        const player = document.getElementById('audio-player');
+        const infoDiv = document.getElementById('track-info');
+        infoDiv.innerText = "Searching YouTube Music database... ☕";
 
-            try {
-                // 1. Get the track details from your unblocked Render Search API
-                const response = await fetch(`${BACKEND_URL}/api/search?q=Sabrina+Carpenter+Espresso`);
-                const tracks = await response.json();
-                
-                if (!tracks || tracks.length === 0) {
-                    infoDiv.innerText = "Track not found.";
-                    return;
-                }
-
-                const track = tracks[0];
-                infoDiv.innerHTML = `Extracting audio for: <b>${track.name}</b> by ${track.artist}`;
-
-                // 2. Fetch an unblocked, direct stream link from the Cobalt API network
-                const cobaltResponse = await fetch("https://api.cobalt.tools/api/json", {
-                    method: "POST",
-                    headers: {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        url: track.url,    // The full YouTube link
-                        audioModeOnly: true // Tells Cobalt we only want the audio track
-                    })
-                });
-
-                const cobaltData = await cobaltResponse.json();
-
-                if (cobaltData.status === "stream" || cobaltData.url) {
-                    // 3. Play the clean stream asset natively in the browser
-                    player.src = cobaltData.url;
-                    player.play();
-                    infoDiv.innerHTML = `🎵 Now Playing: <b>${track.name}</b>`;
-                } else {
-                    infoDiv.innerText = "Cobalt extraction throttle limit reached. Try again.";
-                }
-
-            } catch (err) {
-                console.error(err);
-                infoDiv.innerText = "System routing mismatch or network block.";
+        try {
+            // 1. Send query to our unblocked search api
+            const response = await fetch(`${BACKEND_URL}/api/search?q=Sabrina+Carpenter+Espresso`);
+            const tracks = await response.json();
+            
+            // SAFETY INTERCEPT: If the backend sent an error object instead of an array, handle it cleanly
+            if (!Array.isArray(tracks) || tracks.length === 0) {
+                console.error("Server Response Error Layout:", tracks);
+                infoDiv.innerText = `Error: ${tracks.error || "No matching items found."}`;
+                return;
             }
+
+            const track = tracks[0];
+            infoDiv.innerHTML = `Extracting audio for: <b>${track.name}</b> by ${track.artist}`;
+
+            // 2. Safely call the public Cobalt conversion pipeline
+            const cobaltResponse = await fetch("https://api.cobalt.tools/api/json", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    url: track.url,
+                    audioModeOnly: true
+                })
+            });
+
+            const cobaltData = await cobaltResponse.json();
+
+            if (cobaltData.status === "stream" || cobaltData.url) {
+                // 3. Mount the clear media asset straight into the browser layout
+                player.src = cobaltData.url;
+                player.play();
+                infoDiv.innerHTML = `🎵 Now Playing: <b>${track.name}</b>`;
+            } else {
+                infoDiv.innerText = "Cobalt stream processing error. Try again.";
+            }
+
+        } catch (err) {
+            console.error("Frontend exception caught:", err);
+            infoDiv.innerText = "Network routing failure or server connection timeout.";
         }
-    </script>
+    }
+</script>
 </body>
 </html>

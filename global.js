@@ -21,7 +21,7 @@ window.activityLibrary = {
             engine: "HTML5",
             screenshots: ["assets/images/DeltaruneThumbnail.webp"],
             config: { url: "https://jimmyqrg.github.io/loader/?content=https%3A%2F%2Fjimmyqrg.github.io%2Fjqrg-activitys%2Factivitys%2Fdeltarune%2F" }
-        },
+        },//
         "donuteria": {
             title: "Papa's Donuteria",
             creator: "Flipline Studios",
@@ -32,6 +32,87 @@ window.activityLibrary = {
             screenshots: ["assets/images/PapasDonuteria.jpg"],
             config: { filename: "papasdonuteria" }
         },
+        "ddlc": {
+            title: "Doki Doki Literature Club",
+            creator: "Team Salvato",
+            tags: "2D / Romance / Horror",
+            desc: "are we being so fr 💔 also yuri is most probably best option vro",
+            banner: "assets/images/PapasDonuteria.jpg",
+            engine: "HTML5",
+            screenshots: ["assets/images/PapasDonuteria.jpg"],
+            config: { url: "https://kdata1.com/5000/2025/ddlc-web/" }
+        },
+        "exe": {
+            title: "Friday Night Funkin': VS. Sonic.exe",
+            creator: "The VS. Exe team and the Funkin team.",
+            tags: "2D / Action / Music",
+            desc: "STANDING ALONEEEEEEE STANDING JUST OUT OF REACH",
+            banner: "assets/images/Placeholder.png",
+            engine: "HTML5",
+            screenshots: ["assets/images/Placeholder.png"],
+            config: { url: "https://genizymath.github.io/iframe/601.html" }
+        },
+        "tcubed": {
+            title: "Baldi's Basics: t³",
+            creator: "Placeholder",
+            tags: "3D / Horror",
+            desc: "jayraffe complex just adding anything nowadays 😔",
+            banner: "assets/images/Placeholder.png",
+            engine: "HTML5",
+            screenshots: ["assets/images/Placeholder.png"],
+            config: { url: "https://genizymath.github.io/iframe/818.html" }
+        },//
+        "jjp": {
+            title: "Jujutsu Playground",
+            creator: "KBHGames",
+            tags: "2D / Action",
+            desc: "happy birthday fives",
+            banner: "assets/images/Placeholder.png",
+            engine: "HTML5",
+            screenshots: ["assets/images/Placeholder.png"],
+            config: { url: "https://kdata1.com/5000/2026/jujutsu-playground/1.1/" }
+        },
+        "jsab": {
+            title: "Just Shapes and Beats",
+            creator: "KBHGames",
+            tags: "2D / Action / Music",
+            desc: "forsaken game",
+            banner: "assets/images/Placeholder.png",
+            engine: "HTML5",
+            screenshots: ["assets/images/Placeholder.png"],
+            config: { url: "https://genizymath.github.io/iframe/826-f.html" }
+        },//https://genizymath.github.io/iframe/601.html
+        "fnaf": {
+            title: "Five Nights at Freddy's",
+            creator: "Scottgames",
+            tags: "2D / Horror",
+            desc: "happy birthday fives",
+            banner: "assets/images/Placeholder.png",
+            engine: "HTML5",
+            screenshots: ["assets/images/Placeholder.png"],
+            config: { url: "https://irv77.github.io/hd_fnaf/1/" }
+        },
+        "fnaf2": {
+            title: "Five Nights at Freddy's 2",
+            creator: "Scottgames",
+            tags: "2D / Horror",
+            desc: "happy birthday fives",
+            banner: "assets/images/Placeholder.png",
+            engine: "HTML5",
+            screenshots: ["assets/images/Placeholder.png"],
+            config: { url: "https://irv77.github.io/hd_fnaf/2/" }
+        },
+        "ucn": {
+            title: "Ultimate Custom Night",
+            creator: "Scottgames",
+            tags: "2D / Horror",
+            desc: "happy birthday fives",
+            banner: "assets/images/Placeholder.png",
+            engine: "HTML5",
+            screenshots: ["assets/images/Placeholder.png"],
+            config: { url: "https://irv77.github.io/hd_fnaf/ucn/" }
+        },
+        //https://irv77.github.io/hd_fnaf/1/
         "hw": {
             title: "Happy Wheels",
             creator: "PLACEHOLDER",
@@ -71,7 +152,7 @@ window.activityLibrary = {
             banner: "assets/images/CupheadThumbnail.avif",
             engine: "HTML5",
             screenshots: ["assets/images/CupheadThumbnail.avif"],
-            config: { url: "https://moosejayraffe-alt.github.io/cuphead/" }
+            config: { url: "https://genizymath.github.io/iframe/465-fix.html" }
         }, //
 
         "pizzatower": {
@@ -139,11 +220,21 @@ window.activityLibrary = {
             title: "Friday Night Funkin: SHUCKS!",
             creator: "Ninjamuffin99 and the Funkin Crew as well as the Shucks V2 team.",
             tags: "Rhythm / Action",
-            desc: "SO I'LL WATCH AS YOU BLEED! FOR I WARNED YOU AND WARNED YOU, YOU DID NOT HEED. also squcks doesn't work, pretty sure. only shucks does.",
+            desc: "SO I'LL WATCH AS YOU BLEED! FOR I WARNED YOU AND WARNED YOU, YOU DID NOT HEED.",
             banner: "assets/images/Shucks.jpg",
             engine: "HTML5",
             screenshots: ["assets/images/Shucks.jpg"],
             config: { url: "https://fnf.kdata1.com/2024/shucks-v2-reconstruction/1/" }
+        }, //
+        "caseohbasics": {
+            title: "Caseoh's Basics",
+            creator: "PLACEHOLDER",
+            tags: "3D / Horror",
+            desc: "don't make him mad or you'll get banned dawg (if yk peak yk)",
+            banner: "assets/images/Baldi.webp",
+            engine: "HTML5",
+            screenshots: ["assets/images/Baldi.webp"],
+            config: { url: "https://genizymath.github.io/iframe/758a.html" }
         },
         "mc": {
             title: "Minecraft",
@@ -153,7 +244,7 @@ window.activityLibrary = {
             banner: "assets/images/mc.avif",
             engine: "HTML5",
             screenshots: ["assets/images/mc.avif"],
-            config: { url: "https://www.autistici.org/eaglercraft/play/EaglercraftX_1.8/JavaScript/" }
+            config: { url: "https://kdata1.com/2026/eaglercraft/1.8.8/" }
         },
         "doo": {
             title: "Scooby-Doo: Creepy Run",
@@ -269,7 +360,7 @@ window.activityLibrary = {
             title: "Baldi's Basics in Education and Learning: -B",
             creator: "Mystman12 and Boolonx",
             tags: "Horror / Educational",
-            desc: "bang bang bang bang bang til i take you down down down down i want you in the ground) ",
+            desc: "bang bang bang bang bang til i take you down down down down (i want you in the ground) ",
             banner: "assets/images/Baldi.webp",
             engine: "HTML5",
             screenshots: ["assets/images/Baldi.webp"],

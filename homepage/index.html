@@ -913,6 +913,10 @@ async function checkAdminAuthorization() {
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && document.getElementById('intro-overlay')) skipIntro();
+
+            if (e.key === 'F2' && document.getElementById('intro-overlay')) {
+                skipIntro();
+            }
         });
 
         function updateLiveStats() {

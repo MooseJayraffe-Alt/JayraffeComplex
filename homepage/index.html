@@ -387,21 +387,10 @@
 </head>
 <body>
 
-   <div id="intro-overlay">
-        <video id="intro-video" style="width: 100%; height: 100%; object-fit: cover;">
-           <source src="../assets/videos/Ultrakill.mp4" type="video/mp4">
-        </video>
-        
-        <button onclick="skipIntro()" class="steam-btn-classic" style="position: absolute; bottom: 40px; right: 40px; z-index: 10000;">
-            SKIP INTRO [ESC]
-        </button>
-    </div>
-
     <div class="network-area">
         <div>
             <p style="margin:0; text-transform:uppercase; font-weight:bold; font-size:9px; opacity:0.6;">Network Usage</p>
             <h1 id="net-speed" style="margin:0; color:white; font-style:italic; font-size: 24px; font-weight: 900;">0.0 MB/S</h1>
-            <p style="margin:0; font-family:monospace; font-size:9px; color:#10b981;"><span id="live-counter">0</span> CITIZENS ONLINE</p>
         </div>
         <div class="graph-container">
             <div id="graph-line" class="graph-line"></div>
@@ -426,95 +415,6 @@
     <div class="archive-list" id="archive-list"></div>
 </div>
 
-        <div class="right-sidebar">
-            
-            <div class="sidebar-panel" style="height: auto; flex-shrink: 0;">
-                <div class="panel-header" id="pick-panel-title">Jun0Dev's Pick of the Week</div>
-                <div class="pick-container">
-                    <div class="pick-media-box">
-                        <img id="display-pick-img" src="" class="pick-poster" alt="Poster">
-                        <div class="pick-details">
-                            <div id="display-pick-title" class="pick-title">Loading...</div>
-                            <div id="display-pick-creator" class="pick-creator">Please wait</div>
-                            <p id="display-pick-desc" class="pick-desc">Connecting to database architecture...</p>
-                        </div>
-                    </div>
-                    
-                    <button id="admin-toggle-btn" class="steam-btn-classic" style="display:none; width: 100%; margin-top: 4px;" onclick="toggleAdminPanel()">
-                        EDIT WEEKLY PICK
-                    </button>
-                    
-                    <div id="admin-panel" class="admin-edit-panel">
-                        <label style="display:block; margin-bottom:3px; font-weight:bold;">PICK TYPE:</label>
-                        <select id="input-type" class="steam-input" style="padding:4px; margin-bottom:8px;">
-                            <option value="movie">Movie</option>
-                            <option value="song">Song</option>
-                        </select>
-
-                        <label style="display:block; margin-bottom:3px; font-weight:bold;">SEARCH TITLE:</label>
-                        <div style="display:flex; gap:4px; margin-bottom:8px;">
-                            <input type="text" id="input-title" class="steam-input" style="margin:0;" placeholder="ex: Sinners or Hungry for Karma by Horror Skunx">
-                            <button class="steam-btn-classic" onclick="lookupMediaMetadata()">FETCH</button>
-                        </div>
-
-                        <label style="display:block; margin-bottom:3px; font-weight:bold;">CREATOR / ARTIST:</label>
-                        <input type="text" id="input-creator" class="steam-input" style="margin-bottom:8px;">
-
-                        <label style="display:block; margin-bottom:3px; font-weight:bold;">IMAGE URL:</label>
-                        <input type="text" id="input-img" class="steam-input" style="margin-bottom:8px;">
-
-                        <label style="display:block; margin-bottom:3px; font-weight:bold;">CUSTOM DESCRIPTION:</label>
-                        <textarea id="input-desc" class="steam-input" style="height:50px; font-family:sans-serif; resize:none; margin-bottom:10px;"></textarea>
-                        
-                        <input type="hidden" id="input-id" value=""> <label style="display:flex; align-items:center; gap:8px; margin-bottom:12px; font-weight:bold; cursor:pointer;">
-    <input type="checkbox" id="input-enabled" style="margin:0;"> ENABLE THIS PICK AS ACTIVE
-</label>
-
-<button class="steam-btn-classic" style="width:100%; background: var(--btn-play-grad); color:white;" onclick="saveWeeklyPick()">
-    PUBLISH CHANGES
-</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="sidebar-panel" style="flex-grow: 1; overflow-y: auto;">
-                <div class="panel-header">Update Log:</div>
-                <div class="system-log">
-                    <div><b>[ULTRAKILL UPDATE]</b></div>
-                    <div>Games added:</div>
-                    <div>• ULTRAKILL</div>
-                    <div>• FNF: Indie Cross</div>
-                    <div>• FNF: VS. Sonic.exe</div>
-                    <div>• Five Nights at Freddy's</div>
-                    <div>• Five Nights at Freddy's 2</div>
-                    <div>• Baldi's Basics: t³</div>
-                    <div>• Caseoh's Basics</div>
-                    <div>• Jujutsu Playground</div>
-                    <div>• Just Shapes & Beats</div>
-                    <div>• Cuphead (returned)</div>
-                    <br>
-                    <div><b>Applications Added:</b></div>
-                    <div>• FreeTube (YouTube)</div>
-                    <div>• Pear Desktop (YouTube Music)</div>
-                    <div>• BetterSoundCloud (SoundCloud)</div>
-                    <br>
-                    <div><b>Features Added:</b></div>
-                    <div>• Jun0Dev's Picks: See what Jun0Dev's favorite thing of the week is ig.</div>
-                    <div>• Update Log: See what's new in each update without having the Discord!</div>
-                    <div>• Filters: Added a way to filter between games and downloadable apps.</div>
-                    <div>• Music Player: Revamped the music player so it works better.</div>
-                    <div>• More intro variants: Added more intro video variants of different rarities. (Iceman variants next update, sorry)</div>
-                    <div><b>Update Notes:</b></div>
-                    <div>• Scrapped Games and Applications: In this update, more things were going to be added though they were scrapped due to them either not being appropriate or being too dangerous for the website. The following scrapped apps were:</div>
-                    <div>• Doki Doki Literature Club</div>
-                    <div>• Movie Streaming Websites</div>
-                    <div>• A custom Jayraffe Complex music player.</div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
     <div class="footer-bar">
         <span id="sync-label" style="font-weight:bold; text-transform:uppercase; font-size:9px; color:white;">Connecting...</span>
         <div class="progress-container">
@@ -523,19 +423,14 @@
     </div>
 
     <script>
-        /* --- CONFIGURATION METADATA CREDENTIALS --- */
-        // Note: Make sure tmdbApiKey remains valid. Last.fm doesn't verify signatures on basic metadata searches, making it highly secure for frontends.
-        const TMDB_API_KEY = "7903604122024e0b7efb57b94fa08ea7"; 
-        const LASTFM_API_KEY = "4b9c22f3b675317d43c304ea6a49aa5d";
-
         const archives = [
             { title: "Archive.org", category: 'game', status: 'Ready to Enter', img: '../assets/images/ArchiveOrgThumbnail.png', url: 'https://archive.org/' },
             { title: "Baldi's Basics", category: 'game', status: 'Ready to Play', img: '../assets/images/Baldi.webp', url: '../experience/?id=baldibasics' },
-            { title: "Baldi's Basics: t³", category: 'game', status: 'Ready to Play', img: '../assets/images/Baldi.webp', url: '../experience/?id=minusb' },
+            { title: "Baldi's Basics: t³", category: 'game', status: 'Ready to Play', img: '../assets/images/TCubed.jpg', url: '../experience/?id=minusb' },
             { title: "Baldi's Basics: -B", category: 'game', status: 'Ready to Play', img: '../assets/images/Baldi.webp', url: '../experience/?id=minusb' },
             { title: 'Bendy and the Ink Machine', category: 'game', status: 'Ready to Play', img: '../assets/images/BendyThumbnail.jpg', url: '../experience/?id=bendy' },
             { title: "BetterSoundCloud", status: 'Ready to Play', category: 'download', img: '../assets/images/Placeholder.png', url: 'https://github.com/AlirezaKJ/BetterSoundCloud/releases/download/V0.7.1/BetterSoundCloud.0.7.1.zip' },
-            { title: "Caseoh's Basics", category: 'game', status: 'Ready to Play', img: '../assets/images/Baldi.webp', url: '../experience/?id=caseohbasics' },
+            { title: "Caseoh's Basics", category: 'game', status: 'Ready to Play', img: '../assets/images/CaseohBasics.png', url: '../experience/?id=caseohbasics' },
             { title: "Cuphead", category: 'game', status: 'Ready to Play', img: '../assets/images/CupheadThumbnail.avif', url: '../experience/?id=cuphead' },
             { title: "FreeTube", status: 'Ready to Play', category: 'download', img: '../assets/images/Placeholder.png', url: 'https://github.com/FreeTubeApp/FreeTube/releases/download/v0.24.0-beta/freetube-0.24.0-beta-win-x64-portable.exe' }, //
             { title: "Five Nights at Freddy's", category: 'game', status: 'Ready to Play', img: '../assets/images/Placeholder.png', url: '../experience/?id=fnaf' },
@@ -544,7 +439,7 @@
             { title: 'Friday Night Funkin: JCX Engine', category: 'game', status: 'Ready to Play', img: '../assets/images/FridayNightFunkinThumbnail.jpg', url: '../experience/?id=fnf' },
             { title: 'Friday Night Funkin: SHUCKS', category: 'game', status: 'Ready to Play', img: '../assets/images/Shucks.jpg', url: '../experience/?id=irida' },
             { title: 'Friday Night Funkin: Silly Billy', category: 'game', status: 'Ready to Play', img: '../assets/images/SillyBilly.jpg', url: '../experience/?id=vsyourself' },
-            { title: 'Friday Night Funkin: VS. Sonic.exe', category: 'game', status: 'Ready to Play', img: '../assets/images/SillyBilly.jpg', url: '../experience/?id=exe' },
+            { title: 'Friday Night Funkin: VS. Sonic.exe', category: 'game', status: 'Ready to Play', img: '../assets/images/SonicExe.jpg', url: '../experience/?id=exe' },
             { title: 'Friday Night Funkin: Twiddlefingers!', category: 'game', status: 'Ready to Play', img: '../assets/images/TwiddlefingersThumbnail.jpg', url: '../experience/?id=twiddlefingers' },
             { title: 'Friday Night Funkin: Twiddlefingers! with Lyrics (Luke Goji version)', category: 'game', status: 'Ready to Play', img: '../assets/images/TwiddlefingersThumbnail.jpg', url: '../experience/?id=lgtwiddlefingers' },
             { title: "Garry's Mod (10)", category: 'download', status: 'Update Required (Windows only.)', img: '../assets/images/GMOD.jpg', url: 'https://archive.org/download/mjayraffecomplexdirect/GMod10.7z' },
@@ -556,8 +451,8 @@
             { title: 'Henry Stickmin: Stealing the Diamond', category: 'game', status: 'Ready to Play', img: '../assets/images/StDRTitle.webp', url: '../experience?id=hsdiamond' },
             { title: 'Hello Neighbor (Alpha 1)', category: 'download', status: 'Update Required (Windows only.)', img: '../assets/images/HelloNeighborAlpha.webp', url: 'https://archive.org/download/hello-neighbor-pre-alpha.-7z/Hello%20Neighbor%20Alpha%201.7z' }, 
             { title: 'Hollow Knight', category: 'game', status: 'Ready to Play', img: '../assets/images/HollowKnightThumbnail.png', url: '../experience/?id=hk' },
-            { title: 'Jujutsu Playground', category: 'game', status: 'Ready to Play', img: '../assets/images/Placeholder.png', url: '../experience/?id=jjp' },
-            { title: 'Just Shapes and Beaats', category: 'game', status: 'Ready to Play', img: '../assets/images/Placeholder.png', url: '../experience/?id=jsab' },
+            { title: 'Jujutsu Playground', category: 'game', status: 'Ready to Play', img: '../assets/images/TZE.jpg', url: '../experience/?id=jjp' },
+            { title: 'Just Shapes and Beats', category: 'game', status: 'Ready to Play', img: '../assets/images/Placeholder.png', url: '../experience/?id=jsab' },
             { title: 'Minecraft', category: 'game', status: 'Ready to Play', img: '../assets/images/mc.avif', url: '../experience/?id=mc' },
             { title: 'Minecraft Skin Library', category: 'game', status: 'Ready to Play', img: '../assets/images/mc.avif', url: 'https://minecraft.novaskin.me/menu' },
             { title: 'Moonpie (You need to sign up at home to use this.)', category: 'game', status: 'Ready to Play', img: '../assets/images/Placeholder.png', url: 'https://sites.google.com/view/moonpie/home' },
@@ -569,99 +464,6 @@
             { title: "The Impossible Quiz", category: 'game', status: 'Ready to Play', img: '../assets/images/Placeholder.png', url: '../experience?id=iq' },
             { title: 'ULTRAKILL', category: 'game', status: 'Ready to Play', img: '../assets/images/UltrakillThumbnail.jpg', url: '../experience?id=ultrakill' },
         ];
-
-        const introOverlay = document.getElementById('intro-overlay');
-        const introVideo = document.getElementById('intro-video');
-
-        function startIntro() {
-            const video = document.getElementById('intro-video');
-            const overlay = document.getElementById('intro-overlay');
-            if (!video) return;
-
-            const playPromise = video.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(() => {
-                    showUplinkPrompt(overlay, video);
-                });
-            }
-        }
-
-        function showUplinkPrompt(overlay, video) {
-            if (document.getElementById('play-prompt')) return;
-            overlay.insertAdjacentHTML('beforeend', `
-                <div id="play-prompt" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10001; text-align: center; cursor: pointer; width: 100%;">
-                    <div class="terminal-text" style="font-size: 24px; color: var(--ui-accent); font-family: 'Courier New', monospace;">[ ACCESS RESTRICTED ]</div>
-                    <p class="terminal-text" style="font-size: 11px; margin-top: 15px; opacity: 0.8; color: var(--ui-accent); font-family: 'Courier New', monospace;">
-                        Click to Initialize Uplink
-                    </p>
-                </div>
-            `);
-
-            const prompt = document.getElementById('play-prompt');
-            prompt.onclick = function() {
-                this.remove();
-                video.muted = false;
-                video.volume = 0.4; 
-                video.play();
-                video.onended = skipIntro;
-            };
-        }
-
-        function skipIntro() {
-            if(introVideo) introVideo.pause();
-            if(introOverlay) {
-                introOverlay.style.transition = "opacity 0.8s ease";
-                introOverlay.style.opacity = "0";
-                setTimeout(() => introOverlay.remove(), 800);
-            }
-        }
-
-        (function() {
-    const autoSkip = localStorage.getItem('auto-skip-intro') === 'true';
-    const video = document.getElementById('intro-video');
-    if(!video) return;
-    const videoSource = video.querySelector('source');
-
-    if (autoSkip) {
-        skipIntro();
-    } else {
-        // Define your video library here
-        // Define your library with weights
-    const introLibrary = [
-        { src: "../assets/videos/Ultrakill.mp4", weight: 85 },  // 50% chance
-        { src: "../assets/videos/HungryForKarma.mp4", weight: 15 }, // 20% chance
-        { src: "../assets/videos/StarlightThing.mp4", weight: 1 },
-        { src: "../assets/videos/ExcuseMeSir.mp4", weight: 10 }, // 15% chance
-        { src: "../assets/videos/Cooper.mp4", weight: 15 }, // 15% chance
-        { src: "../assets/videos/Karol.mp4", weight: 5 },      // 10% chance
-        { src: "../assets/videos/Karol2.mp4", weight: 5 }      // 10% chance
-    ];
-
-    // Calculate total weight
-    const totalWeight = introLibrary.reduce((sum, item) => sum + item.weight, 0);
-
-    // Select a random number between 0 and totalWeight
-    let random = Math.random() * totalWeight;
-
-    // Find the selected video based on the weight distribution
-    let selectedVideo = introLibrary[0].src;
-    for (const item of introLibrary) {
-        if (random < item.weight) {
-            selectedVideo = item.src;
-            break;
-        }
-        random -= item.weight;
-    }
-
-    // Set the source and load
-    videoSource.src = selectedVideo;
-    video.load();
-        video.play().catch(e => {
-            showUplinkPrompt(document.getElementById('intro-overlay'), video);
-        });
-        video.onended = skipIntro;
-    }
-})();
 
         function renderArchives() {
             const list = document.getElementById('archive-list');
@@ -695,79 +497,6 @@
             }, 40);
         }
 
-async function fetchWeeklyPick() {
-    const supabase = window.supabaseClient; 
-    
-    if (!supabase) {
-        setTimeout(fetchWeeklyPick, 100);
-        return;
-    }
-
-    try {
-        // 1. Filter for rows where 'enabled' is true, and grab the most recent one
-        const { data, error } = await supabase
-            .from('weekly_picks')
-            .select('*')
-            .eq('enabled', true) // Only fetch if enabled is true
-            .order('updated_at', { ascending: false }) // Get the latest one updated
-            .limit(1); // Limit the array result to 1 item
-
-        if (error) throw error;
-
-        // 2. Since we used .limit(), data comes back as an array. Grab the first item.
-        const activePick = data && data.length > 0 ? data[0] : null;
-
-        // If nothing is enabled, clear the widget or show a fallback
-        if (!activePick) {
-            document.getElementById('display-pick-title').innerText = "No Pick Active";
-            document.getElementById('display-pick-creator').innerText = "Check back later!";
-            document.getElementById('display-pick-desc').innerText = "Keep an eye out for the next weekly drop.";
-            document.getElementById('display-pick-img').src = "../assets/images/Placeholder.png";
-            return;
-        }
-
-        // 3. ROUTE LOGIC: Check if the enabled pick is a movie or a song
-        if (activePick.type === 'movie') {
-            if (!activePick.tmdb_id) {
-                console.warn("Active pick is a movie, but tmdb_id is missing.");
-                return;
-            }
-            
-            // Fetch from TMDB
-            const tmdbUrl = `https://api.themoviedb.org/3/movie/${activePick.tmdb_id}?api_key=${TMDB_API_KEY}`;
-            const response = await fetch(tmdbUrl);
-            const movieData = await response.json();
-
-            const posterEl = document.getElementById('display-pick-img'); 
-            if (posterEl && movieData.poster_path) {
-                const cleanPath = movieData.poster_path.startsWith('/') ? movieData.poster_path : `/${movieData.poster_path}`;
-                posterEl.src = `https://image.tmdb.org/t/p/w500${cleanPath}`;
-                posterEl.alt = movieData.title || "Weekly Movie Poster";
-            }
-
-            if (document.getElementById('display-pick-title')) document.getElementById('display-pick-title').innerText = movieData.title || activePick.title;
-            if (document.getElementById('display-pick-creator')) document.getElementById('display-pick-creator').innerText = "Released: " + (movieData.release_date ? movieData.release_date.split('-')[0] : "N/A");
-            if (document.getElementById('display-pick-desc')) document.getElementById('display-pick-desc').innerText = activePick.description || movieData.overview || "";
-
-        } else if (activePick.type === 'song') {
-            // If it's a song, it doesn't need a TMDB ID—it uses the data stored directly in Supabase or Last.fm image URLs
-            const posterEl = document.getElementById('display-pick-img');
-            if (posterEl) {
-                // Falls back to a local placeholder if your database image_url string is empty
-                posterEl.src = activePick.image_url || "../assets/images/Placeholder.png";
-                posterEl.alt = activePick.title || "Weekly Song Artwork";
-            }
-
-            if (document.getElementById('display-pick-title')) document.getElementById('display-pick-title').innerText = activePick.title || "Unknown Song";
-            if (document.getElementById('display-pick-creator')) document.getElementById('display-pick-creator').innerText = activePick.creator || "Unknown Artist";
-            if (document.getElementById('display-pick-desc')) document.getElementById('display-pick-desc').innerText = activePick.description || "No description provided.";
-        }
-
-    } catch (err) {
-        console.error("Error loading Jun0Dev's Picks poster:", err);
-    }
-}   
-
 function filterCategory(cat) {
     const entries = document.getElementsByClassName('archive-entry');
     const data = archives; // The array defined in your script
@@ -788,126 +517,9 @@ function filterCategory(cat) {
     `).join('');
 }
 
-async function checkAdminAuthorization() {
-            const supabase = window.supabaseClient;
-            // Retrieves user status securely checking local session tokens
-            const { data: { user } } = await supabase.auth.getUser();
-            if (user) {
-                // Shows the button if session is authenticated. Row-level policies handle validation backend.
-                document.getElementById('admin-toggle-btn').style.display = 'block';
-            }
-        }
-
-        function toggleAdminPanel() {
-            const panel = document.getElementById('admin-panel');
-            panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
-        }
-
-        async function lookupMediaMetadata() {
-         // Clear out the tracking ID so the system prepares a clean, new row insertion
-         document.getElementById('input-id').value = ""; 
-    
-        const type = document.getElementById('input-type').value;
-        const query = document.getElementById('input-title').value;
-            if (!query) return alert("Type in a title query before searching.");
-
-            if (type === 'movie') {
-                if (TMDB_API_KEY === "YOUR_TMDB_API_KEY") return alert("Please configure your TMDB API Key.");
-                try {
-                    const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}`);
-                    const data = await res.json();
-                    if (data.results && data.results.length > 0) {
-                        const target = data.results[0];
-                        document.getElementById('input-title').value = target.title;
-                        document.getElementById('input-img').value = `https://image.tmdb.org/t/p/w500${target.poster_path}`;
-                        document.getElementById('input-desc').value = target.overview;
-                        document.getElementById('input-creator').value = "Released: " + target.release_date.split('-')[0];
-                    } else { alert("No matching movies found."); }
-                } catch(e) { console.error(e); }
-            } else if (type === 'song') {
-                if (LASTFM_API_KEY === "YOUR_LASTFM_API_KEY") return alert("Please configure your Last.fm API Key.");
-                try {
-                    const res = await fetch(`https://ws.audioscrobbler.com/2.0/?method=track.search&track=${encodeURIComponent(query)}&api_key=${LASTFM_API_KEY}&format=json`);
-                    const data = await res.json();
-                    if (data.results && data.results.trackmatches && data.results.trackmatches.track.length > 0) {
-                        const target = data.results.trackmatches.track[0];
-                        document.getElementById('input-title').value = target.name;
-                        document.getElementById('input-creator').value = target.artist;
-                        
-                        // Last.fm delivers arrays of image listings, choosing extra-large sizes when parsed
-                        if (target.image) {
-                            const imgUrl = target.image[target.image.length - 1]['#text'];
-                            document.getElementById('input-img').value = imgUrl || '';
-                        }
-                        document.getElementById('input-desc').value = `A standout track choice by ${target.artist}.`;
-                    } else { alert("No matching songs found."); }
-                } catch(e) { console.error(e); }
-            }
-        }
-
-        async function saveWeeklyPick() {
-    const supabase = window.supabaseClient;
-    if (!supabase) return alert("Database connection not ready.");
-
-    const id = document.getElementById('input-id').value; // Empty if it's a new entry
-    const type = document.getElementById('input-type').value;
-    const title = document.getElementById('input-title').value;
-    const creator = document.getElementById('input-creator').value;
-    const image_url = document.getElementById('input-img').value;
-    const description = document.getElementById('input-desc').value;
-    const enabled = document.getElementById('input-enabled').checked;
-
-    if (!title) return alert("Please fetch or provide a title before publishing.");
-
-    try {
-        const payload = { 
-            type, 
-            title, 
-            creator, 
-            image_url, 
-            description, 
-            enabled,
-            updated_at: new Date() 
-        };
-
-        // If editing an existing item, include the ID to target it
-        if (id) payload.id = parseInt(id);
-
-        // 1. If this new pick is being set to true, turn off other active picks first 
-        // to make sure you don't get overlapping active rows.
-        if (enabled) {
-            await supabase
-                .from('weekly_picks')
-                .update({ enabled: false })
-                .eq('enabled', true);
-        }
-
-        // 2. Upsert handles both saving new records AND updating old ones smoothly
-        const { data, error } = await supabase
-            .from('weekly_picks')
-            .upsert(payload, { onConflict: 'id' })
-            .select();
-
-        if (error) throw error;
-
-        alert("Database catalog updated successfully!");
-        
-        // Reset the form fields safely
-        document.getElementById('input-id').value = "";
-        document.getElementById('input-enabled').checked = false;
-        
-        toggleAdminPanel();
-        fetchWeeklyPick(); 
-    } catch (err) {
-        alert("Authorization Denied: Structural permissions missing or table layout mismatched.");
-        console.error(err.message);
-    }
-}
+ 
         window.onload = () => {
             simulateSync();
-            startIntro();
-            fetchWeeklyPick();
-            checkAdminAuthorization();
             setInterval(updateLiveStats, 2000);
         };
 
@@ -922,9 +534,6 @@ async function checkAdminAuthorization() {
         function updateLiveStats() {
             const speed = (Math.random() * (3.5 - 2.1) + 2.1).toFixed(1);
             document.getElementById('net-speed').innerText = `${speed} MB/S`;
-            
-            const randomCitizens = Math.floor(Math.random() * (42 - 38) + 38);
-            document.getElementById('live-counter').innerText = randomCitizens;
         }
 
         function filterArchives() {
@@ -942,11 +551,6 @@ async function checkAdminAuthorization() {
                 localStorage.setItem('jayraffe-theme', event.data.theme);
             }
         });
-
-window.addEventListener('load', () => {
-    updateNavIdentity();
-    checkAuthStatus();
-});
 
         (function() {
             const saved = localStorage.getItem('jayraffe-theme') || 'steam';

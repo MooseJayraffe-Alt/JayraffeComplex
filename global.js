@@ -47,19 +47,19 @@ window.activityLibrary = {
             creator: "The VS. Exe team and the Funkin team.",
             tags: "2D / Action / Music",
             desc: "STANDING ALONEEEEEEE STANDING JUST OUT OF REACH",
-            banner: "assets/images/Placeholder.png",
+            banner: "assets/images/SonicExe.jpg",
             engine: "HTML5",
-            screenshots: ["assets/images/Placeholder.png"],
+            screenshots: ["assets/images/SonicExe.jpg"],
             config: { url: "https://genizymath.github.io/iframe/601.html" }
         },
         "tcubed": {
             title: "Baldi's Basics: t³",
-            creator: "Placeholder",
+            creator: "Blidb",
             tags: "3D / Horror",
             desc: "jayraffe complex just adding anything nowadays 😔",
-            banner: "assets/images/Placeholder.png",
+            banner: "assets/images/TCubed.jpg",
             engine: "HTML5",
-            screenshots: ["assets/images/Placeholder.png"],
+            screenshots: ["assets/images/TCubed.jpg"],
             config: { url: "https://genizymath.github.io/iframe/818.html" }
         },//
         "jjp": {
@@ -67,9 +67,9 @@ window.activityLibrary = {
             creator: "KBHGames",
             tags: "2D / Action",
             desc: "happy birthday fives",
-            banner: "assets/images/Placeholder.png",
+            banner: "assets/images/TZE.jpg",
             engine: "HTML5",
-            screenshots: ["assets/images/Placeholder.png"],
+            screenshots: ["assets/images/TZE.jpg"],
             config: { url: "https://kdata1.com/5000/2026/jujutsu-playground/1.1/" }
         },
         "jsab": {
@@ -115,7 +115,7 @@ window.activityLibrary = {
         //https://irv77.github.io/hd_fnaf/1/
         "hw": {
             title: "Happy Wheels",
-            creator: "PLACEHOLDER",
+            creator: "Fancy Force",
             tags: "2D/Side-Scroller",
             desc: "this brings back memories lol",
             banner: "assets/images/Placeholder.png",
@@ -125,7 +125,7 @@ window.activityLibrary = {
         },
         "iq": {
             title: "The Impossible Quiz",
-            creator: "PLACEHOLDER",
+            creator: "Splapp-me-do",
             tags: "Flash/Difficult",
             desc: "IQ",
             banner: "assets/images/Placeholder.png",
@@ -157,7 +157,7 @@ window.activityLibrary = {
 
         "pizzatower": {
             title: "Pizza Tower",
-            creator: "Studio MDHR",
+            creator: "Tour De Pizza",
             tags: "2D Side-Scroller / Action",
             desc: "pizza guy from pizza time",
             banner: "assets/images/PT.jpg",
@@ -228,12 +228,12 @@ window.activityLibrary = {
         }, //
         "caseohbasics": {
             title: "Caseoh's Basics",
-            creator: "PLACEHOLDER",
+            creator: "Ronezkj15",
             tags: "3D / Horror",
             desc: "don't make him mad or you'll get banned dawg (if yk peak yk)",
-            banner: "assets/images/Baldi.webp",
+            banner: "assets/images/CaseohBasics.png",
             engine: "HTML5",
-            screenshots: ["assets/images/Baldi.webp"],
+            screenshots: ["assets/images/CaseohBasics.png"],
             config: { url: "https://genizymath.github.io/iframe/758a.html" }
         },
         "mc": {
@@ -260,7 +260,7 @@ window.activityLibrary = {
             title: "Ultrakill",
             creator: "New Blood Interactive",
             tags: "Combat / Action",
-            desc: "judgement (that's the only thing ik about this activity except v1)",
+            desc: "i'm NOT gonna miss Jayraffe Complex, it sucks.",
             banner: "assets/images/UltrakillThumbnail.jpg",
             engine: "HTML5",
             screenshots: ["assets/images/UltrakillThumbnail.jpg"],
@@ -268,7 +268,7 @@ window.activityLibrary = {
         },
         "hk": {
             title: "Hollow Knight",
-            creator: "Unknown",
+            creator: "Team Cherry",
             tags: "2D Side-Scroller / Action",
             desc: "shaw (that's the only thing ik about this activity 😭)",
             banner: "assets/images/HollowKnightThumbnail.png",
@@ -378,76 +378,6 @@ window.activityLibrary = {
         },
  };
 
-// This is the ONLY place 'supabase' is declared
-// Change this line in global.js
-window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-async function checkAuthStatus() {
-    // 1. Get the client from the window
-    const client = window.supabaseClient;
-
-    // 2. If it's not ready, wait and try again (The "Patient" Loop)
-    if (!client) {
-        setTimeout(checkAuthStatus, 100);
-        return;
-    }
-    
-    // 3. Use 'client' instead of 'supabase'
-    const { data: { user } } = await client.auth.getUser();
-
-    if (user) {
-        const statusBtn = document.getElementById('user-status');
-        const nameEl = document.getElementById('user-name');
-        const rankEl = document.getElementById('user-rank');
-        const avatarEl = document.getElementById('user-avatar');
-
-        // Smart Pathing: Check if we are in a subfolder
-        const isSub = window.location.pathname.includes('experience/') || window.location.pathname.includes('profile/');
-        if (statusBtn) statusBtn.href = isSub ? "..profile/" : "profile/";
-
-        if (nameEl) {
-            nameEl.innerText = user.user_metadata.display_name || user.email.split('@')[0];
-        }
-        if (rankEl) rankEl.innerText = "Complex Citizen";
-        
-        if (avatarEl) {
-            if (user.user_metadata.avatar_url) {
-                avatarEl.innerHTML = `<img src="${user.user_metadata.avatar_url}" class="rounded-full w-full h-full object-cover border border-cyan-400">`;
-            } else {
-                const initial = (user.user_metadata.display_name || user.email).charAt(0).toUpperCase();
-                avatarEl.innerHTML = `<span class="font-bold text-cyan-400">${initial}</span>`;
-            }
-        }
-    }
-}
-
-async function handleSignOut() {
-    if (window.supabaseClient) {
-        await window.supabaseClient.auth.signOut();
-        window.location.href = "..homepage/"; // This takes you back to home
-    }
-}
-
-async function updateNavIdentity() {
-    const client = window.supabaseClient;
-    const { data: { user } } = await client.auth.getUser();
-
-    if (user) {
-        const { data: profile } = await client
-            .from('profiles')
-            .select('display_name')
-            .eq('id', user.id)
-            .single();
-
-        const display = document.getElementById('nav-user-display');
-        if (display && profile) {
-            display.innerText = profile.display_name;
-            display.classList.remove('text-white/40');
-            display.classList.add('text-steam-yellow');
-        }
-    }
-}
-
 // --- GLOBAL UI SOUND SYSTEM ---
 
 // Create the audio object (replace with your actual sound file path)
@@ -491,9 +421,3 @@ document.addEventListener('click', (event) => {
         playClick();
     }
 }, true); // Using 'true' for capturing phase ensures it catches the click early
-
-// Call this on load
-window.addEventListener('load', updateNavIdentity);
-
-// Check status whenever a page finishes loading
-document.addEventListener('load', checkAuthStatus);

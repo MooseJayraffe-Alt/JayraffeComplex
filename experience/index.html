@@ -182,14 +182,10 @@
 
     <nav class="flex justify-between items-center mb-4 pb-2 border-b border-white/10">
         <a href="../homepage" class="font-bold text-white tracking-tight text-lg">
-            JAYRAFFE COMPLEX <span class="text-xs opacity-50 font-normal">v1.22 (Moose Jayraffe)</span>
+            JAYRAFFE COMPLEX <span class="text-xs opacity-50 font-normal">v2.5.0 (by Jaydyn B.)</span>
         </a>
         <div class="flex items-center gap-4">
             <div class="text-right">
-                <span id="user-name" class="font-bold text-white">Guest User</span>
-                <p id="user-rank" class="text-[9px] uppercase opacity-50">Not Connected</p>
-            </div>
-            <div id="user-avatar" class="w-8 h-8 steam-inset flex items-center justify-center">👤</div>
         </div>
     </nav>
 
@@ -197,13 +193,13 @@
         
         <div class="steam-window mb-6">
             <div class="bg-[#323933] p-1 mb-1 text-[10px] font-bold uppercase px-2 text-slate-400">
-                Live Interface Uplink // <span id="activity-tags">LOADING...</span>
+                Genre: <span id="activity-tags">LOADING...</span>
             </div>
             <div class="relative bg-black aspect-video w-full steam-inset overflow-hidden">
                 <div id="activity-container" class="w-full h-full flex items-center justify-center">
                     <div id="loading-ui" class="text-center">
                         <button id="start-btn" class="steam-btn steam-btn-large">
-                            LAUNCH ACTIVITY
+                            LAUNCH
                         </button>
                     </div>
                 </div>
@@ -320,33 +316,6 @@
         }
     }
 }
-
-        async function updatePresence(gameTitle) {
-            const client = window.supabaseClient;
-            if(!client) return;
-            const { data: { user } } = await client.auth.getUser();
-            if (user) {
-                await client.from('presence').upsert({ 
-                    user_id: user.id, 
-                    last_seen: new Date().toISOString(),
-                    current_activity: gameTitle 
-                });
-            }
-        }
-
-        async function syncUserStatus() {
-            const client = window.supabaseClient;
-            if(!client) return;
-            const { data: { user } } = await client.auth.getUser();
-            if (user) {
-                document.getElementById('user-name').innerText = user.user_metadata?.display_name || user.email.split('@')[0];
-                document.getElementById('user-rank').innerText = "Verified Citizen";
-                if (user.user_metadata?.avatar_url) {
-                    document.getElementById('user-avatar').innerHTML = `<img src="${user.user_metadata.avatar_url}" class="w-full h-full object-cover">`;
-                }
-                updatePresence(data.title); 
-            }
-        }
 
         window.addEventListener('message', (event) => {
     // Only accept messages that look like our theme updates
